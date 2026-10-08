@@ -1,0 +1,11 @@
+data/
+runs/
+out/
+__pycache__/
+*.pyc
+.venv*/
+sealed_plain/
+.pytest_cache/
+docs/figures/*.png
+docs/report/*.html
+docs/report/*.pdf

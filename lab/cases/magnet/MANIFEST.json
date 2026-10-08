@@ -1,0 +1,117 @@
+{
+  "material": "N87",
+  "verified_at": "2026-10-02T16:18:48.057826+00:00",
+  "archive": {
+    "url": "https://www.princeton.edu/~minjie/magnet/pre-training.zip",
+    "size_bytes": 3141536646,
+    "etag": "\"bb400b86-613449b089a00\"",
+    "last_modified": "Sun, 10 Mar 2024 01:47:20 GMT",
+    "sha256": null,
+    "note": "Only member ranges fetched; whole archive SHA256 unavailable"
+  },
+  "files": [
+    {
+      "path": "N87/N87.zip",
+      "url": "https://www.princeton.edu/~minjie/magnet/pre-training.zip",
+      "member": "pre-training/N87.zip",
+      "size_bytes": 683282735,
+      "sha256": "d7c3703295dc113527702cd2420b3334c8eb302c347ecc8ae425b666ce6915ff",
+      "zip_crc32": "442c0ebc",
+      "compressed_size_bytes": 683490720,
+      "inner_crc_verified": true,
+      "etag": "\"bb400b86-613449b089a00\"",
+      "last_modified": "Sun, 10 Mar 2024 01:47:20 GMT"
+    }
+  ],
+  "archive_members": [
+    {
+      "name": "pre-training/",
+      "size_bytes": 0
+    },
+    {
+      "name": "__MACOSX/._pre-training",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/78.zip",
+      "size_bytes": 191400025
+    },
+    {
+      "name": "__MACOSX/pre-training/._78.zip",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/N87.zip",
+      "size_bytes": 683282735
+    },
+    {
+      "name": "__MACOSX/pre-training/._N87.zip",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/N30.zip",
+      "size_bytes": 150890264
+    },
+    {
+      "name": "__MACOSX/pre-training/._N30.zip",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/3C94.zip",
+      "size_bytes": 672849350
+    },
+    {
+      "name": "__MACOSX/pre-training/._3C94.zip",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/N27.zip",
+      "size_bytes": 191672022
+    },
+    {
+      "name": "__MACOSX/pre-training/._N27.zip",
+      "size_bytes": 177
+    },
+    {
+      "name": "pre-training/3E6.zip",
+      "size_bytes": 117429299
+    },
+    {
+      "name": "__MACOSX/pre-training/._3E6.zip",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/3C90.zip",
+      "size_bytes": 684414919
+    },
+    {
+      "name": "__MACOSX/pre-training/._3C90.zip",
+      "size_bytes": 177
+    },
+    {
+      "name": "pre-training/3F4.zip",
+      "size_bytes": 111079946
+    },
+    {
+      "name": "__MACOSX/pre-training/._3F4.zip",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/N49.zip",
+      "size_bytes": 145123975
+    },
+    {
+      "name": "__MACOSX/pre-training/._N49.zip",
+      "size_bytes": 178
+    },
+    {
+      "name": "pre-training/77.zip",
+      "size_bytes": 192433968
+    },
+    {
+      "name": "__MACOSX/pre-training/._77.zip",
+      "size_bytes": 177
+    }
+  ],
+  "retrieved_at": "2026-10-02T16:07:13.182102+00:00"
+}

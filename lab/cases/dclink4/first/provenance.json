@@ -1,0 +1,190 @@
+{
+  "config": {
+    "round": 4,
+    "model": {
+      "alpha": 0.1,
+      "load_bins": 8,
+      "gp_restarts": 2,
+      "seed": 20261002,
+      "gp_constant": 1.0,
+      "gp_constant_bounds": [
+        0.01,
+        100.0
+      ],
+      "gp_length_scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gp_length_bounds": [
+        0.01,
+        100.0
+      ],
+      "gp_white": 0.01,
+      "gp_white_bounds": [
+        1e-08,
+        10.0
+      ],
+      "gp_alpha": 1e-10,
+      "gp_normalize_y": true,
+      "mlp_hidden": [
+        32,
+        32
+      ],
+      "mlp_max_iter": 10000,
+      "mlp_alpha": 0.0001,
+      "mlp_tol": 1e-06,
+      "mlp_learning_rate": 0.001,
+      "mlp_early_stopping": false,
+      "mlp_activation": "relu",
+      "mlp_solver": "adam",
+      "mlp_no_change": 100,
+      "analytic_features": [
+        "intercept",
+        "dead_time_s*f_carrier/load",
+        "f_grid/(2*pi*bw_iac_Hz)",
+        "aperture_s*f_carrier"
+      ],
+      "normalized_sigma_floor": 2.220446049250313e-16,
+      "linear_rcond": null,
+      "reviewer_b_features": [
+        "intercept",
+        "t_dead*f_carrier",
+        "load",
+        "f_grid/bw_iac",
+        "4*pi*f_grid*t_ap"
+      ],
+      "methods": {
+        "m0": "GP + standard conformal",
+        "m1": "GP + sigma conformal",
+        "m2": "reviewer_b linear mean + residual GP + sigma conformal",
+        "m3": "reviewer_b linear + standard conformal",
+        "m4": "MLP + standard conformal",
+        "m5": "round1 researcher_a linear + standard conformal"
+      }
+    },
+    "methods": [
+      "m0",
+      "m1",
+      "m2"
+    ],
+    "primary_method": "m2",
+    "calibration": {
+      "set": "round3 calib (60)",
+      "n": 60,
+      "rank": 55,
+      "alpha": 0.1
+    },
+    "reuse": {
+      "s0": "round2 non-ideal E-in 150",
+      "heldout": "round3 calib/test/ood_corner/ood_dt3 (60/60/40/40)",
+      "active_arm": "round3 active arm A (110, sweep_active.csv) as fixed comparator",
+      "round3_random_arm": "round3 R (110): report-only, already seen"
+    },
+    "random_arms": {
+      "seeds": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "n_each": 110,
+      "lhs": "scipy.stats.qmc.LatinHypercube(d=4, seed=numpy.random.default_rng(seed)).random(110)",
+      "mapping": "load=.30+.70u0; dead_time=.5*floor(7u1); bw=50*8**u2 kHz; aperture=30u3 us",
+      "groups": [
+        "RS1",
+        "RS2",
+        "RS3",
+        "RS4",
+        "RS5"
+      ]
+    },
+    "mixed_arm": {
+      "group": "M",
+      "n": 110,
+      "batches": 5,
+      "batch_size": 22,
+      "pool": "round3 pool.json (5000), excluding only points already picked by M",
+      "refit": "before each batch refit M2 (linear lstsq + residual GP incl. hyperparameter optimisation) on S0 + completed M points",
+      "believer": "fixed kernel and y-normalisation within batch; pseudo-observation at posterior mean (covariance-only update)",
+      "score": "sigma(x) / sqrt(1 + a_c(x)); sigma = residual-GP predictive std incl. WhiteKernel; a_c = number of points already acquired by M (earlier batches + earlier picks in current batch) in the same dead_time category (7 categories)",
+      "tie_break": "first remaining pool order",
+      "case_index_start": 550
+    },
+    "nonideal_seed": "20280000 + index",
+    "case_id": "dclink4_{index:03d}",
+    "criteria": {
+      "C": {
+        "test": 48,
+        "ood_corner": 32,
+        "ood_dt3": 32,
+        "width_factor": 3.0
+      },
+      "A1": "active corner mean Winkler < each of 5 random arms (strict); false pass <= 0.5**5",
+      "A2": "active corner covered >= each random arm, and active - mean(random) >= 4",
+      "A3": "paired one-sided Wilcoxon on 40 corner points, active W_i vs mean over 5 random arms, H1 active lower, p<0.05",
+      "HA": "A1 and A2 and A3",
+      "M0": "mixed arm points with dead_time==3.0 <= 27",
+      "M1": "mixed arm passes C1, C2-corner, C2-dt3 (round-3 thresholds incl. width)",
+      "M2": "mixed corner covered >= 36 and mixed corner mean Winkler < each of 5 random arms (strict)",
+      "HM": "M0 and M1 and M2"
+    },
+    "winkler_alpha": 0.1,
+    "wilcoxon": {
+      "alternative": "less",
+      "zero_method": "wilcox",
+      "method": "auto",
+      "correction": false
+    },
+    "p_threshold": 0.05,
+    "sim": {
+      "duration_s": 6,
+      "startup_s": 1,
+      "solver_dt_ns": 50,
+      "sensor": "SensorConfig(ideal=False)",
+      "source_snapshot": "be9a0f4"
+    },
+    "execution": {
+      "max_jobs": 2,
+      "threads_per_job": 1,
+      "order": "RS1..RS5 (550) then M batches 1..5 (110)"
+    }
+  },
+  "input_sha256": {
+    "lab/cases/dclink2/sweep_nonideal.csv": "2ccb380498387d4216edc1f8d38b14efed7a70396fced66377f6264647c3bc97",
+    "lab/cases/dclink3/sweep_base.csv": "c27f17a31a8414ee8ccc53ba66c7f5f8d01247ffdebf779dda8a9d491608b8f6",
+    "lab/cases/dclink3/sweep_active.csv": "11269d782071f9067f9687d92981b432a6681cf6f3f06dad0a58fc31ddecb426",
+    "lab/cases/dclink3/first/surrogate_metrics.json": "e2e5899c230f9dab3ddacc0fd3e176b64e047de9f49ef2b99c06ec39129f423e",
+    "data/dclink3/split.json": "09ce75c6166b15c58a5e2fb1b23acf6f98e4ca8d4550cc2f98b8889134f31ae3",
+    "lab/cases/dclink3/pool.json": "9cf1de993532840e5e769fb2f380e8c284b902237beca5e2f7d1a1ee00e24cdc",
+    "data/dclink4/design.json": "7cfdc9423eb84d9436c1966335e3938fe98a003557587eb264f9f9dbed5be437",
+    "data/dclink4/sweep_random.csv": "f89dd31e688bbba570dccf8d78ca55553b1a1f8ac7a6e3f487b0fb46a94b7452",
+    "data/dclink4/sweep_mixed.csv": "dad5d2e7a8128cc7175c9975b8afd17bb4bf2630b568d28a0e30ab46687995d9",
+    "lab/cases/dclink4/config_prerun.json": "da1cdf3cc9696ba7f870446d63cd21a1b2f28e8d27187dfa0480d7f5219efbd5",
+    "lab/cases/dclink4/design_manifest.json": "dfc7553465d048d82db99b4c1c4972434a8abf30781b376029c83e3ff0175ad3",
+    "data/dclink4/runtime/replay_provenance.json": "d7f458d02cac965e18958ac93ae304d437f50455d32038a77257992525d0838c",
+    "docs/prereg/M5_surrogate_round4_prereg.md": "99daa2072b88c5574f7234ed710066416905ad8d642e4e67a84de443f74a7f10",
+    "data/dclink4/mixed/batch_1.json": "8b62c1ea68abb744912d8c057bbe5df05de59fad8c743f73bce8a9db609ec559",
+    "data/dclink4/mixed/batch_2.json": "d1b9d577c0e495f650bfb999efb99beee8fe38b36ba70a6fbf9439c6a4fdbe73",
+    "data/dclink4/mixed/batch_3.json": "057046d242028bfcf7e98a684ce321b33c8e340f99a79b13caa54d5f561b89fc",
+    "data/dclink4/mixed/batch_4.json": "57f02b3a4cc219a104a8e638a2553d9f55abfcc229e26e73a5d7b87acf9fe39f",
+    "data/dclink4/mixed/batch_5.json": "63eed65a1aad230364d9441fb8b880ae668eb2fadcce9fc4e8b89b5cae9e5b88",
+    "scripts/dclink_active4.py": "a2044a9f2d30cd93a1b88ee91fcc46b2eaea7c9227610cd0b88805ae433f8482",
+    "scripts/dclink_surrogate4.py": "40585a3614238266f892d6d2f138acad1597ac03b6f3bfbe914a1a890f18a712",
+    "scripts/dclink_active3.py": "294b082afc6d8b4ef78b8d7984f4d4e3a6c450cf04bf9d965d9c458828f306dc",
+    "scripts/dclink_surrogate3.py": "2957a205db1fcaaeeedb5674fa952fccfed2de85fe00fc78c5ac5e5524b73685",
+    "scripts/dclink_surrogate2.py": "e9775c7307f073bc62dd13f9518bca72bcd79c1fbca9e9fbbc25603c6de4af21",
+    "scripts/dclink_surrogate.py": "359b86256a15de5ece7caf808584b3bfb543efc624454e1277942676d6f10344",
+    "scripts/dclink_sweep4.py": "835392db06536c5375212926fb8b9ed1c50191b04aea3c4b89efee3c482a0989",
+    "scripts/dclink_sweep3.py": "942432391c27021a6acca679bda561c541b96e2290e97203d0248993d651be60",
+    "scripts/dclink_sweep2.py": "d2fd5f03e8a6906b056d12e1c8d5d7844997065d2edc5cb07fb8f2739f584557",
+    "scripts/dclink_sweep.py": "02770e6016193e6e44daa33a3129215c44a9433fcab9b8ad69b67f1e9a99eaed",
+    "data/dclink_src/simsw/dclink_simsw/__init__.py": "81f4c28eda36eac6c6404aecf228dbd5008980da5ee3fb1943cbf104989c887e",
+    "data/dclink_src/simsw/dclink_simsw/common.py": "d55b4e8204cea8d4f88cc7877f2e283648e0f727e90e7d5852636974ed637fbc",
+    "data/dclink_src/simsw/dclink_simsw/model.py": "10ddc7fccd8a83f4b6532479cdb2bd5c156062bede58ad12908293e937f3959f",
+    "data/dclink_src/simsw/dclink_simsw/solver.py": "4e7b7defe6e3bf6116297f8b8bfd4e8faf043d43d4a2bc073be527aef2b9d05d",
+    "data/dclink_src/replay/run_replay.py": "730680792d5954aede9f555738d244a19e5cf97472c0ed4203f5f026c08ed919"
+  }
+}

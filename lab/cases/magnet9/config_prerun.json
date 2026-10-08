@@ -1,0 +1,1050 @@
+{
+  "schema_version": "R9f-local-researcher_a-1",
+  "round": 9,
+  "material": "N87",
+  "status": "public_preregistration_locked_results_pending",
+  "prereg_path": "docs/prereg/M10_magnet_round9_prereg.md",
+  "notes_path": "docs/discussion/m10/researcher_a_R9p_notes.md",
+  "authorship": {
+    "author": "local_node researcher_a",
+    "date": "2026-10-08",
+    "branch": "feat/r9-honest-extrap",
+    "base_commit": "f9c985f",
+    "reviewer_b_review": "available R9p review addressed; no claim of renewed approval",
+    "original_author": "local_node researcher_a (R9p)",
+    "revision_author": "local_node researcher_a (R9f)",
+    "reviewer_c_review": "available R9p review and summary addressed; source truncated within C02; no claim of full review or renewed approval",
+    "revision_history": [
+      {
+        "version": "R9p-local_node-researcher_a-1",
+        "date": "2026-10-08",
+        "author": "local_node researcher_a",
+        "record": "initial preregistration and input audit; researcher_a_R9p_notes.md retained"
+      },
+      {
+        "version": "R9f-local-researcher_a-1",
+        "date": "2026-10-08",
+        "author": "local_node researcher_a",
+        "record": "regional alpha split; shortfall semantics and dual-honesty reporting; FLOOR80; D/E diagnostics; linear two-temperature shadow mean; integer gates; joint-power caveats and infeasibility archive; see researcher_a_R9f_response.md"
+      }
+    ]
+  },
+  "scope": {
+    "current_task": "R9f edits preregistration/config and adds response only; static document/JSON checks and analytic arithmetic only; no data reread, random generation or experiment",
+    "forbidden_current_actions": [
+      "read target CSV or any y-derived data except disclosed historical report summaries",
+      "read any round-8 per-sample predictions or lab/cases/magnet8/first*/ artifacts",
+      "generate random splits, S0 lists or acquisition sequences",
+      "write experiment code or run experiments",
+      "network access, pip install, git commit, git push",
+      "modify any round 1 through 8 files"
+    ],
+    "confirmatory_candidate": "D under S0 treatment U",
+    "acquisition": "A only; no M or R acquisition arms",
+    "baseline": "B: rerun R8 E2-A model/acquisition/global scalar q with R9 seeds and split; no historical predictions, q, labels or model cache reused",
+    "inference_scope": "Randomization variability conditional on fixed N87 data and one family split; not independent measurements or new material replication",
+    "claim_scope": "H1/H2 test relative paired 90-percent coverage-shortfall reduction; A/J are descriptive absolute-coverage criteria without type-I-error control or population coverage guarantee. Confirmatory object is the complete D strategy; no center-only attribution or exclusion of width-only improvement."
+  },
+  "data": {
+    "features_csv": "data/magnet6/features.csv",
+    "features_sha256": "781a7048e54bf7c517120b28efa450dbc584192d7faaa6fc4c3c7a2ccf47931c",
+    "design_columns": [
+      "sample_id",
+      "frequency_Hz",
+      "T_C",
+      "waveform",
+      "amplitude_T",
+      "log10_f",
+      "log10_Bpk",
+      "duty",
+      "plateau",
+      "shape"
+    ],
+    "ignore_legacy_columns": [
+      "cell",
+      "corner"
+    ],
+    "target_csv": "data/magnet/igse_predictions.csv",
+    "target_column": "measured_W_m3",
+    "target_formula": "log10(measured_W_m3)",
+    "target_csv_sha256": "a6814e41af2c0ee3ed6d32611f9ded2a04c60425a5e642476b716acc3c7909b8",
+    "waveform_npy": "data/magnet/N87/B.npy",
+    "waveform_sha256": "c3fc6db884093554a00464c689975eba0686d27e853003cf9882dcb01058ba96",
+    "hash_provenance": "features/model/family source hashes verified in R9p; target CSV and B.npy hashes inherited from R8 config without opening or rehashing those files; R9f inherits all hashes and counts without rereading data or model source",
+    "igse_comparison": false,
+    "label_access_order": [
+      "after user approval and prereg commit binding: freeze input-only split, S0 and implementation; complete all input preflight checks before any label access or fit; archive infeasible_design_abort without redraw if failed",
+      "training: read only local S0 and queried pool labels; complete and seal all 60 trajectories, b=0..6 main models, final shadow models and deltas",
+      "calibration: reveal CAL9 only to compute predefined q values; never estimate delta, fit, select or stop",
+      "seal q and all evaluation interval predictions",
+      "isolated evaluation: reveal G9/XF/XT/XFT labels; no feedback to training/calibration",
+      "seal first evaluation; independent recomputation and reviewer_b review"
+    ],
+    "permission_key": [
+      "s0_treatment",
+      "k",
+      "trajectory",
+      "stage",
+      "sample_id"
+    ],
+    "sharing": "B/E/D share their own (s,k) queried labels/trajectory/model; each shadow fit gets only its local core subset. No cross-k, cross-U/S or historical label/model/hyperparameter cache even for overlapping IDs."
+  },
+  "family_definition": {
+    "reference": "scripts/magnet7_design.py:family_features and scripts/magnet8_design.py",
+    "reference_sha256": "a2bf3774fd1e09c9405faf48107a0f374b22ea9570fe2c68567bbe053174e167",
+    "construction_scope": "all input rows before restricting regions",
+    "frequency_clustering": "sorted unique frequency_Hz; new cluster when natural log(f_i/f_previous)>0.01",
+    "setpoint_formula": "round(median(cluster)/1000) kHz",
+    "family_key": "f'{fset}_{waveform}_{round(10*duty)}_{round(20*plateau)}'",
+    "rounding": "Python ties-to-even",
+    "family_sort": "lexicographic string",
+    "id_sort": "numeric integer"
+  },
+  "regions": {
+    "S": {
+      "rule": "fset<300 and T_C<=70",
+      "n": 25122,
+      "families": 220
+    },
+    "XF": {
+      "rule": "fset>=300 and T_C<=70",
+      "n": 5361,
+      "families": 69,
+      "confirmatory": true
+    },
+    "XT": {
+      "rule": "fset<300 and T_C==90",
+      "n": 8345,
+      "families": 217,
+      "confirmatory": true
+    },
+    "XFT": {
+      "rule": "fset>=300 and T_C==90",
+      "n": 1788,
+      "families": 67,
+      "confirmatory": false,
+      "pass_fail_gate": false
+    }
+  },
+  "expected_design_counts": {
+    "total": 40616,
+    "unique_ids": 40616,
+    "global_families": 291,
+    "temperatures_C": [
+      25,
+      50,
+      70,
+      90
+    ],
+    "frequency_setpoints_kHz": [
+      50,
+      56,
+      63,
+      71,
+      79,
+      89,
+      100,
+      112,
+      126,
+      141,
+      159,
+      178,
+      199,
+      224,
+      251,
+      282,
+      316,
+      355,
+      397,
+      446
+    ],
+    "raw_frequency_300000_vs_fset_300_mismatch": 0,
+    "high_frequency_union": 7149,
+    "T90_union": 10133,
+    "support_six_strata": {
+      "core_25": 6766,
+      "core_50": 6766,
+      "core_70": 6785,
+      "edge_25": 1600,
+      "edge_50": 1602,
+      "edge_70": 1603
+    },
+    "pool_minimum_over_all_50_family_holdouts": 12892
+  },
+  "split": {
+    "rule_unchanged_from": "R8 E2",
+    "number_of_splits": 1,
+    "eligible": "sorted 220 families with support rows",
+    "permutation": "default_rng(seed(0,0)).permutation(sorted_support_family_keys)",
+    "G9_family_slice": [
+      0,
+      30
+    ],
+    "CAL9_family_slice": [
+      30,
+      50
+    ],
+    "slice_convention": "zero-based half-open",
+    "rows": "support rows only in selected families; same-family T=90 remains XT",
+    "pool_formula": "P = S minus G9 minus CAL9",
+    "pool_family_count": 170,
+    "shared_by": "all k, U/S and B/E/D",
+    "actual_G_CAL_pool_counts": "undetermined until prereg commit binding; do not substitute R8 counts",
+    "redraw_on_failure": false,
+    "cal_F_fewer_than_2_families_probability_formula": "(comb(174,20)+46*comb(174,19))/comb(220,20)",
+    "cal_F_fewer_than_2_families_probability": 0.04980485381454628
+  },
+  "design": {
+    "K": 30,
+    "k_range_inclusive": [
+      1,
+      30
+    ],
+    "s0_size": 100,
+    "batches": 6,
+    "batch_size": 20,
+    "additional_labels_per_trajectory": 120,
+    "final_training_size": 220,
+    "primary_checkpoint": 6,
+    "s0_treatments": [
+      "U",
+      "S"
+    ],
+    "primary_s0_treatment": "U",
+    "interval_methods": [
+      "B",
+      "E",
+      "D"
+    ],
+    "trajectories": 60,
+    "interval_arms": 180,
+    "main_model_fits": 420,
+    "shadow_model_fits": 120,
+    "total_model_fits": 540,
+    "pairing": "same k and U trajectory for every formal D-vs-B contrast; do not pool U/S or methods as independent repeats",
+    "s0_common_order": "pi_k=default_rng(seed(1,k)).permutation(sorted_integer_pool_IDs)",
+    "U": "first 100 IDs in pi_k",
+    "S": "first quota IDs in each stratum according to relative order in the same pi_k; union has 100 IDs",
+    "S_strata": [
+      {
+        "fset_rule": "<=199",
+        "T_C": 25,
+        "quota": 16
+      },
+      {
+        "fset_rule": "<=199",
+        "T_C": 50,
+        "quota": 17
+      },
+      {
+        "fset_rule": "<=199",
+        "T_C": 70,
+        "quota": 17
+      },
+      {
+        "fset_rule": "in [224,251,282]",
+        "T_C": 25,
+        "quota": 16
+      },
+      {
+        "fset_rule": "in [224,251,282]",
+        "T_C": 50,
+        "quota": 17
+      },
+      {
+        "fset_rule": "in [224,251,282]",
+        "T_C": 70,
+        "quota": 17
+      }
+    ],
+    "sampling": "within trajectory without replacement; overlap across k and U/S allowed; common order couples U/S and independent seed streams separate k"
+  },
+  "model": {
+    "library": "scripts/magnet6_model.py",
+    "library_sha256": "b13d4a663df242b91f18853cd0d58333ee892f9a9263ccf39b50bc4d4744109e",
+    "reuse_rule": "future isolated R9 adapter; do not mutate old files or use old evaluation_frame/fixed_sequence/signflip; set R9 GP seed and shadow-only input-based T_C^2 deletion; retain all main-model rules",
+    "linear_features": [
+      "1",
+      "log10_f",
+      "log10_Bpk",
+      "T_C",
+      "T_C^2",
+      "shape"
+    ],
+    "ols_solver": "numpy.linalg.lstsq(...,rcond=None), minimum-norm solution",
+    "gp_features": [
+      "log10_f",
+      "log10_Bpk",
+      "T_C",
+      "duty",
+      "plateau",
+      "shape"
+    ],
+    "scaler": "StandardScaler fitted on this model's own training subset only",
+    "kernel": "ConstantKernel(1,(0.01,100))*RBF([1]*6,(0.01,100))+WhiteKernel(0.01,(1e-8,10))",
+    "gp_alpha": 1e-10,
+    "normalize_y": true,
+    "gp_optimizer_restarts": 2,
+    "gp_random_state": "2**30 + (H % 2**29)",
+    "sigma": "predict(return_std=True), includes WhiteKernel; max(std, sigma_floor)",
+    "sigma_floor": 2.220446049250313e-16,
+    "refit": "from scratch each batch, final model and each shadow model; no warm starts or shared fitted scaler/hyperparameters",
+    "temperature_shadow_rank_deficiency": "R9f removes structural 1,T,T^2 dependence in two-temperature shadow by dropping T^2; other collinearity may remain. Report actual features, rank, condition number and temperature levels; retain lstsq for other deficiencies; no post-result model changes; XT failure is not physical impossibility.",
+    "linear_features_scope": "main model at every checkpoint and default shadow model; shadow-only exception below",
+    "shadow_linear_feature_rule": {
+      "condition": "if and only if number of unique training-subset T_C values < 3, drop T_C^2 from shadow OLS design",
+      "F": [
+        "1",
+        "log10_f",
+        "log10_Bpk",
+        "T_C",
+        "T_C^2",
+        "shape"
+      ],
+      "T": [
+        "1",
+        "log10_f",
+        "log10_Bpk",
+        "T_C",
+        "shape"
+      ],
+      "inputs_only": true,
+      "main_model_unchanged": true,
+      "gp_features_unchanged": true,
+      "precondition": "first enforce required core temperature levels; this rule never excuses an invalid subset"
+    }
+  },
+  "acquisition": {
+    "strategy": "R8 A sigma kriging believer",
+    "candidates": "P minus local already queried IDs",
+    "score": "GP predictive sigma including WhiteKernel",
+    "ties": "smallest integer sample_id",
+    "within_batch": "freeze hyperparameters and y normalization; Cholesky believer updates as frozen model library",
+    "label_reveal": "fit 100+20*b queried points for b=0..5; select entire next batch of 20 before revealing its labels; final fit b=6 on 220 points",
+    "shared": "B/E/D use exactly the same local acquired T and final model"
+  },
+  "pseudo_extrapolation": {
+    "construction_scope": "support S only; deterministic input masks, never true holdout labels",
+    "directions": {
+      "F": {
+        "core": "S and fset<=199",
+        "edge": "S and fset in [224,251,282]",
+        "core_n": 20317,
+        "edge_n": 4805,
+        "core_families": 174,
+        "edge_families": 46,
+        "target_region": "XF"
+      },
+      "T": {
+        "core": "S and T_C<=50",
+        "edge": "S and T_C==70",
+        "core_n": 16734,
+        "edge_n": 8388,
+        "core_families": 220,
+        "edge_families": 218,
+        "target_region": "XT"
+      }
+    },
+    "shadow_fit": "M_j trained only on T intersect core_j; outputs mu_j,sigma_j; exclude T intersect edge_j from all fitting/scaling; final main model still uses all T",
+    "delta_source": "T intersect edge_j; queried training labels only, no CAL or evaluation labels",
+    "delta_formula": "delta_j=median(y_i-mu_j(x_i) for i in T intersect edge_j)",
+    "median_even_rule": "arithmetic mean of middle two ordered values",
+    "delta_sign": "positive delta shifts center upward",
+    "delta_clip": false,
+    "delta_distance_multiplier": false,
+    "calibration_source": "CAL9 intersect edge_j",
+    "transfer": "shadow standardized residual quantiles transferred to main-model sigma in real target region; empirical hypothesis without coverage guarantee",
+    "additional_distance_or_importance_weights": false,
+    "bandwidth_or_hyperparameter_search": false,
+    "shadow_checkpoint": 6
+  },
+  "intervals": {
+    "nominal_coverage": 0.9,
+    "Q90_rank_one_based": "ceil_div(9*(n+1),10)",
+    "Q90_interpolation": "none; ascending order statistic",
+    "Q90_validity": "rank<=n and all scores finite",
+    "q0": "Q90(abs(y-mu)/sigma on all CAL9)",
+    "B": {
+      "role": "baseline",
+      "G9": {
+        "center": "mu",
+        "q": "q0"
+      },
+      "XF": {
+        "center": "mu",
+        "q": "q0"
+      },
+      "XT": {
+        "center": "mu",
+        "q": "q0"
+      },
+      "XFT": {
+        "center": "mu",
+        "q": "q0"
+      }
+    },
+    "E": {
+      "role": "report-only ablation",
+      "qE_j": "max(q0,Q90(abs(y-mu_j)/sigma_j on CAL9 intersect edge_j))",
+      "G9": {
+        "center": "mu",
+        "q": "q0"
+      },
+      "XF": {
+        "center": "mu",
+        "q": "qE_F"
+      },
+      "XT": {
+        "center": "mu",
+        "q": "qE_T"
+      },
+      "XFT": {
+        "center": "mu",
+        "q": "max(qE_F,qE_T)"
+      }
+    },
+    "D": {
+      "role": "only confirmatory candidate under U",
+      "qD_j": "max(q0,Q90(abs(y-mu_j-delta_j)/sigma_j on CAL9 intersect edge_j))",
+      "G9": {
+        "center": "mu",
+        "q": "q0"
+      },
+      "XF": {
+        "center": "mu+delta_F",
+        "q": "qD_F"
+      },
+      "XT": {
+        "center": "mu+delta_T",
+        "q": "qD_T"
+      },
+      "XFT": {
+        "center": "mu+delta_F+delta_T",
+        "q": "max(qD_F,qD_T)"
+      }
+    },
+    "interval_formula": "[center-q*main_model_sigma, center+q*main_model_sigma]",
+    "endpoint_inclusion": "closed",
+    "repair_after_gate_failure": false,
+    "distribution_free_guarantee_claim": false,
+    "width_monotonicity": "D width >= B width pointwise and per arm because qD>=q0 and main sigma shared; equality on G9; also holds on XFT. For q0>0 single-direction width ratio=qD_j/q0, otherwise ratio undefined. Center shifts need not improve coverage."
+  },
+  "seeds": {
+    "H": "int(first 8 hexadecimal characters of the prereg commit SHA,16)",
+    "H_value": null,
+    "prereg_commit_SHA": null,
+    "design_seed_formula": "2**96 + H*2**16 + r*256 + k",
+    "roles": {
+      "family_permutation": {
+        "r": 0,
+        "k": 0
+      },
+      "s0_common_permutation": {
+        "r": 1,
+        "k": "1..30"
+      }
+    },
+    "rng": "numpy.random.default_rng(seed), PCG64; independently initialized per role/k; pin NumPy version",
+    "design_seed_integer_policy": "full Python integer; no modulus or uint32 conversion",
+    "gp_seed_formula": "2**30 + (H % 2**29)",
+    "gp_seed_range_inclusive": [
+      1073741824,
+      1610612735
+    ],
+    "intentional_sharing": "same GP seed for all treatments, k, batches and shadow fits; same S0 permutation for U/S and same trajectory for B/E/D",
+    "historical": {
+      "R6": {
+        "H": 3634890171,
+        "design_formulas": [
+          "H",
+          "H+k for k=1..8",
+          "H+100+k for k=1..8"
+        ],
+        "gp_seed": 20261004
+      },
+      "R7": {
+        "H": 1869701181,
+        "design_formulas": [
+          "H",
+          "H+k for k=1..20",
+          "H+100+k for k=1..20"
+        ],
+        "gp_seed": 20261004
+      },
+      "R8": {
+        "H": 511081239,
+        "experiments_e": [
+          1,
+          2
+        ],
+        "design_formula": "2**64 + H*2**16 + e*4096 + r*256 + k",
+        "role_k": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            "1..30"
+          ],
+          [
+            2,
+            "1..30"
+          ]
+        ],
+        "gp_seeds": [
+          3169646126,
+          3169646127
+        ]
+      }
+    },
+    "nonoverlap_proof": "R9 design seeds>=2**96, all R8 E1/E2 design seeds<2**65 and R6/R7 seeds<2**32; R9 GP reserved range excludes all actual R6/R7/R8 design and GP seeds",
+    "post_commit_check": "explicit historical and new integer seed sets must have empty intersection; list intentional within-R9 reuse separately",
+    "no_seed_grinding": true
+  },
+  "metrics": {
+    "coverage_count": "sum(L_i<=y_i<=U_i)",
+    "c": "coverage_count/n_region",
+    "g": "max(0,0.90-c), computed per arm before averaging",
+    "w": "mean(U-L), log10 units",
+    "W": "mean((U-L)+20*(L-y)*I(y<L)+20*(y-U)*I(y>U)), log10 units",
+    "bias": "mean(center-y)",
+    "MAE": "mean(abs(center-y))",
+    "median_relative_error": "median(abs(10**(center-y)-1))",
+    "weighting": "equal rows within region; equal 30 pairs; no pooling XF/XT/XFT"
+  },
+  "tests": {
+    "K": 30,
+    "treatment": "U",
+    "candidate": "D",
+    "comparator": "B",
+    "alpha_each": 0.025,
+    "hypotheses": [
+      {
+        "id": "H1",
+        "region": "XF",
+        "sentence": "D相对B在XF的90%覆盖欠缺配对差期望为正：E[g_B,XF−g_D,XF]>0。",
+        "d_k": "g_B_XF-g_D_XF",
+        "endpoint": "coverage_shortfall",
+        "direction": "positive"
+      },
+      {
+        "id": "H2",
+        "region": "XT",
+        "sentence": "D相对B在XT的90%覆盖欠缺配对差期望为正：E[g_B,XT−g_D,XT]>0。",
+        "d_k": "g_B_XT-g_D_XT",
+        "endpoint": "coverage_shortfall",
+        "direction": "positive"
+      },
+      {
+        "id": "H3",
+        "region": "XF",
+        "sentence": "D在XF满足相对B的10%期望Winkler非劣界：E[1.10W_B,XF−W_D,XF]>0。",
+        "d_k": "1.10*W_B_XF-W_D_XF",
+        "endpoint": "winkler_noninferiority",
+        "direction": "positive"
+      },
+      {
+        "id": "H4",
+        "region": "XT",
+        "sentence": "D在XT满足相对B的10%期望Winkler非劣界：E[1.10W_B,XT−W_D,XT]>0。",
+        "d_k": "1.10*W_B_XT-W_D_XT",
+        "endpoint": "winkler_noninferiority",
+        "direction": "positive"
+      }
+    ],
+    "null": "E[d_k]<=0 for each hypothesis",
+    "alternative": "E[d_k]>0",
+    "statistic": "mean(d_k), K=30 matched pairs",
+    "winkler_noninferiority_multiplier": 1.1,
+    "p_formula": "count(s in {-1,+1}**30: sum(s*d)>=sum(d)-30*epsilon)/2**30",
+    "mean_tolerance_binary64": 1e-12,
+    "arithmetic_contract": "d and epsilon are sealed binary64 inputs interpreted as exact binary rationals; convert to common power-of-two denominator, use arbitrary-precision integer sums/comparisons; no rounding of d",
+    "implementation": "exact MITM with two 2**15 signed-sum lists and inclusive integer threshold count; exact 2**K enumeration only as oracle, no 2**30 allocation",
+    "denominator": 1073741824,
+    "include_identity_ties_and_zero_multiplicity": true,
+    "monte_carlo": false,
+    "pseudocount": false,
+    "reject_rule": "p<0.025 and all preceding hypotheses within the same regional family formally rejected; equality is non-rejection",
+    "stop_rule": "each family starts if process_valid regardless of gates or other-family outcomes; first non-rejection stops only that family, second hypothesis not_tested with nominal p report-only; never resume or transfer alpha",
+    "assumptions": "independent paired seed repetitions conditional on fixed data/split; independent sign symmetry at zero boundary and symmetric location-shift model for composite mean null. Applies to shifted NI differences 1.10*W_B-W_D, not D/B label exchangeability; 1.10 scaling and 20-fold Winkler miss penalties can cause skew/heavy tails even with mean zero. Discrete truncated shortfalls can also violate symmetry.",
+    "fwer_scope": "strong FWER<=0.025 in each fixed regional sequence and <=0.05 overall by union bound, only conditional on valid p values under stated assumptions; no cross-region independence needed; exact counting and descriptive sensitivity do not establish validity",
+    "descriptive_gates_do_not_change_test_sequence": true,
+    "drop_failed_gate_pairs": false,
+    "familywise_alpha": 0.05,
+    "families": [
+      {
+        "id": "F",
+        "region": "XF",
+        "order": [
+          "H1",
+          "H3"
+        ],
+        "alpha": 0.025
+      },
+      {
+        "id": "T",
+        "region": "XT",
+        "order": [
+          "H2",
+          "H4"
+        ],
+        "alpha": 0.025
+      }
+    ],
+    "alpha_recycling": false,
+    "cross_region_blocking": false,
+    "coverage_interpretation": "relative 90-percent shortfall superiority, not proof of absolute honesty or center-only benefit; overcoverage above 90 percent is truncated; every confirmatory result must also list A, WIDTH, J and both regional test statuses"
+  },
+  "gates": {
+    "scope": "separately for every s,m and Z=XF/XT; confirmatory conclusions only U,D",
+    "required_pass_count": 26,
+    "K": 30,
+    "C1": "coverage_count_G9>=ceil_div(4*n_G9,5)=(4*n_G9+4)//5",
+    "V80_per_arm": {
+      "XF": "C1 and coverage_count_XF>=4289 and w_XF<=3*w_G9",
+      "XT": "C1 and coverage_count_XT>=6676 and w_XT<=3*w_G9"
+    },
+    "V80_method": "at least 26/30 corresponding per-arm passes",
+    "HONEST90_per_arm_min_counts": {
+      "XF": 4825,
+      "XT": 7511
+    },
+    "HONEST90_method": "at least 26/30 nominal90 per-arm passes, coverage only",
+    "MEAN90": "equal-pair mean c>=0.9, evaluated using integer sum of counts",
+    "MEAN90_sum_count_min": {
+      "XF": 144747,
+      "XT": 225315
+    },
+    "WIDTH": {
+      "mean_width_max_multiple_of_B": 1.5,
+      "each_pair_width_max_multiple_of_B": 2.0,
+      "each_pair_requirement": "all 30 pairs, not 26/30",
+      "comparator": "same s,k fresh B",
+      "comparison": "direct <= multiplier*baseline, no division; zero baseline only passes for zero candidate width; no post-gate q/center adjustment",
+      "one_pair_veto_retained": true,
+      "interpretation": "hard cost budget; a single pair above 2.00 fails even if the mean passes; extreme failure risk, no 29/30 exception; D>=B structurally so only upper bounds needed"
+    },
+    "support_width_max_multiple": 3.0,
+    "A": "V80 and HONEST90 and MEAN90 and FLOOR80",
+    "J": "A and WIDTH",
+    "interpretation": "empirical finite-panel criteria without type-I-error control, not confidence bounds or population coverage guarantee; WIDTH and Winkler cannot exclude coverage gains entirely due to widening; MEAN90 alone can mask individual collapse, hence FLOOR80",
+    "XFT_gate": null,
+    "integer_ceiling_contract": "ceil_div(a,b)=(a+b-1)//b for nonnegative integer a and positive integer b; use integer arithmetic throughout",
+    "coverage_threshold_formulas": {
+      "V80": "ceil_div(4*n_region,5)",
+      "HONEST90": "ceil_div(9*n_region,10)",
+      "MEAN90": "ceil_div(9*30*n_region,10)"
+    },
+    "FLOOR80": {
+      "each_arm": "C1 and coverage_count_region>=ceil_div(4*n_region,5)",
+      "per_arm_min_counts": {
+        "XF": 4289,
+        "XT": 6676
+      },
+      "required_pass_count": 30,
+      "includes_width": false,
+      "failure": "any one support or target-region coverage below 80 percent fails A; mean coverage cannot compensate; does not require all arms to reach 90 percent"
+    }
+  },
+  "validity": {
+    "input_preflight": [
+      "all frozen input totals, unique IDs, families, temperatures and frequency setpoints match",
+      "S/XF/XT/XFT disjoint and exhaustive; G9/CAL9/P family-disjoint within support",
+      "all six P strata have at least their S0 quota",
+      "each CAL9 intersect pseudo-edge has at least 20 rows and 2 families"
+    ],
+    "shadow_min_core_rows": 30,
+    "shadow_min_core_fsets": 2,
+    "shadow_core_temperature_levels": {
+      "F": [
+        25,
+        50,
+        70
+      ],
+      "T": [
+        25,
+        50
+      ]
+    },
+    "delta_min_edge_rows": 10,
+    "model_validity": "all fits complete and all predictions, sigmas, deltas, q and differences finite; enforce required core temperatures and shadow feature rule; any remaining rank deficiency is reported but not alone failure",
+    "process": "all 60 trajectories and 180 interval arms complete, all formal tests have 30 pairs, exact budgets and label permissions audited, source/model/config/seed hashes and acquisition replay pass",
+    "failure_policy": "any planned U or S trajectory failure => incomplete round, no confirmatory conclusions; no drop/replacement/redraw/boundary change/budget addition; only logged infrastructure retry with identical seed/config/state",
+    "input_preflight_failure_status": "infeasible_design_abort",
+    "input_preflight_before_labels_and_fits": true
+  },
+  "conclusions": {
+    "require_process_valid": true,
+    "SUCCESS_F": "J(U,D,XF) and formally_rejected(H1) and formally_rejected(H3)",
+    "SUCCESS_T": "J(U,D,XT) and formally_rejected(H2) and formally_rejected(H4)",
+    "both": "only SUCCESS_F and SUCCESS_T together support both-direction relative shortfall improvement and 10-percent Winkler NI for the complete D strategy, conditional on test assumptions, with A/WIDTH/J all passed",
+    "one": "only name the successful direction; either region can succeed without any rejection in the other family; no extrapolation-wide success claim",
+    "neither": "no overall success claim",
+    "exhaustive_region_hierarchy": [
+      {
+        "when": "not process_valid",
+        "interpretation": "incomplete/invalid; no confirmatory claim"
+      },
+      {
+        "when": "process_valid and not A",
+        "interpretation": "full empirical coverage standard not met; list failed V80/HONEST90/MEAN90/FLOOR80; a rejected coverage test only means smaller shortfall"
+      },
+      {
+        "when": "process_valid and A and not WIDTH",
+        "interpretation": "coverage criteria met but width cost exceeded"
+      },
+      {
+        "when": "process_valid and J and coverage hypothesis not formally rejected",
+        "interpretation": "empirical criteria met but relative shortfall improvement unconfirmed; distinguish not_rejected/not_tested"
+      },
+      {
+        "when": "process_valid and J and coverage hypothesis formally rejected and Winkler hypothesis not formally rejected",
+        "interpretation": "coverage shortfall improved and criteria met; 10 percent score noninferiority unconfirmed"
+      },
+      {
+        "when": "process_valid and J and both regional hypotheses formally rejected",
+        "interpretation": "regional SUCCESS for complete D under fixed-panel and conditional inference limits; list A/WIDTH/J and both formal statuses"
+      }
+    ],
+    "special_cases": "B may also pass empirical standards; both A passing does not imply all g zero. E/S are descriptive only. Non-rejection does not establish equivalence/inferiority/ineffectiveness. Neither regional family blocks the other. No post-hoc method promotion, alpha transfer or pure-center claim.",
+    "required_result_fields": [
+      "region",
+      "A",
+      "WIDTH",
+      "J",
+      "coverage hypothesis formal status",
+      "Winkler hypothesis formal status",
+      "conditional inference limitations"
+    ],
+    "prohibited_claims": [
+      "rejection proves absolute honesty",
+      "gates have type-I-error control or population 90-percent guarantee",
+      "D/B success proves center correction caused improvement",
+      "WIDTH or Winkler excludes width-only explanation",
+      "XT failure proves physical extrapolation impossible"
+    ],
+    "dual_honesty_exit": {
+      "when": "process_valid and A(U,B,Z) and A(U,D,Z) and coverage hypothesis not formally rejected",
+      "report": "基线与候选方法均达到预注册经验覆盖标准，相对欠覆盖改进未确认。",
+      "required": "list WIDTH/J and Winkler not_tested status; retain width-cost-exceeded conclusion if applicable; never call D a failed method on this basis",
+      "counts": "report each method nonzero-g arm count, mean g and d positive/zero/negative counts",
+      "only_if_all_zero": "if every g_B and g_D equals zero, d=0 and p=1; add 本评估面板无额外相对欠覆盖需要缩减",
+      "equal_nonzero": "d all zero with common nonzero g only means equal shortfalls, not absence of shortfalls",
+      "changes_tests_or_SUCCESS": false,
+      "skip_coverage_to_test_Winkler": false
+    }
+  },
+  "s0_report_only": {
+    "method": "D",
+    "regions": [
+      "XF",
+      "XT"
+    ],
+    "primary_metric": "coverage_fraction c",
+    "variance": "v_s,Z=sum((c_s,k,D,Z-mean_k(c_s,k,D,Z))**2)/29",
+    "variance_ratio": "v_S/v_U if v_U>0 else null",
+    "variance_reduction": "1-v_S/v_U if v_U>0 else null",
+    "paired_shortfall_change": "Delta_g=mean_k(g_U,k,D,Z-g_S,k,D,Z)",
+    "descriptive_support_rule": "v_U>0 and v_S<=0.50*v_U and Delta_g>=0",
+    "zero_variance": "v_U==0 => ratio/reduction null, criterion not_evaluable; no epsilon substitution",
+    "both_direction_support": "both region rules pass; otherwise report each region separately",
+    "no_formal_p_or_bootstrap": true,
+    "variance_decomposition": {
+      "matrix": "U treatment coverage z_km with k=1..30 and m=B,E,D, separately XF/XT",
+      "grand": "mean(z)",
+      "SS_total": "sum_km((z_km-grand)**2)",
+      "SS_group": "3*sum_k((mean_m(z_km)-grand)**2)",
+      "SS_method": "30*sum_m((mean_k(z_km)-grand)**2)",
+      "SS_interaction": "sum_km((z_km-mean_m(z_km)-mean_k(z_km)+grand)**2)",
+      "fractions": "each component/SS_total, null if SS_total==0",
+      "group_majority_flag": "SS_total>0 and SS_group/SS_total>=0.50; descriptive only",
+      "limitation": "no within-cell repetition; interaction and residual cannot be separated"
+    },
+    "interpretation": "S0-policy plus downstream acquisition total effect; no isolation of pure S0 from its mediated sampling effect, no retrospective causal proof about R8"
+  },
+  "report_only": [
+    "all s,m,k,regions final c/g/w/W, coverage counts, nominal90 shortfall, MAE, bias, median relative error and gate components; full per-arm minima/maxima",
+    "all q0/qE/qD/delta, shadow/core/edge/calibration counts and families, actual design matrix feature columns/ranks/condition numbers and temperature levels",
+    "prespecified D/E paired contrasts, both equal-width center diagnostics and all S outputs; never promote to confirmatory",
+    "XFT scores and distributions only, no pass/fail or formal test",
+    "each hypothesis d mean/median/IQR and positive/zero/negative counts; nominal p with its regional fixed-sequence status",
+    "sampling by fset, temperature and 8 equal-width bins of v=log10(4*f*Bpk) over entire P; clip(floor(8*(v-lo)/(hi-lo)),0,7), require hi>lo; S0 separated from additions",
+    "realized pool/training extrema; validity_pass_counts separate from sampling_counts",
+    "S0 variance policy contrast, decomposition and prespecified descriptive support flags; no extra formal hypotheses",
+    "U-only Winkler ratios and all 30 leave-one-pair-out descriptive means; no bootstrap or alternate formal tests",
+    "both-A/zero-shortfall reporting clauses, FLOOR80 pass counts and any width single-pair veto"
+  ],
+  "power_and_limits": {
+    "simulation_performed": false,
+    "resampling_performed": false,
+    "label_based_power_estimation": false,
+    "planning_alpha": 0.025,
+    "planning_formula": "Phi(delta*sqrt(30)-1.959964)",
+    "approximate_power_scenarios": [
+      {
+        "delta": 0.4,
+        "power": 0.591314
+      },
+      {
+        "delta": 0.6,
+        "power": 0.907642
+      }
+    ],
+    "caveat": "analytic single-test normal approximation only, not exact sign-flip power or end-to-end power; old alpha=.05 powers .707/.950 superseded; actual joint power unknown and may be much lower",
+    "end_to_end_requirements": [
+      "process validity",
+      "two rejections in the regional family",
+      "V80>=26/30",
+      "HONEST90>=26/30",
+      "MEAN90",
+      "FLOOR80 all 30",
+      "WIDTH all 30 and mean cap; both-direction success requires both regions"
+    ],
+    "joint_probability_bound": "intersection probability <= minimum required marginal probability; product requires independence and is not a general upper bound",
+    "four_test_independence_example": {
+      "marginal_probability": 0.75,
+      "joint_probability": 0.31640625,
+      "actual_independence_assumed": false
+    },
+    "HONEST90_binomial_example": {
+      "K": 30,
+      "required": 26,
+      "hypothetical_independent_arm_pass_probability": 0.7,
+      "tail_formula": "sum(comb(30,i)*0.7**i*0.3**(30-i),i=26..30)",
+      "tail_probability": 0.03015494310208928,
+      "interpretation": "arm pass probability is not population coverage; no inference that true coverage must be 93 percent"
+    },
+    "extreme_gate_risk": "WIDTH remains all 30; a single 2.01x pair fails; FLOOR80 also requires all 30; no relaxation for power",
+    "preflight_risk": {
+      "cal_F_insufficient_families_probability": 0.04980485381454628,
+      "total_feasibility_probability_upper_bound_approx": 0.950195,
+      "interpretation": "combinatorial uniform-family-permutation reference before binding; other input failures can add risk; after binding never redraw or replace SHA; conditional power is not unconditional success probability"
+    },
+    "limitations": [
+      "single reused N87 dataset and one family split",
+      "family correlation and adaptive selection",
+      "pseudo-to-real residual transfer unproven",
+      "two-temperature linear extrapolation and remaining collinearity",
+      "asymmetric shifted Winkler and truncated-shortfall differences may invalidate inference",
+      "symmetric log10 intervals",
+      "specific 50-percent frequency-edge S0 policy",
+      "input-only infeasibility must be archived before training",
+      "bounded width does not exclude width-only coverage improvement"
+    ]
+  },
+  "C03_future_implementation_requirements": {
+    "do_not_modify": "scripts/magnet8_evaluate.py or any round 1 through 8 file",
+    "remove": "no copied/called K<=14 legacy floating-point correction branch; no old magnet6 signflip",
+    "retain": "one exact enumeration/MITM arithmetic contract for all validation K; formal entry requires K=30",
+    "unit_tests_before_real_labels": [
+      "K=1..14 plus 15 and 16 synthetic vectors: MITM integer numerator equals independent exhaustive 2**K oracle",
+      "all zeros p=1; K=30 and every d_k=1.0 has numerator=1; all negatives p=1",
+      "duplicates, mixed signs, exact ties, zeros with 2**z multiplicity, small/large scales",
+      "exact and either-side epsilon threshold examples using binary-rational integer arithmetic; no float reassociation exceptions",
+      "reject NaN/Inf/wrong shapes and formal K!=30",
+      "p==0.025 non-rejection; each regional sequence stops and never resumes; XF failure permits XT success and conversely; no alpha recycling",
+      "integer coverage ceilings, Q90 finite rank, bias correction sign, zero width baseline, zero S0 variance",
+      "shadow edge labels excluded from shadow fit; CAL excluded from delta; true holdouts excluded from all calibration",
+      "FLOOR80 single-arm veto and dual-A reporting with nonzero vs all-zero shortfalls",
+      "shadow 2/3-temperature levels drop/retain T_C^2; main model always retains it",
+      "both equal-width diagnostic anchors and Winkler zero-denominator/leave-one-pair-out descriptions"
+    ],
+    "independent_recompute": "rebuild integer p numerators, metrics, validity_pass_counts, every gate and conclusions; decimal p agreement alone insufficient",
+    "current_task_tests_written_or_run": false
+  },
+  "execution": {
+    "user_approval_required_before_any_experiment": true,
+    "prereg_commit_binding_required_before_random_generation": true,
+    "host": "local_node only",
+    "max_parallel_heavy_jobs": 2,
+    "heavy_jobs_include": [
+      "fitting",
+      "batch prediction",
+      "evaluation",
+      "independent recomputation"
+    ],
+    "threads_per_job": 1,
+    "thread_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "launch": "nohup setsid; watchdog outside paused worker process groups",
+    "watchdog": {
+      "metric": "MemAvailable",
+      "poll_seconds": 5,
+      "pause_below_GiB": 3.8,
+      "resume_above_GiB": 4.3,
+      "hysteresis": "between thresholds or at equality retain state",
+      "action": "stop dispatch and pause workers below low threshold; resume above high threshold; pausing does not reclaim memory; persistent low memory/OOM => logged infrastructure stop, identical seed/config/state resume; no threshold/data/model changes"
+    },
+    "status_path": "./ai4s_r9_status.md",
+    "preserve_first_outputs_and_errata": true,
+    "infeasible_design_abort": {
+      "trigger": "any input preflight count/stratum assertion failure",
+      "timing": "before any training/calibration/evaluation label access or model fit",
+      "researcher_action": "stop immediately, status=infeasible_design_abort; incomplete round, no confirmatory conclusions",
+      "moderator_archive": [
+        "approval",
+        "prereg SHA and H",
+        "config/input manifest hashes",
+        "unique split seed/masks/counts",
+        "failed assertions and realized values",
+        "timestamp",
+        "no-label-access/no-fit stage record",
+        "first failure manifest and status log"
+      ],
+      "prohibited": [
+        "redraw",
+        "change SHA",
+        "delete first failure record",
+        "reclassify design failure as infrastructure failure"
+      ],
+      "redesign": "requires a separate future preregistration retaining this aborted design record"
+    },
+    "equal_width_diagnostics": "isolated evaluation scores only; no added fits, trajectories or formal method arms"
+  },
+  "freeze": {
+    "commit_rule": "first commit containing all three effective reviewed documents/config after user approval, before any R9 random generation/training/calibration; moderator commits in a separately authorized later task",
+    "no_current_commit_or_push": true,
+    "no_substitute_implementation_HEAD": true,
+    "manifest": [
+      "approval",
+      "full prereg SHA and H",
+      "three deliverable hashes",
+      "implementation hashes and software versions",
+      "source checks",
+      "historical/new seed disjointness",
+      "sorted IDs, families, common permutations, U/S S0s, pseudo masks/counts and hashes"
+    ],
+    "conflict_rule": "stop before labels if prereg/config/input assertions conflict; do not choose favorable interpretation",
+    "post_results_immutable": [
+      "methods",
+      "delta/q formulas",
+      "pseudo boundaries",
+      "hypotheses",
+      "order",
+      "alpha",
+      "tolerance",
+      "thresholds",
+      "K",
+      "budgets",
+      "regions",
+      "S0 quotas",
+      "seeds",
+      "conclusion mapping",
+      "shadow feature rule",
+      "regional families/no alpha recycling",
+      "FLOOR80",
+      "descriptive diagnostic anchors and reporting rules"
+    ],
+    "revision_policy": "record all available reviewer_b/reviewer_c comments and source truncation; preserve all pre-result revisions; frozen changes require a new future preregistration, not retroactive success",
+    "self_hash_policy": "two prereg/config SHA256 values in R9f handoff; all three deliverable hashes in later manifest; no circular self hashes",
+    "effective_deliverables": [
+      "docs/prereg/M10_magnet_round9_prereg.md",
+      "lab/cases/magnet9/config_prerun.json",
+      "docs/discussion/m10/researcher_a_R9f_response.md"
+    ],
+    "archival_notes_path": "docs/discussion/m10/researcher_a_R9p_notes.md"
+  },
+  "response_path": "docs/discussion/m10/researcher_a_R9f_response.md",
+  "review_inputs": {
+    "reviewer_b": {
+      "path": "docs/discussion/m10/reviewer_b_review_R9p.md",
+      "available_ids": [
+        "R9-C01",
+        "R9-C02",
+        "R9-C03",
+        "R9-C04",
+        "R9-C05",
+        "R9-C06",
+        "R9-C07",
+        "R9-C08"
+      ],
+      "source_complete": true
+    },
+    "reviewer_c": {
+      "path": "docs/discussion/m10/reviewer_c_review_R9p.md",
+      "available_ids": [
+        "R9-C01",
+        "R9-C02"
+      ],
+      "source_complete": false,
+      "truncation": "R9-C02 ends mid-sentence at δ 与 q 在 CAL 上有; opening summary also addressed; no claim about unseen comments"
+    }
+  },
+  "ablation_report_only": {
+    "treatments": [
+      "U",
+      "S"
+    ],
+    "regions": [
+      "XF",
+      "XT"
+    ],
+    "K": 30,
+    "paired_D_E_differences": [
+      "c_D-c_E",
+      "g_E-g_D",
+      "W_E-W_D",
+      "w_D-w_E",
+      "MAE_E-MAE_D",
+      "bias_D-bias_E"
+    ],
+    "summaries": [
+      "all 30 paired values",
+      "mean",
+      "median",
+      "minimum",
+      "maximum",
+      "positive/zero/negative counts"
+    ],
+    "parameters": [
+      "delta_j",
+      "qD_j-qE_j",
+      "qD_j/qE_j; null if qE_j==0"
+    ],
+    "interpretation": "D/E total change combines center shift and recalculated q; not pure center attribution",
+    "equal_width_diagnostics": {
+      "q_anchors": [
+        "qE_j",
+        "qD_j"
+      ],
+      "intervals": "compare [mu+delta_j-q*sigma,mu+delta_j+q*sigma] with [mu-q*sigma,mu+q*sigma] using sealed main mu/sigma and sealed delta/q",
+      "differences": [
+        "c(mu+delta,q)-c(mu,q)",
+        "g(mu,q)-g(mu+delta,q)",
+        "W(mu,q)-W(mu+delta,q)"
+      ],
+      "g_rule": "truncate shortfall per arm before differencing or averaging",
+      "summaries": "same all-30-values/mean/median/min/max/sign-count summaries at each anchor; report both, no selection",
+      "phase": "isolated evaluation after all predictions and q sealed; no feedback to calibration",
+      "no_center_improvement": "explicitly report absence of equal-width center improvement where diagnostic does not improve",
+      "interpretation": "panel-specific description only; no population causal proof and cannot exclude width-only D/B improvement"
+    },
+    "extra_fits": 0,
+    "extra_acquisition_trajectories": 0,
+    "extra_formal_method_arms": 0,
+    "formal_p_or_gates": false,
+    "enters_SUCCESS": false
+  },
+  "winkler_sensitivity_report_only": {
+    "treatment": "U",
+    "regions": [
+      "XF",
+      "XT"
+    ],
+    "K": 30,
+    "per_pair_ratios": "W_D/W_B for all pairs; null if W_B==0; no epsilon and no removal from formal test",
+    "ratio_of_means": "mean(W_D)/mean(W_B); null if mean(W_B)==0",
+    "leave_one_pair_out": "for k=1..30 report mean(1.10*W_B-W_D) on other 29 pairs, all 30 values, min, max and nonpositive count",
+    "no_retesting_or_pair_selection": true,
+    "bootstrap": false,
+    "bootstrap_omission_reason": "geometric/mean per-pair ratio is a different estimand from expected score difference; ordinary paired bootstrap cannot validate sign symmetry or original FWER; deterministic descriptions are not a robustness proof",
+    "enters_SUCCESS": false
+  },
+  "historical_snapshot_status": "revised_against_available_reviewer_b_reviewer_c_reviews_pending_user_approval_no_experiment_run",
+  "publication_note": "Locked for this public release by the release instruction; historical approval and execution status are not backdated."
+}

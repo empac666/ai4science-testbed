@@ -1,0 +1,13 @@
+{
+  "split_sha256": "e4bac5895347942354a6dc7513c9989174888169c5c070ec9f3147900f5df4aa",
+  "design_sha256": "fa900b0a2757c6e274438f978fd88b375008cab5c3e7d19fd61fa77908da46b5",
+  "seed": 20261003,
+  "rule": "OOD = {dead_time_us == 3.0} ∪ {load <= 0.35 and bw_iac_khz <= 75}; in-dist 60/20/20",
+  "counts": {
+    "train": 120,
+    "calib": 40,
+    "test": 40,
+    "ood_deadtime3": 35,
+    "ood_lowload_lowbw": 5
+  }
+}

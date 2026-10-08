@@ -1,0 +1,253 @@
+{
+  "config": {
+    "round": 5,
+    "K": 6,
+    "arms_per_pair": [
+      "A",
+      "M",
+      "R"
+    ],
+    "budget_per_arm": 110,
+    "model": {
+      "alpha": 0.1,
+      "load_bins": 8,
+      "gp_restarts": 2,
+      "seed": 20261002,
+      "gp_constant": 1.0,
+      "gp_constant_bounds": [
+        0.01,
+        100.0
+      ],
+      "gp_length_scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gp_length_bounds": [
+        0.01,
+        100.0
+      ],
+      "gp_white": 0.01,
+      "gp_white_bounds": [
+        1e-08,
+        10.0
+      ],
+      "gp_alpha": 1e-10,
+      "gp_normalize_y": true,
+      "mlp_hidden": [
+        32,
+        32
+      ],
+      "mlp_max_iter": 10000,
+      "mlp_alpha": 0.0001,
+      "mlp_tol": 1e-06,
+      "mlp_learning_rate": 0.001,
+      "mlp_early_stopping": false,
+      "mlp_activation": "relu",
+      "mlp_solver": "adam",
+      "mlp_no_change": 100,
+      "analytic_features": [
+        "intercept",
+        "dead_time_s*f_carrier/load",
+        "f_grid/(2*pi*bw_iac_Hz)",
+        "aperture_s*f_carrier"
+      ],
+      "normalized_sigma_floor": 2.220446049250313e-16,
+      "linear_rcond": null,
+      "reviewer_b_features": [
+        "intercept",
+        "t_dead*f_carrier",
+        "load",
+        "f_grid/bw_iac",
+        "4*pi*f_grid*t_ap"
+      ],
+      "methods": {
+        "m0": "GP + standard conformal",
+        "m1": "GP + sigma conformal",
+        "m2": "reviewer_b linear mean + residual GP + sigma conformal",
+        "m3": "reviewer_b linear + standard conformal",
+        "m4": "MLP + standard conformal",
+        "m5": "round1 researcher_a linear + standard conformal"
+      }
+    },
+    "primary_method": "m2",
+    "report_methods": [
+      "m0",
+      "m1"
+    ],
+    "calibration": {
+      "set": "round3 calib 60 (shared by all arms)",
+      "rank": 55,
+      "alpha": 0.1
+    },
+    "s0": "round2 non-ideal E-in 150, identical initial training set for every arm of every pair",
+    "seeds": {
+      "H": "int(first 8 hex chars of the prereg commit SHA, 16)",
+      "held_out_rng": "numpy.random.default_rng(H)",
+      "random_arm_k": "numpy.random.default_rng(H + k), k=1..6",
+      "nonideal": "20290000 + index",
+      "case_id": "dclink5_{index:04d}"
+    },
+    "held_out": {
+      "order": [
+        "T5 test 60",
+        "C5 corner 40",
+        "D5 dt3 40"
+      ],
+      "T5": "LHS(d=4, seed=rng) 300 pts on full domain, dead_time 6 categories {0..2.5}; drop corner (load<=.35 & bw<=75); first 60",
+      "C5": "LHS 40: load [.30,.35], bw 50*1.5**u kHz, dead_time 6 categories, aperture [0,30]",
+      "D5": "LHS 40: dead_time 3.0, other three dims full range",
+      "index": "0..139"
+    },
+    "random_arm": {
+      "lhs": "LatinHypercube(d=4, seed=default_rng(H+k)).random(110)",
+      "mapping": "as round3 R / round4 RS",
+      "index": "140+110(k-1) .. "
+    },
+    "active_arm": {
+      "rule": "round3 sigma believer (scripts/dclink_active3.py), 5 batches x 22, pool round3 pool.json excluding own picks"
+    },
+    "mixed_arm": {
+      "rule": "round4 sigma/sqrt(1+a_c) believer (scripts/dclink_active4.py), a_c counts own picks incl. in-batch, 5 x 22"
+    },
+    "adaptive_index": "A_k: 800+220(k-1)+j ; M_k: 910+220(k-1)+j, j=0..109 in selection order",
+    "per_arm_metric": "mean Winkler (alpha=0.1) of M2 intervals on C5 (40) [H1-H3] or D5 (40) [H4]",
+    "test": "exact one-sided sign-flip permutation test over K=6 pair differences d_k; p = #{s in {+-1}^6: mean(s*d) >= mean(d)}/64 (ties count, identity included)",
+    "hypotheses": {
+      "H1": "d_k = W_R,k(C5) - W_A,k(C5) > 0",
+      "H2": "d_k = W_R,k(C5) - W_M,k(C5) > 0",
+      "H3": "non-inferiority: d_k = 1.10*W_A,k(C5) - W_M,k(C5) > 0",
+      "H4": "d_k = W_A,k(D5) - W_M,k(D5) > 0"
+    },
+    "multiplicity": "fixed-sequence H1 -> H2 -> H3 -> H4, each at alpha=0.05; stop at first non-rejection (later ones reported as not tested, nominal p report-only); FWER <= 0.05",
+    "coverage": {
+      "per_arm": "C1 T5 >=48/60; C2-corner C5 >=32/40 and mean width <= 3x T5 width; C2-dt3 D5 >=32/40 and width <= 3x T5 width",
+      "CV": "method X in {A,M,R}: at least 5 of 6 arms pass all three per-arm criteria"
+    },
+    "claims": {
+      "claim_A": "H1 rejected and CV-A",
+      "claim_M": "H2 rejected and CV-M",
+      "claim_M_noninf": "H3 rejected",
+      "claim_M_dt3": "H4 rejected"
+    },
+    "execution": {
+      "max_jobs": 2,
+      "threads_per_job": 1,
+      "order": "held-out + R arms, then A/M arms batch-synchronously b=1..5 across all 12 adaptive arms",
+      "memory_watchdog": "SIGSTOP below ~3.8 GiB available, SIGCONT above ~4.3 GiB"
+    },
+    "sim": {
+      "duration_s": 6,
+      "startup_s": 1,
+      "solver_dt_ns": 50,
+      "sensor": "SensorConfig(ideal=False)",
+      "source_snapshot": "be9a0f4"
+    },
+    "reused_sha256": {
+      "lab/cases/dclink2/sweep_nonideal.csv": "2ccb380498387d4216edc1f8d38b14efed7a70396fced66377f6264647c3bc97",
+      "data/dclink3/split.json": "09ce75c6166b15c58a5e2fb1b23acf6f98e4ca8d4550cc2f98b8889134f31ae3",
+      "lab/cases/dclink3/pool.json": "9cf1de993532840e5e769fb2f380e8c284b902237beca5e2f7d1a1ee00e24cdc",
+      "lab/cases/dclink3/sweep_base.csv": "c27f17a31a8414ee8ccc53ba66c7f5f8d01247ffdebf779dda8a9d491608b8f6",
+      "lab/cases/dclink4/config_prerun.json": "da1cdf3cc9696ba7f870446d63cd21a1b2f28e8d27187dfa0480d7f5219efbd5",
+      "scripts/dclink_active3.py": "294b082afc6d8b4ef78b8d7984f4d4e3a6c450cf04bf9d965d9c458828f306dc",
+      "scripts/dclink_active4.py": "a2044a9f2d30cd93a1b88ee91fcc46b2eaea7c9227610cd0b88805ae433f8482"
+    }
+  },
+  "input_sha256": {
+    "lab/cases/dclink2/sweep_nonideal.csv": "2ccb380498387d4216edc1f8d38b14efed7a70396fced66377f6264647c3bc97",
+    "lab/cases/dclink3/sweep_base.csv": "c27f17a31a8414ee8ccc53ba66c7f5f8d01247ffdebf779dda8a9d491608b8f6",
+    "lab/cases/dclink3/sweep_active.csv": "11269d782071f9067f9687d92981b432a6681cf6f3f06dad0a58fc31ddecb426",
+    "lab/cases/dclink3/pool.json": "9cf1de993532840e5e769fb2f380e8c284b902237beca5e2f7d1a1ee00e24cdc",
+    "data/dclink3/split.json": "09ce75c6166b15c58a5e2fb1b23acf6f98e4ca8d4550cc2f98b8889134f31ae3",
+    "lab/cases/dclink4/sweep_random.csv": "f89dd31e688bbba570dccf8d78ca55553b1a1f8ac7a6e3f487b0fb46a94b7452",
+    "lab/cases/dclink4/first/surrogate_metrics.json": "e58e22b253ccb84d2fb89248a4df66e8c6252026b0fb2c4f4dc0e763a776e4fa",
+    "lab/cases/dclink5/config_prerun.json": "ec1cce652758fda7e6ffbe688ea77d46d6f9264d5f8666dfa3fb83a5832c9466",
+    "lab/cases/dclink5/design.json": "8f1496ba6e5b4c27d50582f55fe1fa0fc8d1682a8e7f87ae1f56d589ec6ca3fb",
+    "lab/cases/dclink5/design_manifest.json": "9b24f9185bf95a0f5d9f857be4689034b9568f56389c1e1cf1cc28fda70b2ba7",
+    "data/dclink5/design.json": "8f1496ba6e5b4c27d50582f55fe1fa0fc8d1682a8e7f87ae1f56d589ec6ca3fb",
+    "data/dclink5/sweep_base.csv": "1573a25163b87f4da55b1a071d2551c74110bb60599bb4576f16e8b77e6fd9b5",
+    "data/dclink5/sweep_adaptive.csv": "b1e3c170efb7822ba98ad584fff1b198951634a48c5bbf3246242981362c9207",
+    "data/dclink5/runtime/replay_provenance.json": "d7f458d02cac965e18958ac93ae304d437f50455d32038a77257992525d0838c",
+    "docs/prereg/M6_surrogate_round5_prereg.md": "9e45e55a1d7296cc34c6592fa2a492fe3324472afae038cb0618c3e80dedba6b",
+    "data/dclink5/adaptive/A1/batch_1.json": "22c5a47a3ca0d5ff3ba21edea69636f21658f9945ce8af14fd8caddea173007f",
+    "data/dclink5/adaptive/A1/batch_2.json": "8e62a65d01db977858f3982698fbdc7e782b6d23dccb90f68700a933e6e83b59",
+    "data/dclink5/adaptive/A1/batch_3.json": "e3c988cd13a979c4f081a74efea9b52336e699e37ba13adee045ece82862c51c",
+    "data/dclink5/adaptive/A1/batch_4.json": "1b791da9980fac4c6da074dc4d6c649082d63872162b337ccc356736942abf49",
+    "data/dclink5/adaptive/A1/batch_5.json": "4f8f437f0baaa8587e3a9c92f7e69efbe5377aa5feed22a177b6e407e0ce73ab",
+    "data/dclink5/adaptive/M1/batch_1.json": "3c576af7c47e50f296189355e5c3abaeac531ba04fd4366bca28912dfc87894b",
+    "data/dclink5/adaptive/M1/batch_2.json": "5e702fa00fe0f5fb934566fdca26790da08dbe0c17b974ea0305dda696168290",
+    "data/dclink5/adaptive/M1/batch_3.json": "ec2a3d315ae6cfe1430fa1fdfe9664a9260f8cec72712a709e28ad20ff5b6810",
+    "data/dclink5/adaptive/M1/batch_4.json": "4dc3effb4b120af7600d9d82e3a63f5b87b5d3b128b6b73b6b4e74caef2f0477",
+    "data/dclink5/adaptive/M1/batch_5.json": "a58960076c0548944dceb98f55115459409625418415f86873fc6f78f8c1acd2",
+    "data/dclink5/adaptive/A2/batch_1.json": "0216a4397748829489ba0f0a77b15dd6dfbdae481e4b69306730267e81d19a2e",
+    "data/dclink5/adaptive/A2/batch_2.json": "a7869f95edb55549780580dd311d34cb2bbf3872996fa9969d9320a9bcd6c99b",
+    "data/dclink5/adaptive/A2/batch_3.json": "d2c85001d9a3c4dd1187c64e2d837e3b3e876d7ec7e977b7879ce8b2b8f479ce",
+    "data/dclink5/adaptive/A2/batch_4.json": "8a96cf741e3faca4f05e83d9c316d2f3706b4d44d183c5f344832aff77a26db7",
+    "data/dclink5/adaptive/A2/batch_5.json": "18d645c1997a6c63bb408c48eb02b7c9152b2de50da94fce599cdff97106b9d8",
+    "data/dclink5/adaptive/M2/batch_1.json": "e90341afe117c420d7802de205d8f61577ea0193450b8ba0e040cb54e4b88be6",
+    "data/dclink5/adaptive/M2/batch_2.json": "a05915eb000c88fe01f4266c85ebed93fae1add0ccc0d65a713b476a8d99d9e0",
+    "data/dclink5/adaptive/M2/batch_3.json": "98ae0fab4eac1d85863564ee8c06fa94eaf5e93d839be97d00a7e76a7cef3d33",
+    "data/dclink5/adaptive/M2/batch_4.json": "2136dbd6ee75bc7dbd560226086dd260570baaaeabeb7ce7aa467db97bf26cdf",
+    "data/dclink5/adaptive/M2/batch_5.json": "88ca9785b8e2069e44e9589e8e72e81df28438c973accecf3708256135fcba76",
+    "data/dclink5/adaptive/A3/batch_1.json": "3827fc60c6b9f67b56a6437c5ee04ed4afcd8243472631c9242c06e51cd98e1c",
+    "data/dclink5/adaptive/A3/batch_2.json": "04ed6aae6430445d294e4da8a40994546c19a503c9c435953070d71000fc9137",
+    "data/dclink5/adaptive/A3/batch_3.json": "010151b25d91b08a875dbacf4ddd8a07c4f35a9f1fc00c43f9824bcc4397258a",
+    "data/dclink5/adaptive/A3/batch_4.json": "d421c34531770cc7525f935b7b9934a0e6475eb453c2acc11aa96bfdefd435ac",
+    "data/dclink5/adaptive/A3/batch_5.json": "ccf36d49cdf25705b61e13e63757eddf7d15ad015622d03c0607bdd253b70c88",
+    "data/dclink5/adaptive/M3/batch_1.json": "e0e52d044e61046a68deb36c0265ab14d4cf08ceb44b19bae8d50d03e29f1862",
+    "data/dclink5/adaptive/M3/batch_2.json": "928e541a366a2485e3bfcd82a98e2fc8f157e168962d24a443fafe11ec74f7fb",
+    "data/dclink5/adaptive/M3/batch_3.json": "b4df0a9b2aa8fa8625d38d944b23c25fd4065f412e1714ea26be13a720896cfa",
+    "data/dclink5/adaptive/M3/batch_4.json": "419da859036800fcebbab58b3501a153e10b0b013b05d2944ac3cf30b4859083",
+    "data/dclink5/adaptive/M3/batch_5.json": "9959aac96cd3ba5a7087eebd7df496a45f6fcead989d7abcc2f67ee131bb534c",
+    "data/dclink5/adaptive/A4/batch_1.json": "3f31e2610619a279809b9033c4a67a8b70bb1e842acc5eae24a2782470d8b769",
+    "data/dclink5/adaptive/A4/batch_2.json": "e402dd9d8452c333d46598b20d328757e9f52fc3a8f36f319fddb093b8184b2d",
+    "data/dclink5/adaptive/A4/batch_3.json": "b07cfcafa198dac1efef02cfdebc9009bdf1d5b3d662788ee4bf095368ee04ff",
+    "data/dclink5/adaptive/A4/batch_4.json": "f487127e33c0abd5fa42469fb347fc44298d26b1e8be1b642b74b95d44477817",
+    "data/dclink5/adaptive/A4/batch_5.json": "c5b223765df862432ab02e3e8d12e73504598d723307607bfdd4676947a488d1",
+    "data/dclink5/adaptive/M4/batch_1.json": "06244700f3816afc9ec13379066f2e38ab1061fe7ea63841c9049d964fbebc07",
+    "data/dclink5/adaptive/M4/batch_2.json": "6df5f16e123b809cd60daa846b3d854f82e31d2a9a51a922ee1e5b6835fd33cb",
+    "data/dclink5/adaptive/M4/batch_3.json": "9acb8cdbd4351e2eefa2c28b85a21a028c87ac0820a914ba50f5869f18f2643c",
+    "data/dclink5/adaptive/M4/batch_4.json": "4374d880deaaf7487252d41029bc35a0932ad446dd869bd6dd9a73447cabefc5",
+    "data/dclink5/adaptive/M4/batch_5.json": "bd609e77b42d19b736f1535ed909a473e00ea0d2ba443fff9637846ba06798d1",
+    "data/dclink5/adaptive/A5/batch_1.json": "b58db1fd9b7d1511a4e2f2fef00b216a05bb92b593c06cc05b0297d8b3e01681",
+    "data/dclink5/adaptive/A5/batch_2.json": "cd135c09d9685d3a6b1027cd8e2fd4f45e110c85dba37283c878aecdd8cca608",
+    "data/dclink5/adaptive/A5/batch_3.json": "1c9f96ebc16243d38dd0f35523757dc49aa7c577bb5a62db3cff75d3284dcbe8",
+    "data/dclink5/adaptive/A5/batch_4.json": "dd2c1f03aae0948184101da90d8ec43aaf246c70790288ecac847d0b2898966e",
+    "data/dclink5/adaptive/A5/batch_5.json": "a3031490082b4876e4c90c7876721f6db872ad628e3da69e0f950c6a348b38ca",
+    "data/dclink5/adaptive/M5/batch_1.json": "d5521743f54a92de5fef76f4f4f458cb9c99e843b4e8fe4f7b4491544d82eea2",
+    "data/dclink5/adaptive/M5/batch_2.json": "4c0ac903eb60d8dc78662e8193189dac6ceb82d3878cf46a5844d3e6d907ff16",
+    "data/dclink5/adaptive/M5/batch_3.json": "61072108a27ac52f1c137150fb954fa98b8762ba53faa875f5c2ae910cdf739e",
+    "data/dclink5/adaptive/M5/batch_4.json": "580884f6ae1467b3810d1edd80e0aa298a8672821fb983caee41daecd0079bc3",
+    "data/dclink5/adaptive/M5/batch_5.json": "264d601c992615c0cb20f77abbe52c90ef9101f08c0decc22396617fcb14f95f",
+    "data/dclink5/adaptive/A6/batch_1.json": "d32cb8a7a008a8f601f0fee2cc286eb9ebb51674c3fd536d81f0b80ba127a291",
+    "data/dclink5/adaptive/A6/batch_2.json": "6d95c40ba5dc24c6e6366a516fecb3ce3a2e7ab05d0eea698fc3c40db31f226e",
+    "data/dclink5/adaptive/A6/batch_3.json": "52fdbf53c50e88d28e5df466ab9ac24d45010a17b96d22f4c6daea7438fa1dd9",
+    "data/dclink5/adaptive/A6/batch_4.json": "72ade5d054f1cf623c06cd8b2c625fd271101bf9b0a3fa9c00ae08cd50f4c6cd",
+    "data/dclink5/adaptive/A6/batch_5.json": "3ff9b65c6df18f0504c4ea90a6d1b041bfc95d3ee38b97e1346a574f2e1ebba5",
+    "data/dclink5/adaptive/M6/batch_1.json": "b14560a0759b2fd5197d6f7263e67648ad7446cb5f9750f05235351a8e86d117",
+    "data/dclink5/adaptive/M6/batch_2.json": "f5b7c4408f5d32b5a0c8a9218bec6e37e7558d0943550f04108c7526dabd9812",
+    "data/dclink5/adaptive/M6/batch_3.json": "e1a34a8f38a2406c446502d6f9afed31622ea233b31f6799f4787e5c61f99f73",
+    "data/dclink5/adaptive/M6/batch_4.json": "947ae50d17c15e07db3e7b0aa8cbd1eb21ae3e3412237f92c34418e2a52b1f04",
+    "data/dclink5/adaptive/M6/batch_5.json": "32dcd7a86d02699518066b9a28e981a1985a3865b2b57c9a3259dd584f99db7c",
+    "scripts/dclink_active5.py": "70952848cff84f00eb3ba98a1dbf36d53a65ebc651c616ef03f366e2d8f59dea",
+    "scripts/dclink_surrogate5.py": "b544a5664839fcc6488b98bd6c1f9ffa8320b09bb4229b5db5c0d4748c6144fa",
+    "scripts/dclink_sweep5.py": "e5b5e06bee7ece7a4db630f1caac098576730d77b5e80c3b7337efe9e8b39d2b",
+    "scripts/dclink_design5.py": "75333faf8b0e922e59906b5fd8470b34e964672fd194be0d16d2f25699cff721",
+    "scripts/dclink_active3.py": "294b082afc6d8b4ef78b8d7984f4d4e3a6c450cf04bf9d965d9c458828f306dc",
+    "scripts/dclink_active4.py": "a2044a9f2d30cd93a1b88ee91fcc46b2eaea7c9227610cd0b88805ae433f8482",
+    "scripts/dclink_surrogate3.py": "2957a205db1fcaaeeedb5674fa952fccfed2de85fe00fc78c5ac5e5524b73685",
+    "scripts/dclink_surrogate4.py": "40585a3614238266f892d6d2f138acad1597ac03b6f3bfbe914a1a890f18a712",
+    "scripts/dclink_surrogate2.py": "e9775c7307f073bc62dd13f9518bca72bcd79c1fbca9e9fbbc25603c6de4af21",
+    "scripts/dclink_surrogate.py": "359b86256a15de5ece7caf808584b3bfb543efc624454e1277942676d6f10344",
+    "scripts/dclink_sweep4.py": "835392db06536c5375212926fb8b9ed1c50191b04aea3c4b89efee3c482a0989",
+    "scripts/dclink_sweep3.py": "942432391c27021a6acca679bda561c541b96e2290e97203d0248993d651be60",
+    "scripts/dclink_sweep2.py": "d2fd5f03e8a6906b056d12e1c8d5d7844997065d2edc5cb07fb8f2739f584557",
+    "scripts/dclink_sweep.py": "02770e6016193e6e44daa33a3129215c44a9433fcab9b8ad69b67f1e9a99eaed",
+    "data/dclink_src/simsw/dclink_simsw/__init__.py": "81f4c28eda36eac6c6404aecf228dbd5008980da5ee3fb1943cbf104989c887e",
+    "data/dclink_src/simsw/dclink_simsw/common.py": "d55b4e8204cea8d4f88cc7877f2e283648e0f727e90e7d5852636974ed637fbc",
+    "data/dclink_src/simsw/dclink_simsw/model.py": "10ddc7fccd8a83f4b6532479cdb2bd5c156062bede58ad12908293e937f3959f",
+    "data/dclink_src/simsw/dclink_simsw/solver.py": "4e7b7defe6e3bf6116297f8b8bfd4e8faf043d43d4a2bc073be527aef2b9d05d",
+    "data/dclink_src/replay/run_replay.py": "730680792d5954aede9f555738d244a19e5cf97472c0ed4203f5f026c08ed919"
+  }
+}

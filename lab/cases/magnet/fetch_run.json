@@ -1,0 +1,35 @@
+{
+  "run_id": "20261002T161839-magnet-fetch-8df145e7",
+  "cmd": "python3 scripts/magnet_fetch.py",
+  "git_sha": "c167ecc58e3078fa2dab15b2d57b1d964e459eda",
+  "exit_code": 0,
+  "started_at": "2026-10-02T16:18:39.959786+00:00",
+  "duration_s": 8.11071354600017,
+  "inputs": [
+    {
+      "path": "inputs/0-magnet_fetch.py",
+      "sha256": "8f8ea872bc8bf6e020c1d4cbf5db4354fcd642971cb830f43c7069aef7d7abde"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "stdout.txt",
+      "sha256": "d87df662f83afa0d1f536e88703d26a03cb7e74b718fff1adb3c30b330e3048c"
+    },
+    {
+      "path": "stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "metrics-source.json",
+      "sha256": "d12acf7358786db5bf6b3895f99c1d8c281ccc1c89de55dd9b5730cd95d6bf85"
+    }
+  ],
+  "metrics_file": "metrics.json",
+  "metrics_sha256": "9f9ab9ec34698d9593a566333ae2dd970a0a91ee093dc105ccfb61a0befa4a2d",
+  "dirty": true,
+  "peak_rss_mb": 29.92578125,
+  "hostname": "local_machine",
+  "cwd": ".",
+  "rss_measurement": "max of process-tree RSS sampled every 20 ms and kernel ru_maxrss (KiB on Linux)"
+}

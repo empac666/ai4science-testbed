@@ -1,0 +1,46 @@
+{
+  "tests": 84,
+  "test_seconds": 1.573,
+  "smoke_completed": 4,
+  "smoke_timing": {
+    "total_wall_s": 35.13395890900006,
+    "sessions": [
+      {
+        "wall_s": 35.089450496999916,
+        "phase": "all",
+        "jobs": 2,
+        "smoke": true,
+        "completed_at": "2026-10-03T04:32:19.696494+00:00"
+      },
+      {
+        "wall_s": 0.04450841200014111,
+        "phase": "all",
+        "jobs": 2,
+        "smoke": true,
+        "completed_at": "2026-10-03T04:35:45.016702+00:00"
+      }
+    ],
+    "completed_n": 4,
+    "failed_case_ids": [],
+    "smoke": true,
+    "duration_s": 4,
+    "startup_s": 1,
+    "solver_dt_ns": 50,
+    "mean_case_s": 16.3433174635
+  },
+  "design_sha256": {
+    "design.json": "765c9b922300f0b5ffd64fcd30f14653666caba2484a22e5828a3f8de9860a6e",
+    "pool.json": "9cf1de993532840e5e769fb2f380e8c284b902237beca5e2f7d1a1ee00e24cdc",
+    "split.json": "09ce75c6166b15c58a5e2fb1b23acf6f98e4ca8d4550cc2f98b8889134f31ae3"
+  },
+  "config_sha256": "0a904818409a3df246059ca2b6c1375920b486dd9f0dfb103bd71387ce211a07",
+  "scripts_sha256": {
+    "dclink_active3.py": "294b082afc6d8b4ef78b8d7984f4d4e3a6c450cf04bf9d965d9c458828f306dc",
+    "dclink_surrogate3.py": "2957a205db1fcaaeeedb5674fa952fccfed2de85fe00fc78c5ac5e5524b73685",
+    "dclink_case3.py": "2badfd93172031e87949e219b411c5cb60fc9a28e1c6c9d7bdcf4724d226efbb",
+    "dclink_design3.py": "775cb062be2f19acf506ed6bcfba09b5fb517bb4d6010b40a056abd82604045d",
+    "dclink_figures3.py": "2f8344d375eb676134a1a72d80c323fdd3de732f3d70d67f885ae664f361a922",
+    "dclink_sweep3.py": "942432391c27021a6acca679bda561c541b96e2290e97203d0248993d651be60"
+  },
+  "report_sha256": "13edd08d16d68e605b1940adace221c0bfa9e226454a655cd1943e5bc2d22e16"
+}

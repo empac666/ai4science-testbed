@@ -1,0 +1,19 @@
+{
+  "sessions": [
+    {
+      "event": "start",
+      "session": "a091168c73ba4dc89bce0d4aaa757bc5",
+      "jobs": 2,
+      "phase": "all",
+      "smoke": false,
+      "started_at": 1791014712.48416,
+      "status": "end",
+      "wall_s": 6219.332980698
+    }
+  ],
+  "total_wall_s": 6219.332980698,
+  "interrupted_inflight_n": 0,
+  "completed_n": 660,
+  "failed_case_ids": [],
+  "mean_case_s": 18.777850726725774
+}

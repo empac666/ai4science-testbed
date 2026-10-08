@@ -1,0 +1,82 @@
+{
+  "n": 40616,
+  "points": 1024,
+  "h_rows": 40616,
+  "h_points": 1024,
+  "temperatures_C": [
+    25.0,
+    50.0,
+    70.0,
+    90.0
+  ],
+  "ranges": {
+    "frequency_Hz": [
+      49950.0,
+      446689.999999999
+    ],
+    "temperature_C": [
+      25.0,
+      90.0
+    ],
+    "amplitude_T": [
+      0.01051326977384735,
+      0.280714663395669
+    ],
+    "measured_W_m3": [
+      444.416175443094,
+      2590076.72490973
+    ]
+  },
+  "waveform_counts": {
+    "triangle": 33086,
+    "trapezoid": 6104,
+    "sine": 1426
+  },
+  "members": [
+    "B_waveform[T].csv",
+    "H_waveform[Am-1].csv",
+    "Frequency[Hz].csv",
+    "Temperature[C].csv",
+    "Volumetric_losses[Wm-3].csv"
+  ],
+  "parameters": {
+    "25": {
+      "k": 10.279307405395285,
+      "alpha": 1.3663450228939795,
+      "beta": 2.58562117345945,
+      "n": 165,
+      "log_rmse": 0.10132763287276914
+    },
+    "50": {
+      "k": 0.7623275940295196,
+      "alpha": 1.5564465620581696,
+      "beta": 2.5877910029440736,
+      "n": 182,
+      "log_rmse": 0.13843677297461918
+    },
+    "70": {
+      "k": 0.09722931297372152,
+      "alpha": 1.719618854017673,
+      "beta": 2.609534785762095,
+      "n": 183,
+      "log_rmse": 0.18446961487197747
+    },
+    "90": {
+      "k": 0.00392010164015297,
+      "alpha": 1.9763493686719422,
+      "beta": 2.603857952604474,
+      "n": 183,
+      "log_rmse": 0.2406326370058988
+    }
+  },
+  "seed": 20261003,
+  "train_ids_sha256": "96d07e5ed4c373192444fea21985e9ef7b0dce7af861860e762ead1bcb2a8eea",
+  "data_sha256": "d7c3703295dc113527702cd2420b3334c8eb302c347ecc8ae425b666ce6915ff",
+  "classification": "fixed B-only rule; no original labels",
+  "units": {
+    "frequency": "Hz",
+    "amplitude": "T = peak-to-peak / 2",
+    "loss": "W/m^3"
+  },
+  "derivative": "periodic forward differences, endpoint excluded; exact PWL integral; no smoothing"
+}

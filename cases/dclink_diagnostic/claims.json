@@ -1,0 +1,119 @@
+[
+  {
+    "id": "fw_c_tests_passed",
+    "kind": "metric",
+    "text": "c_tests_passed",
+    "value": 47,
+    "unit": "",
+    "run_id": "20261002T135705-dclink-fw-direct-diagnostic-4462c271",
+    "metric_key": "c_tests_passed"
+  },
+  {
+    "id": "fw_assertions",
+    "kind": "metric",
+    "text": "assertions",
+    "value": 412988,
+    "unit": "",
+    "run_id": "20261002T135705-dclink-fw-direct-diagnostic-4462c271",
+    "metric_key": "assertions"
+  },
+  {
+    "id": "fw_cli_tests_passed",
+    "kind": "metric",
+    "text": "cli_tests_passed",
+    "value": 15,
+    "unit": "",
+    "run_id": "20261002T135705-dclink-fw-direct-diagnostic-4462c271",
+    "metric_key": "cli_tests_passed"
+  },
+  {
+    "id": "fw_warning_lines",
+    "kind": "metric",
+    "text": "warning_lines",
+    "value": 0,
+    "unit": "",
+    "run_id": "20261002T135705-dclink-fw-direct-diagnostic-4462c271",
+    "metric_key": "warning_lines"
+  },
+  {
+    "id": "fw_repro.exit_code",
+    "kind": "metric",
+    "text": "repro.exit_code",
+    "value": 0,
+    "unit": "",
+    "run_id": "20261002T135705-dclink-fw-direct-diagnostic-4462c271",
+    "metric_key": "repro.exit_code"
+  },
+  {
+    "id": "fw_repro.duration_s",
+    "kind": "metric",
+    "text": "repro.duration_s",
+    "value": 9.392961619000289,
+    "unit": "",
+    "run_id": "20261002T135705-dclink-fw-direct-diagnostic-4462c271",
+    "metric_key": "repro.duration_s"
+  },
+  {
+    "id": "fw_repro.peak_rss_mb",
+    "kind": "metric",
+    "text": "repro.peak_rss_mb",
+    "value": 71.1953125,
+    "unit": "",
+    "run_id": "20261002T135705-dclink-fw-direct-diagnostic-4462c271",
+    "metric_key": "repro.peak_rss_mb"
+  },
+  {
+    "id": "py_passed",
+    "kind": "metric",
+    "text": "passed",
+    "value": 77,
+    "unit": "",
+    "run_id": "20261002T135714-dclink-python-2e731ede",
+    "metric_key": "passed"
+  },
+  {
+    "id": "py_failed",
+    "kind": "metric",
+    "text": "failed",
+    "value": 0,
+    "unit": "",
+    "run_id": "20261002T135714-dclink-python-2e731ede",
+    "metric_key": "failed"
+  },
+  {
+    "id": "py_errors",
+    "kind": "metric",
+    "text": "errors",
+    "value": 0,
+    "unit": "",
+    "run_id": "20261002T135714-dclink-python-2e731ede",
+    "metric_key": "errors"
+  },
+  {
+    "id": "py_repro.exit_code",
+    "kind": "metric",
+    "text": "repro.exit_code",
+    "value": 0,
+    "unit": "",
+    "run_id": "20261002T135714-dclink-python-2e731ede",
+    "metric_key": "repro.exit_code"
+  },
+  {
+    "id": "py_repro.duration_s",
+    "kind": "metric",
+    "text": "repro.duration_s",
+    "value": 102.44006886499983,
+    "unit": "",
+    "run_id": "20261002T135714-dclink-python-2e731ede",
+    "metric_key": "repro.duration_s"
+  },
+  {
+    "id": "py_repro.peak_rss_mb",
+    "kind": "metric",
+    "text": "repro.peak_rss_mb",
+    "value": 260.703125,
+    "unit": "",
+    "run_id": "20261002T135714-dclink-python-2e731ede",
+    "metric_key": "repro.peak_rss_mb"
+  }
+]

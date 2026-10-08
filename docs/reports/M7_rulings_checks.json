@@ -1,0 +1,63 @@
+{
+ "split_diffs": [],
+ "discrete_diffs": [],
+ "max_abs_diff": {
+  "q": 3.6750292047305066e-06,
+  "width": 2.94986201729297e-07,
+  "winkler": 3.975638162012629e-07,
+  "re": 1.0057013472355991e-07,
+  "d_k": 4.3732082805059136e-07
+ },
+ "claims_equal": true,
+ "cv_equal": {
+  "A": true,
+  "M": true,
+  "R": true
+ },
+ "tests": {
+  "H1": {
+   "p": 0.0390625,
+   "status": "rejected",
+   "mean_d": 0.008863413864748239
+  },
+  "H2": {
+   "p": 0.60546875,
+   "status": "not_rejected",
+   "mean_d": -0.0013714781939312389
+  },
+  "H3": {
+   "p": 0.9765625,
+   "status": "not_tested",
+   "mean_d": -0.004650977494922109
+  },
+  "H4": {
+   "p": 0.98828125,
+   "status": "not_tested",
+   "mean_d": -0.006287217729817902
+  },
+  "H5": {
+   "p": 0.01953125,
+   "status": "not_tested",
+   "mean_d": 0.019721784368951195
+  },
+  "H6": {
+   "p": 0.00390625,
+   "status": "not_tested",
+   "mean_d": 0.03241414138161605
+  }
+ },
+ "cv_pass_counts": {
+  "A": 8,
+  "M": 8,
+  "R": 8
+ },
+ "claims": {
+  "A": true,
+  "M": false,
+  "M≈A": false,
+  "M-RE": false,
+  "M-ID": false,
+  "A-ID": false
+ },
+ "method": "独立实现（不 import magnet6_*）：由 B.npy 重算特征与划分，按冻结批次 id 重拟合最终模型，CAL6 重新校准，重算全部指标与检验"
+}

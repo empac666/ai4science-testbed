@@ -1,0 +1,18 @@
+{
+  "prereg_commit": "aec77cb7090e30a695927eae15305b2940ca1c15",
+  "H": 2932309175,
+  "design_sha256": "8f1496ba6e5b4c27d50582f55fe1fa0fc8d1682a8e7f87ae1f56d589ec6ca3fb",
+  "n": 800,
+  "groups": {
+    "T5": 60,
+    "C5": 40,
+    "D5": 40,
+    "R1": 110,
+    "R2": 110,
+    "R3": 110,
+    "R4": 110,
+    "R5": 110,
+    "R6": 110
+  },
+  "config_sha256": "040fb2881a8f80e9f262433f5deec62d6b8b4f529ac34bee89c209b1aa5b4a8d"
+}

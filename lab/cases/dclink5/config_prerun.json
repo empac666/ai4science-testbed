@@ -1,0 +1,155 @@
+{
+  "round": 5,
+  "K": 6,
+  "arms_per_pair": [
+    "A",
+    "M",
+    "R"
+  ],
+  "budget_per_arm": 110,
+  "model": {
+    "alpha": 0.1,
+    "load_bins": 8,
+    "gp_restarts": 2,
+    "seed": 20261002,
+    "gp_constant": 1.0,
+    "gp_constant_bounds": [
+      0.01,
+      100.0
+    ],
+    "gp_length_scales": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "gp_length_bounds": [
+      0.01,
+      100.0
+    ],
+    "gp_white": 0.01,
+    "gp_white_bounds": [
+      1e-08,
+      10.0
+    ],
+    "gp_alpha": 1e-10,
+    "gp_normalize_y": true,
+    "mlp_hidden": [
+      32,
+      32
+    ],
+    "mlp_max_iter": 10000,
+    "mlp_alpha": 0.0001,
+    "mlp_tol": 1e-06,
+    "mlp_learning_rate": 0.001,
+    "mlp_early_stopping": false,
+    "mlp_activation": "relu",
+    "mlp_solver": "adam",
+    "mlp_no_change": 100,
+    "analytic_features": [
+      "intercept",
+      "dead_time_s*f_carrier/load",
+      "f_grid/(2*pi*bw_iac_Hz)",
+      "aperture_s*f_carrier"
+    ],
+    "normalized_sigma_floor": 2.220446049250313e-16,
+    "linear_rcond": null,
+    "reviewer_b_features": [
+      "intercept",
+      "t_dead*f_carrier",
+      "load",
+      "f_grid/bw_iac",
+      "4*pi*f_grid*t_ap"
+    ],
+    "methods": {
+      "m0": "GP + standard conformal",
+      "m1": "GP + sigma conformal",
+      "m2": "reviewer_b linear mean + residual GP + sigma conformal",
+      "m3": "reviewer_b linear + standard conformal",
+      "m4": "MLP + standard conformal",
+      "m5": "round1 researcher_a linear + standard conformal"
+    }
+  },
+  "primary_method": "m2",
+  "report_methods": [
+    "m0",
+    "m1"
+  ],
+  "calibration": {
+    "set": "round3 calib 60 (shared by all arms)",
+    "rank": 55,
+    "alpha": 0.1
+  },
+  "s0": "round2 non-ideal E-in 150, identical initial training set for every arm of every pair",
+  "seeds": {
+    "H": "int(first 8 hex chars of the prereg commit SHA, 16)",
+    "held_out_rng": "numpy.random.default_rng(H)",
+    "random_arm_k": "numpy.random.default_rng(H + k), k=1..6",
+    "nonideal": "20290000 + index",
+    "case_id": "dclink5_{index:04d}"
+  },
+  "held_out": {
+    "order": [
+      "T5 test 60",
+      "C5 corner 40",
+      "D5 dt3 40"
+    ],
+    "T5": "LHS(d=4, seed=rng) 300 pts on full domain, dead_time 6 categories {0..2.5}; drop corner (load<=.35 & bw<=75); first 60",
+    "C5": "LHS 40: load [.30,.35], bw 50*1.5**u kHz, dead_time 6 categories, aperture [0,30]",
+    "D5": "LHS 40: dead_time 3.0, other three dims full range",
+    "index": "0..139"
+  },
+  "random_arm": {
+    "lhs": "LatinHypercube(d=4, seed=default_rng(H+k)).random(110)",
+    "mapping": "as round3 R / round4 RS",
+    "index": "140+110(k-1) .. "
+  },
+  "active_arm": {
+    "rule": "round3 sigma believer (scripts/dclink_active3.py), 5 batches x 22, pool round3 pool.json excluding own picks"
+  },
+  "mixed_arm": {
+    "rule": "round4 sigma/sqrt(1+a_c) believer (scripts/dclink_active4.py), a_c counts own picks incl. in-batch, 5 x 22"
+  },
+  "adaptive_index": "A_k: 800+220(k-1)+j ; M_k: 910+220(k-1)+j, j=0..109 in selection order",
+  "per_arm_metric": "mean Winkler (alpha=0.1) of M2 intervals on C5 (40) [H1-H3] or D5 (40) [H4]",
+  "test": "exact one-sided sign-flip permutation test over K=6 pair differences d_k; p = #{s in {+-1}^6: mean(s*d) >= mean(d)}/64 (ties count, identity included)",
+  "hypotheses": {
+    "H1": "d_k = W_R,k(C5) - W_A,k(C5) > 0",
+    "H2": "d_k = W_R,k(C5) - W_M,k(C5) > 0",
+    "H3": "non-inferiority: d_k = 1.10*W_A,k(C5) - W_M,k(C5) > 0",
+    "H4": "d_k = W_A,k(D5) - W_M,k(D5) > 0"
+  },
+  "multiplicity": "fixed-sequence H1 -> H2 -> H3 -> H4, each at alpha=0.05; stop at first non-rejection (later ones reported as not tested, nominal p report-only); FWER <= 0.05",
+  "coverage": {
+    "per_arm": "C1 T5 >=48/60; C2-corner C5 >=32/40 and mean width <= 3x T5 width; C2-dt3 D5 >=32/40 and width <= 3x T5 width",
+    "CV": "method X in {A,M,R}: at least 5 of 6 arms pass all three per-arm criteria"
+  },
+  "claims": {
+    "claim_A": "H1 rejected and CV-A",
+    "claim_M": "H2 rejected and CV-M",
+    "claim_M_noninf": "H3 rejected",
+    "claim_M_dt3": "H4 rejected"
+  },
+  "execution": {
+    "max_jobs": 2,
+    "threads_per_job": 1,
+    "order": "held-out + R arms, then A/M arms batch-synchronously b=1..5 across all 12 adaptive arms",
+    "memory_watchdog": "SIGSTOP below ~3.8 GiB available, SIGCONT above ~4.3 GiB"
+  },
+  "sim": {
+    "duration_s": 6,
+    "startup_s": 1,
+    "solver_dt_ns": 50,
+    "sensor": "SensorConfig(ideal=False)",
+    "source_snapshot": "be9a0f4"
+  },
+  "reused_sha256": {
+    "lab/cases/dclink2/sweep_nonideal.csv": "2ccb380498387d4216edc1f8d38b14efed7a70396fced66377f6264647c3bc97",
+    "data/dclink3/split.json": "5a1b24abf91469634b57f4a406490ad0dbbda60cfd5b694893c1e385c20ff4c8",
+    "lab/cases/dclink3/pool.json": "9cf1de993532840e5e769fb2f380e8c284b902237beca5e2f7d1a1ee00e24cdc",
+    "lab/cases/dclink3/sweep_base.csv": "2bf1661cd614c9b430618d9bf8c18e03ccad4aae6ee07ba0fabfa54366f82f74",
+    "lab/cases/dclink4/config_prerun.json": "da1cdf3cc9696ba7f870446d63cd21a1b2f28e8d27187dfa0480d7f5219efbd5",
+    "scripts/dclink_active3.py": "294b082afc6d8b4ef78b8d7984f4d4e3a6c450cf04bf9d965d9c458828f306dc",
+    "scripts/dclink_active4.py": "e354a346248479f1f5c326543cd1a6385827da7afa90eb34976cbfba3130417e"
+  }
+}

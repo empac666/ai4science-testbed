@@ -1,0 +1,324 @@
+{
+  "confusion_matrix": {
+    "tp": 16,
+    "fn": 0,
+    "fp": 0,
+    "tn": 12
+  },
+  "semantic": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  "precision": 1.0,
+  "recall": 1.0,
+  "cases": [
+    {
+      "case": "normal_01",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_02",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_03",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_04",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_05",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_06",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_07",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_08",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_09",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_10",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_11",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "normal_12",
+      "label": "normal",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    },
+    {
+      "case": "defect_01_report_wrong",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_REPORT_MISMATCH"
+      ],
+      "actual_codes": [
+        "E_REPORT_MISMATCH"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_02_claim_wrong",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_REPORT_MISMATCH",
+        "E_VALUE_MISMATCH"
+      ],
+      "actual_codes": [
+        "E_REPORT_MISMATCH",
+        "E_VALUE_MISMATCH"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_03_no_run",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_RUN_MISSING"
+      ],
+      "actual_codes": [
+        "E_RUN_MISSING"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_04_provenance",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_PROVENANCE",
+        "E_SCHEMA"
+      ],
+      "actual_codes": [
+        "E_PROVENANCE",
+        "E_SCHEMA"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_05_hash",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_HASH"
+      ],
+      "actual_codes": [
+        "E_HASH"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_06_run_failed",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_RUN_FAILED"
+      ],
+      "actual_codes": [
+        "E_RUN_FAILED"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_07_metric_missing",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_METRIC_MISSING"
+      ],
+      "actual_codes": [
+        "E_METRIC_MISSING"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_08_unknown_claim",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_CLAIM_UNKNOWN"
+      ],
+      "actual_codes": [
+        "E_CLAIM_UNKNOWN"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_09_unclaimed",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_UNCLAIMED_NUMBER"
+      ],
+      "actual_codes": [
+        "E_UNCLAIMED_NUMBER"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_10_same_source",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_SAME_SOURCE"
+      ],
+      "actual_codes": [
+        "E_SAME_SOURCE"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_11_derived",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_SAME_SOURCE"
+      ],
+      "actual_codes": [
+        "E_SAME_SOURCE"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_12_core",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_SAME_SOURCE"
+      ],
+      "actual_codes": [
+        "E_SAME_SOURCE"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_13_scope",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_SCOPE"
+      ],
+      "actual_codes": [
+        "E_SCOPE"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_14_path",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_METRIC_MISSING",
+        "E_PATH"
+      ],
+      "actual_codes": [
+        "E_METRIC_MISSING",
+        "E_PATH"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_15_schema",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_RUN_MISSING",
+        "E_SCHEMA"
+      ],
+      "actual_codes": [
+        "E_RUN_MISSING",
+        "E_SCHEMA"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "defect_16_abs_path",
+      "label": "defect",
+      "verdict": "fail",
+      "expected_codes": [
+        "E_METRIC_MISSING",
+        "E_PATH"
+      ],
+      "actual_codes": [
+        "E_METRIC_MISSING",
+        "E_PATH"
+      ],
+      "codes_match": true
+    },
+    {
+      "case": "semantic_01_thd",
+      "label": "semantic",
+      "verdict": "pass",
+      "expected_codes": [],
+      "actual_codes": [],
+      "codes_match": true
+    }
+  ],
+  "unlabeled_cases": []
+}

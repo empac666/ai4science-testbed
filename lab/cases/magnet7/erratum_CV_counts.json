@@ -1,0 +1,40 @@
+{
+ "note": "勘误（R7-C01）：封存 first/metrics.json 的 CV_counts 字段因变量名覆盖误写为 R 臂 fset 采样汇总；修正脚本在 /tmp 另行重跑，除 CV_counts 外所有字段与封存完全相同。",
+ "CV_counts": {
+  "A": 20,
+  "M": 20,
+  "R": 20
+ },
+ "verification": {
+  "fields_identical_except_CV_counts": true,
+  "sealed_CV_counts_wrong_value": {
+   "100": 173,
+   "112": 123,
+   "126": 129,
+   "141": 105,
+   "159": 61,
+   "178": 166,
+   "199": 117,
+   "224": 151,
+   "251": 149,
+   "282": 148,
+   "316": 137,
+   "355": 120,
+   "397": 118,
+   "446": 97,
+   "50": 74,
+   "56": 83,
+   "63": 103,
+   "71": 143,
+   "79": 116,
+   "89": 87
+  },
+  "corrected_rerun_sha256": "5bbc2f83629ea0d7e39121dd2c4aa81ddcdd063ce82b8127322bba8424b910e7",
+  "independent_recompute_cv_pass_counts": {
+   "A": 20,
+   "M": 20,
+   "R": 20
+  },
+  "fix": "scripts/magnet7_evaluate.py aggregate(): 采样统计循环变量 counts → totals"
+ }
+}

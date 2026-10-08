@@ -1,0 +1,184 @@
+{
+  "normal_01": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_02": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_03": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_04": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_05": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_06": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_07": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_08": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_09": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_10": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_11": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "normal_12": {
+    "label": "normal",
+    "expected_codes": [],
+    "description": "原始历史指标完整且一致"
+  },
+  "defect_01_report_wrong": {
+    "label": "defect",
+    "expected_codes": [
+      "E_REPORT_MISMATCH"
+    ],
+    "description": "正文偷换为修复后的测试数量，论断仍是初版数量"
+  },
+  "defect_02_claim_wrong": {
+    "label": "defect",
+    "expected_codes": [
+      "E_VALUE_MISMATCH",
+      "E_REPORT_MISMATCH"
+    ],
+    "description": "把初版论断偷换为修复后数量，运行指标和正文未变"
+  },
+  "defect_03_no_run": {
+    "label": "defect",
+    "expected_codes": [
+      "E_RUN_MISSING"
+    ],
+    "description": "删除历史提取运行证据"
+  },
+  "defect_04_provenance": {
+    "label": "defect",
+    "expected_codes": [
+      "E_SCHEMA",
+      "E_PROVENANCE"
+    ],
+    "description": "删除运行命令 provenance"
+  },
+  "defect_05_hash": {
+    "label": "defect",
+    "expected_codes": [
+      "E_HASH"
+    ],
+    "description": "篡改 stdout 未更新哈希"
+  },
+  "defect_06_run_failed": {
+    "label": "defect",
+    "expected_codes": [
+      "E_RUN_FAILED"
+    ],
+    "description": "注入失败退出码；不是声称原始 DC-link 运行失败"
+  },
+  "defect_07_metric_missing": {
+    "label": "defect",
+    "expected_codes": [
+      "E_METRIC_MISSING"
+    ],
+    "description": "论断引用不存在的指标键"
+  },
+  "defect_08_unknown_claim": {
+    "label": "defect",
+    "expected_codes": [
+      "E_CLAIM_UNKNOWN"
+    ],
+    "description": "正文引用未登记论断"
+  },
+  "defect_09_unclaimed": {
+    "label": "defect",
+    "expected_codes": [
+      "E_UNCLAIMED_NUMBER"
+    ],
+    "description": "真实误差缺失论断标记"
+  },
+  "defect_10_same_source": {
+    "label": "defect",
+    "expected_codes": [
+      "E_SAME_SOURCE"
+    ],
+    "description": "模拟将同一来源包装为独立验证"
+  },
+  "defect_11_derived": {
+    "label": "defect",
+    "expected_codes": [
+      "E_SAME_SOURCE"
+    ],
+    "description": "模拟多层派生模型互相验证"
+  },
+  "defect_12_core": {
+    "label": "defect",
+    "expected_codes": [
+      "E_SAME_SOURCE"
+    ],
+    "description": "基于平均值模型自证的历史评审，显式登记共享理想平均拓扑 core 假设"
+  },
+  "defect_13_scope": {
+    "label": "defect",
+    "expected_codes": [
+      "E_SCOPE"
+    ],
+    "description": "模拟 fw 限定任务修改 sim 文件；未实际修改 DC-link 仓库"
+  },
+  "defect_14_path": {
+    "label": "defect",
+    "expected_codes": [
+      "E_PATH",
+      "E_METRIC_MISSING"
+    ],
+    "description": "指标路径含父目录段"
+  },
+  "defect_15_schema": {
+    "label": "defect",
+    "expected_codes": [
+      "E_SCHEMA",
+      "E_RUN_MISSING"
+    ],
+    "description": "损坏运行记录 JSON"
+  },
+  "defect_16_abs_path": {
+    "label": "defect",
+    "expected_codes": [
+      "E_PATH",
+      "E_METRIC_MISSING"
+    ],
+    "description": "指标路径为绝对路径"
+  },
+  "semantic_01_thd": {
+    "label": "semantic",
+    "expected_codes": [],
+    "description": "历史裁定指出 code 3 是 PLL 失锁而非 THD 门控；数字一致，但文字语义错误，确定性检查器不裁定"
+  }
+}

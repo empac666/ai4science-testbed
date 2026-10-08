@@ -1,0 +1,108 @@
+{
+  "model": {
+    "alpha": 0.1,
+    "load_bins": 8,
+    "gp_restarts": 2,
+    "seed": 20261002,
+    "gp_constant": 1.0,
+    "gp_constant_bounds": [
+      0.01,
+      100.0
+    ],
+    "gp_length_scales": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "gp_length_bounds": [
+      0.01,
+      100.0
+    ],
+    "gp_white": 0.01,
+    "gp_white_bounds": [
+      1e-08,
+      10.0
+    ],
+    "gp_alpha": 1e-10,
+    "gp_normalize_y": true,
+    "mlp_hidden": [
+      32,
+      32
+    ],
+    "mlp_max_iter": 10000,
+    "mlp_alpha": 0.0001,
+    "mlp_tol": 1e-06,
+    "mlp_learning_rate": 0.001,
+    "mlp_early_stopping": false,
+    "mlp_activation": "relu",
+    "mlp_solver": "adam",
+    "mlp_no_change": 100,
+    "analytic_features": [
+      "intercept",
+      "dead_time_s*f_carrier/load",
+      "f_grid/(2*pi*bw_iac_Hz)",
+      "aperture_s*f_carrier"
+    ],
+    "normalized_sigma_floor": 2.220446049250313e-16,
+    "linear_rcond": null,
+    "reviewer_b_features": [
+      "intercept",
+      "t_dead*f_carrier",
+      "load",
+      "f_grid/bw_iac",
+      "4*pi*f_grid*t_ap"
+    ],
+    "methods": {
+      "m0": "GP + standard conformal",
+      "m1": "GP + sigma conformal",
+      "m2": "reviewer_b linear mean + residual GP + sigma conformal",
+      "m3": "reviewer_b linear + standard conformal",
+      "m4": "MLP + standard conformal",
+      "m5": "round1 researcher_a linear + standard conformal"
+    }
+  },
+  "active": {
+    "batches": 5,
+    "batch_size": 22,
+    "pool_size": 5000,
+    "base_count": 310,
+    "acquisition": "residual GP predictive std including WhiteKernel",
+    "believer": "fixed kernel and original y normalization; Cholesky augmentation",
+    "tie_break": "first remaining pool order",
+    "smoke_pool": 200,
+    "smoke_s0": 40,
+    "smoke_batch_size": 2
+  },
+  "methods": [
+    "m0",
+    "m1",
+    "m2"
+  ],
+  "design_seed": 20261010,
+  "split_seed": 20261011,
+  "calibration_n": 60,
+  "calibration_rank": 55,
+  "criteria": {
+    "test": 48,
+    "ood_corner": 32,
+    "ood_dt3": 32
+  },
+  "width_factor": 3.0,
+  "winkler_alpha": 0.1,
+  "wilcoxon_alternative": "less",
+  "wilcoxon_zero_method": "wilcox",
+  "wilcoxon_method": "auto",
+  "wilcoxon_correction": false,
+  "p_threshold": 0.05,
+  "joint_simulations": 100000,
+  "joint_seed": 20261012,
+  "simulation_chunk": 1000,
+  "duration_s": 6,
+  "startup_s": 1,
+  "solver_dt_ns": 50,
+  "nonideal_seed_base": 20270000,
+  "lhs_dimensions": 4,
+  "smoke_duration_s": 4,
+  "source_snapshot": "be9a0f4"
+}

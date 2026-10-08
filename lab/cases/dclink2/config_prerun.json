@@ -1,0 +1,63 @@
+{
+  "alpha": 0.1,
+  "load_bins": 8,
+  "gp_restarts": 2,
+  "seed": 20261002,
+  "gp_constant": 1.0,
+  "gp_constant_bounds": [
+    0.01,
+    100.0
+  ],
+  "gp_length_scales": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "gp_length_bounds": [
+    0.01,
+    100.0
+  ],
+  "gp_white": 0.01,
+  "gp_white_bounds": [
+    1e-08,
+    10.0
+  ],
+  "gp_alpha": 1e-10,
+  "gp_normalize_y": true,
+  "mlp_hidden": [
+    32,
+    32
+  ],
+  "mlp_max_iter": 10000,
+  "mlp_alpha": 0.0001,
+  "mlp_tol": 1e-06,
+  "mlp_learning_rate": 0.001,
+  "mlp_early_stopping": false,
+  "mlp_activation": "relu",
+  "mlp_solver": "adam",
+  "mlp_no_change": 100,
+  "analytic_features": [
+    "intercept",
+    "dead_time_s*f_carrier/load",
+    "f_grid/(2*pi*bw_iac_Hz)",
+    "aperture_s*f_carrier"
+  ],
+  "normalized_sigma_floor": 2.220446049250313e-16,
+  "linear_rcond": null,
+  "reviewer_b_features": [
+    "intercept",
+    "t_dead*f_carrier",
+    "load",
+    "f_grid/bw_iac",
+    "4*pi*f_grid*t_ap"
+  ],
+  "methods": {
+    "m0": "GP + standard conformal",
+    "m1": "GP + sigma conformal",
+    "m2": "reviewer_b linear mean + residual GP + sigma conformal",
+    "m3": "reviewer_b linear + standard conformal",
+    "m4": "MLP + standard conformal",
+    "m5": "round1 researcher_a linear + standard conformal"
+  }
+}

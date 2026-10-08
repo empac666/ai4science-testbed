@@ -1,0 +1,26 @@
+{
+  "run_id": "20261002T145924-m2-full-pipeline-26df3d79",
+  "cmd": "make m2",
+  "git_sha": "d313d1d56e378ee3f6b4f983dcba6beafa6b3e25",
+  "exit_code": 0,
+  "started_at": "2026-10-02T14:59:24.963306+00:00",
+  "duration_s": 1294.3639377550007,
+  "inputs": [],
+  "outputs": [
+    {
+      "path": "stdout.txt",
+      "sha256": "f78249bb3e681e39ec58a6ff017f604c4ca119d734b9760fd53532ebbcffb2fe"
+    },
+    {
+      "path": "stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "metrics_file": "metrics.json",
+  "metrics_sha256": "4f4d38a81410dd4680b9d1ec81037dd9162b4e926bf61d951a6d244dc22e4cac",
+  "dirty": false,
+  "peak_rss_mb": 1151.765625,
+  "hostname": "local_machine",
+  "cwd": ".",
+  "rss_measurement": "max of process-tree RSS sampled every 20 ms and kernel ru_maxrss (KiB on Linux)"
+}

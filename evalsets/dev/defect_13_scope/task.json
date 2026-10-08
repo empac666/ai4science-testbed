@@ -1,0 +1,8 @@
+{
+  "allowed_paths": [
+    "fw/"
+  ],
+  "changed_files": [
+    "sim/model.py"
+  ]
+}

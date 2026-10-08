@@ -1,0 +1,366 @@
+{
+  "round": 8,
+  "material": "N87",
+  "data": {
+    "scalars_csv": "data/magnet/igse_predictions.csv",
+    "scalars_csv_sha256": "a6814e41af2c0ee3ed6d32611f9ded2a04c60425a5e642476b716acc3c7909b8",
+    "b_waveform_npy": "data/magnet/N87/B.npy",
+    "b_waveform_npy_sha256": "c3fc6db884093554a00464c689975eba0686d27e853003cf9882dcb01058ba96",
+    "source_zip_sha256": "d7c3703295dc113527702cd2420b3334c8eb302c347ecc8ae425b666ce6915ff",
+    "n_total": 40616,
+    "target": "y = log10(measured_W_m3)",
+    "simulator": "pool lookup: querying a pool sample_id reveals its measured y; nothing else",
+    "b_waveform_shape": [
+      40616,
+      1024
+    ],
+    "design_columns": [
+      "sample_id",
+      "frequency_Hz",
+      "temperature_C",
+      "amplitude_T",
+      "waveform"
+    ],
+    "target_column": "measured_W_m3",
+    "hash_provenance": "features and model independently hashed in R8p; target CSV, B.npy and source ZIP hashes inherited from round 7, not opened or verified in R8p; executor verifies before running",
+    "label_access": {
+      "R8p": "No target values or target-derived data read from CSV; no source CSV opened. Round-7 reports are disclosed prior knowledge.",
+      "design": "features.csv explicit input-column allowlist; optional scalars CSV read only with design_columns usecols; ignore legacy cell/corner columns",
+      "training": "Only experiment-local S0 and queried IDs; candidate labels remain unread. No cross-experiment, cross-pair or cross-arm label/model cache.",
+      "calibration": "Only after all 180 acquisition trajectories and models b=0..6 are sealed; CAL labels only produce q, never fit or select.",
+      "evaluation": "After calibration and predictions are sealed, evaluation process reads declared evaluation IDs; no feedback to any training process. No experiment receives another experiment outputs."
+    },
+    "feature_design_columns": [
+      "sample_id",
+      "frequency_Hz",
+      "T_C",
+      "waveform",
+      "amplitude_T",
+      "log10_f",
+      "log10_Bpk",
+      "duty",
+      "plateau",
+      "shape"
+    ]
+  },
+  "reuse": {
+    "features_csv": "data/magnet6/features.csv",
+    "features_csv_sha256": "781a7048e54bf7c517120b28efa450dbc584192d7faaa6fc4c3c7a2ccf47931c",
+    "family_reference": "scripts/magnet7_design.py",
+    "family_reference_sha256": "a2bf3774fd1e09c9405faf48107a0f374b22ea9570fe2c68567bbe053174e167",
+    "model_library": "scripts/magnet6_model.py",
+    "model_library_sha256": "b13d4a663df242b91f18853cd0d58333ee892f9a9263ccf39b50bc4d4744109e",
+    "integration": "Future R8 adapter uses isolated deep-copied CONFIG with only gp_random_state overridden per experiment. Do not mutate round-6/7 files or share module state between E1/E2. Do not use evaluation_frame (hardcodes round-6 keys), legacy fixed_sequence (round-6 CONFIG) or naive signflip_p for K=30.",
+    "family_reference_function": "family_features (source read only; not imported in R8p)"
+  },
+  "features": {
+    "Bpk": "(max(B) - min(B)) / 2  [T]  (== amplitude_T)",
+    "duty": "mean(diff_periodic(B) > 0)  (fraction of samples with rising flux)",
+    "plateau": "existing magnet_igse.classify plateau fraction: mean(|diff| < 0.1 * quantile(|diff|, 0.9))",
+    "shape": "log10( mean( (|diff_periodic(B)| * 1024 * f)^1.5 ) / (4 * f * Bpk)^1.5 ), i.e. log10(mean(|dB/dt|^1.5) / (4 f Bpk)^1.5)",
+    "gp_inputs": [
+      "log10_f",
+      "log10_Bpk",
+      "T_C",
+      "duty",
+      "plateau",
+      "shape"
+    ],
+    "linear_mean_features": [
+      "1",
+      "log10_f",
+      "log10_Bpk",
+      "T_C",
+      "T_C^2",
+      "shape"
+    ],
+    "cell_for_mixed": "v=log10(4*frequency_Hz*amplitude_T); lo/hi=min/max over experiment pool including S0; bin=clip(floor(8*(v-lo)/(hi-lo)),0,7); freeze once; require hi>lo",
+    "f_setpoint": "sort unique frequency_Hz; start a new cluster whenever log(f_i/f_{i-1}) > 0.01; setpoint = round(median(cluster)/1000) kHz (20 setpoints expected: 50..446 kHz)",
+    "family": "String f\"{fset}_{waveform}_{round(10*duty)}_{round(20*plateau)}\"; Python ties-to-even round; lexicographic string sorting; 291 global families, 220 with support rows. Build from full input frame before restriction.",
+    "temperature_mapping": "features.csv T_C equals scalar temperature_C; only 25,50,70,90 allowed"
+  },
+  "H": "int(first 8 hex chars of the prereg commit SHA, 16)",
+  "K": 30,
+  "arms_per_pair": [
+    "A",
+    "M",
+    "R"
+  ],
+  "s0_size": 100,
+  "batches": 6,
+  "batch_size": 20,
+  "budget_per_arm": 120,
+  "model": {
+    "name": "M2-magnet: OLS linear mean on linear_mean_features + residual GP on standardized gp_inputs + sigma-normalized split conformal",
+    "scaler": "sklearn StandardScaler fit on the arm's current training gp_inputs",
+    "kernel": "ConstantKernel(1.0, (0.01, 100)) * RBF(length_scale=[1]*6, bounds (0.01, 100)) + WhiteKernel(0.01, (1e-8, 10))",
+    "gp_alpha": 1e-10,
+    "gp_normalize_y": true,
+    "gp_restarts": 2,
+    "gp_random_state": "seeds.gp_random_state_formula",
+    "sigma": "GaussianProcessRegressor.predict(return_std=True) std (includes WhiteKernel), floored at 2.220446049250313e-16",
+    "alpha": 0.1,
+    "conformal": "Per arm and b: q = sorted(|y-mu|/sigma)[ceil((n+1)*0.9)-1] on its fixed CAL; all rows equal weight. Require finite scores and rank<=n. No distribution-free coverage guarantee for family-dependent or shifted evaluation data.",
+    "refit": "hyperparameters re-optimized at every batch and for the final model",
+    "note": "Model equations/hyperparameters unchanged; optimizer seed renewed per experiment to satisfy fresh-seed requirement. E1 is a new-randomization replication, not an independent dataset."
+  },
+  "experiments": {
+    "E1_replication": {
+      "purpose": "Confirm round-7 nominal H4/H5 on same X7 with new family, S0, R and GP seeds; K=30; no claim of independent new labels.",
+      "X7": "frequency_Hz >= 200000 AND amplitude_T >= 0.10 (632 samples), removed from pool and calibration",
+      "ok_families": "families with no X7 sample, sorted by key",
+      "G_CAL": "perm=default_rng(seed(e=1,r=0,k=0)).permutation(sorted(eligible_family_strings)); G7r=all rows in perm[:40]; CAL7r=all rows in perm[40:60]",
+      "pool": "all minus X7 minus G7r minus CAL7r",
+      "S0_k": "default_rng(seed(1,1,k)).choice(sorted_integer_pool_IDs,100,replace=False), same S0 for A/M/R",
+      "R_k": "default_rng(seed(1,2,k)).choice(sorted(pool-S0_k),120,replace=False); retain returned order",
+      "dBdt_bins": "8 equal-width bins of log10(4 f Bpk) over E1 pool [min,max]",
+      "eval_sets": [
+        "X7",
+        "G7r"
+      ],
+      "eligible_family_count": 252,
+      "pool_minimum_over_all_family_splits": 21972
+    },
+    "E2_onesided": {
+      "purpose": "UNSUPPORTED one-sided extrapolation: no data on the far side",
+      "support": "f_setpoint < 300 kHz AND temperature_C <= 70",
+      "XF": "f_setpoint >= 300 kHz (316/355/397/446) AND temperature_C <= 70: frequency extrapolation beyond 282 kHz",
+      "XT": "temperature_C == 90 AND f_setpoint < 300 kHz: temperature extrapolation beyond 70 C",
+      "XFT": "f_setpoint >= 300 kHz AND temperature_C == 90: double extrapolation (report-only)",
+      "families": "round-7 family keys restricted to support samples; support_families = families with >=1 support sample, sorted by key",
+      "G_CAL": "perm=default_rng(seed(2,0,0)).permutation(sorted(support_family_strings)); G8=support rows in perm[:30]; CAL8=support rows in perm[30:50]",
+      "pool": "support minus G8 minus CAL8; all XF/XT/XFT IDs excluded from training and calibration",
+      "S0_k": "default_rng(seed(2,1,k)).choice(sorted_integer_pool_IDs,100,replace=False), same S0 for A/M/R",
+      "R_k": "default_rng(seed(2,2,k)).choice(sorted(pool-S0_k),120,replace=False); retain returned order",
+      "dBdt_bins": "8 equal-width bins of log10(4 f Bpk) over E2 pool [min,max]",
+      "eval_sets": [
+        "XF",
+        "XT",
+        "XFT",
+        "G8"
+      ],
+      "support_family_count": 220,
+      "pool_family_count": 170,
+      "pool_minimum_over_all_family_splits": 12892,
+      "isolation_note": "G8/CAL8 hold out entire families within support only. XT may share family keys with support: temperature extrapolation, not unseen-family extrapolation. XF and XFT have no training frequency support.",
+      "geometry_note": "282 kHz is support ceiling, not guaranteed realized training maximum; actual pool/training maxima must be reported. XF v range lies inside full support v range, not necessarily realized pool range."
+    }
+  },
+  "acquisition": {
+    "candidates": "pool minus S0_k minus points already selected by this arm",
+    "A": "kriging believer on GP posterior std incl. WhiteKernel (as round 3): within a batch, hyperparameters and y normalization fixed, Cholesky augmented with each chosen point; pick argmax sigma; tie -> lowest sample_id",
+    "M": "Same believer; score=sigma/sqrt(1+a_c); a_c counts this arm additions in bin across all batches and earlier choices in current batch, excluding S0; no quota guarantee; ties lowest numeric sample_id",
+    "R": "pre-drawn R_k order",
+    "batch_protocol": "For b=0..5 fit 100+20b observed points from scratch; choose next batch without its labels; then reveal 20 selected labels. Fit final b=6 model on 220 points. No CAL or evaluation labels until both experiments finish all acquisition."
+  },
+  "metrics": {
+    "coverage": "count of y in [mu - q sigma, mu + q sigma]",
+    "width": "mean 2 q sigma (log10 units)",
+    "winkler": "mean Winkler score, alpha=0.1, log10 units: (U-L) + (2/alpha)(L-y)[y<L] + (2/alpha)(y-U)[y>U]",
+    "relative_error": "median over set of |10^mu - P| / P",
+    "weighting": "All rows equal weight within each evaluation set; all K pairs equal weight; final b=6 primary; same sets for all arms"
+  },
+  "tests": {
+    "type": "Exact one-sided sign-flip, p=#{s in {-1,+1}^30: mean(s*d)>=mean(d)-1e-12}/2**30; identity and ties included; zeros retain multiplicity; integer numerator, no Monte Carlo",
+    "order": [
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5",
+      "H6"
+    ],
+    "alpha_each": 0.05,
+    "gatekeeping": "single fixed sequence; stop at first non-rejection; later 'not tested'",
+    "H1": "E1: W_R(X7) - W_M(X7)",
+    "H2": "E1: 1.10*W_A(X7) - W_M(X7)",
+    "H3": "E2: W_R(XF) - W_A(XF)",
+    "H4": "E2: W_R(XF) - W_M(XF)",
+    "H5": "E2: W_R(XT) - W_A(XT)",
+    "H6": "E2: W_R(XT) - W_M(XT)",
+    "computation": "Meet-in-the-middle: two lists of 2**15 signed sums; count pairs with sum >= sum(d)-30e-12; O(2**15) storage plus sorting; no 2**30 vector allocation",
+    "reject_rule": "p < 0.05 AND all preceding hypotheses rejected; p==0.05 is non-rejection",
+    "assumption": "Conditional on fixed dataset and split, independent paired seed repetitions and sign symmetry at the zero boundary (including shifted H2 differences). For composite mean<=0 null, use symmetric location-shift model. Exact enumeration alone does not ensure assumption-free validity.",
+    "inference_scope": "Algorithmic variability conditional on this dataset and single family split per experiment; not population/material-wide evidence. Fixed-sequence FWER<=0.05 only when each p is valid under its stated null.",
+    "validity_gate": "CV/V/HONEST are separate descriptive gates; they do not stop the p sequence or remove pairs. Process failure prevents confirmatory claims.",
+    "mean_tolerance": 1e-12,
+    "H2_noninferiority_multiplier": 1.1
+  },
+  "validity": {
+    "K": 30,
+    "required_pass_count": 26,
+    "aggregation": "Per method and experiment, not pooled across A/M/R or E1/E2; >=ceil(0.85*30)=26. Descriptive repeatability threshold, not a confidence bound.",
+    "E1_arm": "C1: coverage(G7r)>=ceil(0.8*nG); C2: coverage(X7)>=506 AND width(X7)<=3*width(G7r)",
+    "E1_CV_X": "At least 26/30 arms of method X pass C1 AND C2; 80% engineering floor for R7 comparability, not nominal honesty",
+    "E2_arm_support": "C1: coverage(G8)>=ceil(0.8*nG8)",
+    "E2_arm_F": "VF: C1 AND coverage(XF)>=4289 AND width(XF)<=3*width(G8)",
+    "E2_arm_T": "VT: C1 AND coverage(XT)>=6676 AND width(XT)<=3*width(G8)",
+    "E2_V_X_region": "At least 26/30 arms of method X pass VF or VT for that region",
+    "E2_honesty_arm_F": "coverage(XF)>=4825 (ceil(0.9*5361))",
+    "E2_honesty_arm_T": "coverage(XT)>=7511 (ceil(0.9*8345))",
+    "honesty": "HONEST90(X,F/T): at least 26/30 arms satisfy that region nominal-90% coverage count. Coverage only; report alongside V80 and widths. Descriptive finite-panel criterion, not a guarantee or hypothesis test; independent of H1-H6 gate.",
+    "process": "All 180 arms and 30 differences per hypothesis complete and finite; ID isolation, exact budgets, source/model hashes, seeds and batch replay pass; no outcome-based exclusions. Missing/failing arms -> incomplete, no confirmatory claims; retry same seed/state only for logged infrastructure failure.",
+    "numeric_thresholds": {
+      "engineering_coverage": 0.8,
+      "nominal_coverage": 0.9,
+      "max_width_multiple": 3,
+      "required_pass_count": 26,
+      "E1_X7_engineering_count": 506,
+      "E2_XF_engineering_count": 4289,
+      "E2_XT_engineering_count": 6676,
+      "E2_XF_nominal_count": 4825,
+      "E2_XT_nominal_count": 7511
+    }
+  },
+  "conclusions": {
+    "M-X7": "H1 rejected AND E1 CV-M",
+    "M-NI10-X7": "H2 rejected AND E1 CV-M AND E1 CV-A; 10% Winkler noninferiority, not equivalence",
+    "A-F": "H3 rejected AND V-A(F) AND HONEST90(A,F)",
+    "M-F": "H4 rejected AND V-M(F) AND HONEST90(M,F)",
+    "A-T": "H5 rejected AND V-A(T) AND HONEST90(A,T)",
+    "M-T": "H6 rejected AND V-M(T) AND HONEST90(M,T)",
+    "all": "Require process valid. Report raw hypothesis status and each validity gate separately. Failure/non-testing is not evidence of equivalence or inferiority."
+  },
+  "report_only": [
+    "All 30 pair differences per hypothesis; mean, median, IQR, positive/zero/negative counts; all nominal p with gate status; no rounding before tests",
+    "Per arm b=0..6 q, MAE, bias, coverage count/fraction, width, Winkler, median RE; only b=6 confirmatory",
+    "E2 A/M/R by XF/XT/XFT coverage mean/min/max, nominal90 shortfall max(0,0.9-coverage), width, V80 pass count and HONEST90 pass count (XFT summaries only, no pass/fail conclusion)",
+    "Sampling by f_setpoint, T, dBdt_bin; E2 additions at 282 kHz or 70 C; S0 reported separately; realized training and pool frequency/temperature extrema",
+    "iGSE median RE after all learning/evaluation sealed: X7,G7r,G8,XF,XT,XFT; prefit temperature-specific parameters may use held-out sines, including 90 C; descriptive, not fair unsupported baseline or statistical claim",
+    "Per-method validity pass counts in dedicated field validity_pass_counts; sampling counts in separate sampling_counts; never reuse field as in R7 erratum"
+  ],
+  "execution": {
+    "R8p_scope": "Only these documents/config; no experiment code, fitting, sampling, labels, network, installs, commit or push",
+    "future_run_host": "local_node only",
+    "max_parallel_heavy_jobs": 2,
+    "threads_per_job": 1,
+    "thread_env": [
+      "OMP_NUM_THREADS=1",
+      "OPENBLAS_NUM_THREADS=1",
+      "MKL_NUM_THREADS=1",
+      "NUMEXPR_NUM_THREADS=1"
+    ],
+    "watchdog": {
+      "poll_seconds": 5,
+      "pause_below_MemAvailable_GiB": 3.8,
+      "resume_above_MemAvailable_GiB": 4.3,
+      "action": "Stop dispatch and pause experiment workers; keep watchdog alive; resume above upper threshold. Pausing does not reclaim memory: persistent low memory/OOM -> logged infrastructure stop and same-seed checkpoint resume, no parameter/sample change."
+    },
+    "detached": "nohup setsid on local_node; watchdog outside paused worker process groups",
+    "status_file": "./ai4s_r8_status.md",
+    "review": "Executor records push and design manifest before run; seal first evaluation; independent recomputation and reviewer_b review after run; do not overwrite first results. No post-outcome design changes."
+  },
+  "schema_version": "R8p-researcher_a-1",
+  "authorship": {
+    "draft_author": "executor",
+    "draft_commit": "60ca33e",
+    "revision_author": "researcher_a",
+    "revision": "Independent input-only review and rewrite; see docs/discussion/m9/researcher_a_R8p_review.md"
+  },
+  "freeze": {
+    "prereg_path": "docs/prereg/M9_magnet_round8_prereg.md",
+    "commit_rule": "First commit containing this researcher_a revision and this config, pushed before any R8 split generation, sampling, fitting, calibration or evaluation. Record full commit SHA externally; do not substitute HEAD or grind commits for a split.",
+    "H": "int(first 8 hex chars of that prereg commit SHA, 16)",
+    "post_commit_manifest": "Record prereg/config/implementation hashes, full SHA, H, all seeds, source checks, sorted IDs, families, bins and software versions before label access. No placeholder SHA may be used."
+  },
+  "seeds": {
+    "H": "int(first 8 hex chars of the prereg commit SHA, 16)",
+    "rng": "numpy.random.default_rng (PCG64); pin NumPy version in manifest",
+    "experiment_codes": {
+      "E1_replication": 1,
+      "E2_onesided": 2
+    },
+    "design_seed_formula": "2**64 + H*2**16 + e*4096 + r*256 + k",
+    "roles": {
+      "family_permutation": {
+        "r": 0,
+        "k": 0
+      },
+      "S0": {
+        "r": 1,
+        "k": "1..30"
+      },
+      "R": {
+        "r": 2,
+        "k": "1..30"
+      }
+    },
+    "gp_random_state_formula": "2**31 + 2*(H % 2**29) + (e-1)",
+    "gp_seed_scope": "One fixed uint32 seed per experiment, shared across its paired arms, all k and all batches; GP initialized afresh at each fit.",
+    "round7_forbidden_seeds": "1869701181; 1869701181+k and 1869701281+k, k=1..20; GP 20261004",
+    "nonoverlap": "Design seeds exceed 2**64; GP seeds in [2**31, 2**31+2**30-1]; E1/E2 distinct. All differ from round-7 seeds. No modulus on design seeds, no reseeding based on outcomes.",
+    "interpretation": "Distinct integer RNG seeds; random draws and sample IDs may overlap across groups or experiments. Deliberate seed sharing inside a matched group is allowed."
+  },
+  "expected_design_counts": {
+    "total": 40616,
+    "unique_ids": 40616,
+    "global_families": 291,
+    "frequency_setpoints_kHz": [
+      50,
+      56,
+      63,
+      71,
+      79,
+      89,
+      100,
+      112,
+      126,
+      141,
+      159,
+      178,
+      199,
+      224,
+      251,
+      282,
+      316,
+      355,
+      397,
+      446
+    ],
+    "temperatures_C": [
+      25,
+      50,
+      70,
+      90
+    ],
+    "E1_X7": 632,
+    "E1_X7_families": 39,
+    "E1_eligible_families": 252,
+    "E2_support": 25122,
+    "E2_support_families": 220,
+    "E2_XF": 5361,
+    "E2_XT": 8345,
+    "E2_XFT": 1788,
+    "E2_union_high_frequency": 7149,
+    "E2_union_T90": 10133,
+    "raw300kHz_vs_fset300_disagreements": 0,
+    "post_commit_only": [
+      "G7r row count",
+      "CAL7r row count",
+      "E1 pool row count",
+      "G8 row count",
+      "CAL8 row count",
+      "E2 pool row count",
+      "bin edges",
+      "S0/R lists"
+    ]
+  },
+  "power": {
+    "K": 30,
+    "method": "Analytic normal location approximation Phi(delta*sqrt(K)-Phi^-1(0.95)); no simulation/bootstrap in R8p; not exact sign-flip or sequential power",
+    "values": [
+      {
+        "delta": 0.4,
+        "K20": 0.5573,
+        "K30": 0.7075
+      },
+      {
+        "delta": 0.6,
+        "K20": 0.8505,
+        "K30": 0.9497
+      }
+    ],
+    "limitations": "Historical selected nominal H4 may overstate effect; E2 effect unknown; later hypothesis power also requires every prior rejection and conclusion validity. No post-result K increase.",
+    "cost": "180 arms; 7 fits/arm (b=0..6), 1260 logical fits; historical 60-arm 5.1 min is rough planning only, no runtime guarantee."
+  }
+}

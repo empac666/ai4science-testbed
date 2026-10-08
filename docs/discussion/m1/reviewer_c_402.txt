@@ -1,0 +1,8 @@
+Internal error: {
+  "message": "API error (status 402 Payment Required): reviewer_c Build usage balance exhausted",
+  "http_status": 402
+}
+Error: Internal error: {
+  "message": "API error (status 402 Payment Required): reviewer_c Build usage balance exhausted",
+  "http_status": 402
+}

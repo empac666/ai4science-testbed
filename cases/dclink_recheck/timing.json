@@ -1,0 +1,10 @@
+{
+  "total_duration_s": 106.31779546500002,
+  "peak_rss_mb": 259.35546875,
+  "measurement": "serial jobs; sampled process-tree RSS with kernel high-water mark; may miss aggregate short peaks",
+  "runs": [
+    "20261002T160403-dclink-fw-a512204a",
+    "20261002T160412-dclink-python-5094e8af"
+  ],
+  "source_git_sha": "be9a0f40ce52d4add2e9ac86767937162ed03981"
+}

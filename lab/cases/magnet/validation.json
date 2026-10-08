@@ -1,0 +1,19 @@
+{
+  "make_test": {
+    "passed": 1,
+    "tests": 75,
+    "duration_s": 0.83
+  },
+  "surrogate_metrics_exact_match": 1,
+  "make_surrogate_passed": 1,
+  "absent": {
+    "passed": 1,
+    "tests": 7,
+    "skipped": 2
+  },
+  "incomplete": {
+    "passed": 1,
+    "tests": 7,
+    "skipped": 2
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "defect_01_report_wrong": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_REPORT_MISMATCH",
+        "where": "report.md:2",
+        "detail": "report differs from claim value"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_02_claim_wrong": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_VALUE_MISMATCH",
+        "where": "claims.json:0",
+        "detail": "claim differs from run metric"
+      },
+      {
+        "code": "E_REPORT_MISMATCH",
+        "where": "report.md:7",
+        "detail": "report differs from claim value"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_03_no_run": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_RUN_MISSING",
+        "where": "claims.json:0",
+        "detail": "run does not exist: 20261002T135139-dclink-history-extraction-ab013916"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_04_provenance": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_SCHEMA",
+        "where": "runs/20261002T135139-dclink-history-extraction-ab013916/record.json:cmd",
+        "detail": "missing or invalid field"
+      },
+      {
+        "code": "E_PROVENANCE",
+        "where": "runs/20261002T135139-dclink-history-extraction-ab013916/record.json:cmd",
+        "detail": "missing or invalid provenance"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_05_hash": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_HASH",
+        "where": "runs/20261002T135139-dclink-history-extraction-ab013916/record.json:outputs:0",
+        "detail": "sha256 mismatch"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_06_run_failed": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_RUN_FAILED",
+        "where": "claims.json:0",
+        "detail": "referenced run failed"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_07_metric_missing": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_METRIC_MISSING",
+        "where": "claims.json:0",
+        "detail": "metric absent or nonnumeric: absent"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_08_unknown_claim": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_CLAIM_UNKNOWN",
+        "where": "report.md:2",
+        "detail": "unknown claim: absent"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "W_UNREFERENCED_CLAIM",
+        "where": "claims.json:v",
+        "detail": "claim not referenced in report"
+      }
+    ]
+  },
+  "defect_09_unclaimed": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_UNCLAIMED_NUMBER",
+        "where": "report.md:2",
+        "detail": "unmarked number: 0.090757%"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "W_UNREFERENCED_CLAIM",
+        "where": "claims.json:v",
+        "detail": "claim not referenced in report"
+      }
+    ]
+  },
+  "defect_10_same_source": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_SAME_SOURCE",
+        "where": "claims.json:0",
+        "detail": "subject and reference share provenance or core assumptions"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_11_derived": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_SAME_SOURCE",
+        "where": "claims.json:0",
+        "detail": "subject and reference share provenance or core assumptions"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_12_core": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_SAME_SOURCE",
+        "where": "claims.json:0",
+        "detail": "subject and reference share provenance or core assumptions"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_13_scope": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_SCOPE",
+        "where": "sim/model.py",
+        "detail": "changed file outside allowed paths"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_14_path": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_PATH",
+        "where": "runs/20261002T135139-dclink-history-extraction-ab013916/record.json:metrics_file",
+        "detail": "absolute, parent, or escaping path"
+      },
+      {
+        "code": "E_METRIC_MISSING",
+        "where": "claims.json:0",
+        "detail": "metric absent or nonnumeric: fixed_c_tests"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_15_schema": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_SCHEMA",
+        "where": "evalsets/dev/defect_15_schema/runs/20261002T135139-dclink-history-extraction-ab013916/record.json",
+        "detail": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+      },
+      {
+        "code": "E_RUN_MISSING",
+        "where": "claims.json:0",
+        "detail": "run does not exist: 20261002T135139-dclink-history-extraction-ab013916"
+      }
+    ],
+    "warnings": []
+  },
+  "defect_16_abs_path": {
+    "verdict": "fail",
+    "errors": [
+      {
+        "code": "E_PATH",
+        "where": "runs/20261002T135139-dclink-history-extraction-ab013916/record.json:metrics_file",
+        "detail": "absolute, parent, or escaping path"
+      },
+      {
+        "code": "E_METRIC_MISSING",
+        "where": "claims.json:0",
+        "detail": "metric absent or nonnumeric: fixed_c_tests"
+      }
+    ],
+    "warnings": []
+  },
+  "normal_01": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_02": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_03": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_04": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_05": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_06": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_07": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_08": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_09": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_10": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_11": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "normal_12": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "semantic_01_thd": {
+    "verdict": "pass",
+    "errors": [],
+    "warnings": []
+  }
+}

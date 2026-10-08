@@ -1,0 +1,39 @@
+{
+  "run_id": "20261002T161848-magnet-igse-8e9044cd",
+  "cmd": "python3 scripts/magnet_igse.py",
+  "git_sha": "c167ecc58e3078fa2dab15b2d57b1d964e459eda",
+  "exit_code": 0,
+  "started_at": "2026-10-02T16:18:48.160371+00:00",
+  "duration_s": 22.36535607399992,
+  "inputs": [
+    {
+      "path": "inputs/0-magnet_igse.py",
+      "sha256": "8a23640fd1c19715e7d7e3b594b906b590e03cafc4b8d9a437e3b56c93d60e04"
+    },
+    {
+      "path": "inputs/1-MANIFEST.json",
+      "sha256": "d3fb062fb16548dd99a5546f824196d1a7e59a9034d0a207f625d8bf11328d65"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "stdout.txt",
+      "sha256": "3f01fe3245d59349cb144d9c4c894913b9aa76518dfe6c5d3a9cf96c63bf8253"
+    },
+    {
+      "path": "stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "metrics-source.json",
+      "sha256": "2776833273d674234818c42ea57a3933cbc2caaa4ec73bd0d502f59a4e04d4e6"
+    }
+  ],
+  "metrics_file": "metrics.json",
+  "metrics_sha256": "2ae5531b02e1470952884ede8e6b3b64e59cf7f7c15c8ca84bb530f4e5712aa6",
+  "dirty": true,
+  "peak_rss_mb": 477.28515625,
+  "hostname": "local_machine",
+  "cwd": ".",
+  "rss_measurement": "max of process-tree RSS sampled every 20 ms and kernel ru_maxrss (KiB on Linux)"
+}

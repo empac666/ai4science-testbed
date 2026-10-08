@@ -1,0 +1,24 @@
+{
+  "origin": "dclink-edge-ai@docs-history",
+  "extraction_run": "20261002T135139-dclink-history-extraction-ab013916",
+  "metric": "initial_c_tests",
+  "mutation": "正文偷换为修复后的测试数量，论断仍是初版数量",
+  "historical_input_copies": [
+    {
+      "path": "runs/20261002T135139-dclink-history-extraction-ab013916/inputs/0-compare_sw_avg.md",
+      "sha256": "99d36aec76dd3455034fd6d6114a2b503edf894ebab27f4aa07fc581a897ea10"
+    },
+    {
+      "path": "runs/20261002T135139-dclink-history-extraction-ab013916/inputs/1-fw_fixed.md",
+      "sha256": "38be216f2acd8f1032af0cf6df1e7eec25ce29fb7f1686357e18ec37276b7064"
+    },
+    {
+      "path": "runs/20261002T135139-dclink-history-extraction-ab013916/inputs/2-fw_initial.md",
+      "sha256": "9f0bb76c5ad7acf5f94a8ff0422b36b9a7b4d114eca61d4c7d63e5647d417aba"
+    },
+    {
+      "path": "runs/20261002T135139-dclink-history-extraction-ab013916/inputs/3-rulings.md",
+      "sha256": "06549dda4420d11136187150b366d31d82c3b5b75d8eb7c4aac4ba8cdcb196e2"
+    }
+  ]
+}

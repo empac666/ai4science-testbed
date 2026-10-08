@@ -1,0 +1,10 @@
+{
+  "started_at": "2026-10-02T16:10:58.041052+00:00",
+  "completed_at": "2026-10-02T16:39:38.048193+00:00",
+  "total_wall_s": 1720.007185957,
+  "jobs": 4,
+  "completed_n": 420,
+  "smoke": false,
+  "duration_s": 6,
+  "startup_s": 1
+}

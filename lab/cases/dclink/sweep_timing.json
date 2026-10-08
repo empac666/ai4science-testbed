@@ -1,0 +1,15 @@
+{
+  "seed": 20261002,
+  "edge_git_sha": "be9a0f4",
+  "jobs": 4,
+  "pilot_wall_s": null,
+  "estimated_per_case_s": null,
+  "requested_n": 240,
+  "selected_n": 240,
+  "started_at": "2026-10-02T14:29:37.746257+00:00",
+  "design": "scrambled Latin hypercube; uniform dead-time categories",
+  "total_wall_s": 1086.6441900600003,
+  "completed_n": 240,
+  "peak_workers_rss_mb": 957.65625,
+  "mean_case_s": 17.996356507875
+}

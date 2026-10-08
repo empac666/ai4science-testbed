@@ -1,0 +1,19 @@
+{
+  "total_wall_s": 2523.9284931479997,
+  "sessions": [
+    {
+      "wall_s": 2523.9284931479997,
+      "phase": "all",
+      "jobs": 2,
+      "smoke": false,
+      "completed_at": "2026-10-03T06:00:06.377343+00:00"
+    }
+  ],
+  "completed_n": 420,
+  "failed_case_ids": [],
+  "smoke": false,
+  "duration_s": 6,
+  "startup_s": 1,
+  "solver_dt_ns": 50,
+  "mean_case_s": 18.02293963294046
+}

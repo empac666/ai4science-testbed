@@ -1,0 +1,9 @@
+{
+  "method": "researcher_a inspected all four generated panels using view_image; morphology convention includes multi-slope triangles; not blinded ground truth",
+  "random_n": 36,
+  "random_consistent": 36,
+  "boundary_n": 12,
+  "boundary_consistent": 12,
+  "initial_2pct_threshold_rejected": "Boundary sine traces were called trapezoids; threshold fixed to 5% using B only before final fit",
+  "audit_sha256": "a55633ae77e276e3302add00307e7f481ea3b0c39c78484a1e8b720e8a1839a5"
+}

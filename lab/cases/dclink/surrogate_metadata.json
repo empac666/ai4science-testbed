@@ -1,0 +1,62 @@
+{
+  "config": {
+    "alpha": 0.1,
+    "load_bins": 8,
+    "gp_restarts": 2,
+    "seed": 20261002,
+    "gp_constant": 1.0,
+    "gp_constant_bounds": [
+      0.01,
+      100.0
+    ],
+    "gp_length_scales": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "gp_length_bounds": [
+      0.01,
+      100.0
+    ],
+    "gp_white": 0.01,
+    "gp_white_bounds": [
+      1e-08,
+      10.0
+    ],
+    "gp_alpha": 1e-10,
+    "gp_normalize_y": true,
+    "mlp_hidden": [
+      32,
+      32
+    ],
+    "mlp_max_iter": 10000,
+    "mlp_alpha": 0.0001,
+    "mlp_tol": 1e-06,
+    "mlp_learning_rate": 0.001,
+    "mlp_early_stopping": false,
+    "mlp_activation": "relu",
+    "mlp_solver": "adam",
+    "mlp_no_change": 100,
+    "analytic_features": [
+      "intercept",
+      "dead_time_s*f_carrier/load",
+      "f_grid/(2*pi*bw_iac_Hz)",
+      "aperture_s*f_carrier"
+    ]
+  },
+  "predictive_data_sha256": "6bbf1f954ad3471cc4f9a058851d0f9ea3fc861d81a6558fe3a90b3f630671fa",
+  "split_sha256": "e4bac5895347942354a6dc7513c9989174888169c5c070ec9f3147900f5df4aa",
+  "physics_sha256": "d55b4e8204cea8d4f88cc7877f2e283648e0f727e90e7d5852636974ed637fbc",
+  "training_script_sha256": "359b86256a15de5ece7caf808584b3bfb543efc624454e1277942676d6f10344",
+  "sweep_sha256": "d26acd6b76c574d075e6114ff0784de53ebd1631753d970ee4d78ccd9f2d1074",
+  "fitted_gp_kernel": "2.41**2 * RBF(length_scale=[4.84, 7.29, 3.35, 0.724]) + WhiteKernel(noise_level=0.000754)",
+  "analytic_coefficients": [
+    3.013546728281824,
+    -84.21481310003476,
+    -1975.261393506146,
+    -13.444881622713746
+  ],
+  "mlp_iterations": 1867,
+  "mlp_reached_max_iter": false
+}

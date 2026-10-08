@@ -1,0 +1,11 @@
+[
+  {
+    "id": "v",
+    "kind": "metric",
+    "text": "历史材料中的 fixed_assertions",
+    "value": 404589,
+    "unit": "",
+    "run_id": "20261002T135139-dclink-history-extraction-ab013916",
+    "metric_key": "fixed_assertions"
+  }
+]

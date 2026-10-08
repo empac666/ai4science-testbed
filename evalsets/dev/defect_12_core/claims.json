@@ -1,0 +1,13 @@
+[
+  {
+    "id": "v",
+    "kind": "validation",
+    "text": "历史材料中的 sw_film_C090_L030_base_avg_error_pct",
+    "value": 0.0004,
+    "unit": "%",
+    "run_id": "20261002T135139-dclink-history-extraction-ab013916",
+    "metric_key": "sw_film_C090_L030_base_avg_error_pct",
+    "subject_model": "estimator",
+    "reference_model": "average"
+  }
+]

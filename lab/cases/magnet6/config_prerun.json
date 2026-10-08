@@ -1,0 +1,122 @@
+{
+  "round": 6,
+  "material": "N87",
+  "data": {
+    "scalars_csv": "data/magnet/igse_predictions.csv (columns used: sample_id, frequency_Hz, temperature_C, amplitude_T, waveform, measured_W_m3)",
+    "scalars_csv_sha256": "a6814e41af2c0ee3ed6d32611f9ded2a04c60425a5e642476b716acc3c7909b8",
+    "b_waveform_npy": "data/magnet/N87/B.npy (40616 x 1024, float64, one period, endpoint excluded)",
+    "b_waveform_npy_sha256": "c3fc6db884093554a00464c689975eba0686d27e853003cf9882dcb01058ba96",
+    "source_zip_sha256": "d7c3703295dc113527702cd2420b3334c8eb302c347ecc8ae425b666ce6915ff",
+    "n_total": 40616,
+    "target": "y = log10(measured_W_m3)",
+    "simulator": "pool lookup: querying a pool sample_id reveals its measured y; nothing else"
+  },
+  "features": {
+    "Bpk": "(max(B) - min(B)) / 2  [T]  (== amplitude_T)",
+    "duty": "mean(diff_periodic(B) > 0)  (fraction of samples with rising flux)",
+    "plateau": "existing magnet_igse.classify plateau fraction: mean(|diff| < 0.1 * quantile(|diff|, 0.9))",
+    "shape": "log10( mean( (|diff_periodic(B)| * 1024 * f)^1.5 ) / (4 * f * Bpk)^1.5 ), i.e. log10(mean(|dB/dt|^1.5) / (4 f Bpk)^1.5)",
+    "gp_inputs": [
+      "log10_f",
+      "log10_Bpk",
+      "T_C",
+      "duty",
+      "plateau",
+      "shape"
+    ],
+    "linear_mean_features": [
+      "1",
+      "log10_f",
+      "log10_Bpk",
+      "T_C",
+      "T_C^2",
+      "shape"
+    ],
+    "cell_for_mixed": "waveform class (sine/triangle/trapezoid, existing B-only rule) x temperature (25/50/70/90) = 12 cells"
+  },
+  "split": {
+    "H": "int(first 8 hex chars of the prereg commit SHA, 16)",
+    "corner_rule": "frequency_Hz >= 200000 AND amplitude_T >= 0.10",
+    "corner_n_expected": 632,
+    "C6": "rng=np.random.default_rng(H); C6 = rng.permutation(corner_ids_sorted)[:200]",
+    "T6_CAL6": "same rng continued: perm = rng.permutation(noncorner_ids_sorted); T6 = perm[:300]; CAL6 = perm[300:400]",
+    "pool": "all ids minus C6, T6, CAL6 (n=40016; contains 432 corner ids)",
+    "S0_k": "np.random.default_rng(H + k).choice(sorted(pool ∩ noncorner), 100, replace=False), k=1..8",
+    "R_k": "np.random.default_rng(H + 100 + k).choice(sorted(pool minus S0_k), 120, replace=False); order = acquisition order (batch b = elements 20(b-1)..20b-1)"
+  },
+  "K": 8,
+  "arms_per_pair": [
+    "A",
+    "M",
+    "R"
+  ],
+  "s0_size": 100,
+  "batches": 6,
+  "batch_size": 20,
+  "budget_per_arm": 120,
+  "model": {
+    "name": "M2-magnet: OLS linear mean on linear_mean_features + residual GP on standardized gp_inputs + sigma-normalized split conformal",
+    "scaler": "sklearn StandardScaler fit on the arm's current training gp_inputs",
+    "kernel": "ConstantKernel(1.0, (0.01, 100)) * RBF(length_scale=[1]*6, bounds (0.01, 100)) + WhiteKernel(0.01, (1e-8, 10))",
+    "gp_alpha": 1e-10,
+    "gp_normalize_y": true,
+    "gp_restarts": 2,
+    "gp_random_state": 20261004,
+    "sigma": "GaussianProcessRegressor.predict(return_std=True) std (includes WhiteKernel), floored at 2.220446049250313e-16",
+    "alpha": 0.1,
+    "conformal": "scores |y - mu| / sigma on CAL6 (n=100); q = 91st smallest score (ceil((n+1)(1-alpha)) = 91); interval mu +/- q*sigma",
+    "refit": "hyperparameters re-optimized at every batch and for the final model"
+  },
+  "acquisition": {
+    "candidates": "pool minus S0_k minus points already selected by this arm (C6/T6/CAL6 never candidates, never read)",
+    "A": "kriging believer on GP posterior std incl. WhiteKernel (as round 3): within a batch, hyperparameters and y normalization fixed, Cholesky augmented with each chosen point; pick argmax sigma; tie -> lowest sample_id",
+    "M": "same believer, score = sigma / sqrt(1 + a_c), a_c = number of points already selected by this arm (excluding S0) in candidate's cell (12 cells)",
+    "R": "pre-drawn R_k order, no model"
+  },
+  "metrics": {
+    "per_arm_sets": [
+      "C6 (200)",
+      "T6 (300)"
+    ],
+    "coverage": "count of y in [mu - q sigma, mu + q sigma]",
+    "width": "mean 2 q sigma (log10 units)",
+    "winkler": "mean Winkler score, alpha=0.1, log10 units: (U-L) + (2/alpha)(L-y)[y<L] + (2/alpha)(y-U)[y>U]",
+    "relative_error": "median over set of |10^mu - P| / P"
+  },
+  "tests": {
+    "type": "exact one-sided sign-flip permutation over K=8 pair differences: p = #{s in {-1,+1}^8 : mean(s*d) >= mean(d)} / 256 (identity included, ties counted, >= compared with 1e-12 tolerance)",
+    "order": [
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5",
+      "H6"
+    ],
+    "alpha_each": 0.05,
+    "gatekeeping": "fixed sequence: stop at first non-rejection; later hypotheses 'not tested' (nominal p report-only)",
+    "H1": "W_R(C6) - W_A(C6)",
+    "H2": "W_R(C6) - W_M(C6)",
+    "H3": "1.10 * W_A(C6) - W_M(C6)",
+    "H4": "RE_R(C6) - RE_M(C6)",
+    "H5": "1.10 * W_R(T6) - W_M(T6)",
+    "H6": "1.10 * W_R(T6) - W_A(T6)"
+  },
+  "validity": {
+    "per_arm": "C1: T6 coverage >= 240/300; C2: C6 coverage >= 160/200 AND mean width(C6) <= 3 * mean width(T6)",
+    "CV_X": ">= 7 of 8 arms of method X pass C1 and C2"
+  },
+  "execution": {
+    "max_parallel_heavy_jobs": 2,
+    "threads_per_job": 1,
+    "memory_watchdog": "pause when MemAvailable < 3.8 GiB, resume when > 4.3 GiB",
+    "detached": "nohup setsid",
+    "status_file": "./ai4s_r6_status.md"
+  },
+  "report_only": [
+    "iGSE baseline (existing round-W2 temperature-wise parameters) median relative error on C6/T6",
+    "learning curves: C6/T6 Winkler, coverage, RE after each batch b=0..6 for every arm (R uses its first 20b points)",
+    "per-arm q, MAE(log10), bias, coverage, width; corner points sampled per arm; cell distribution of selected points",
+    "all pair differences; nominal p of untested hypotheses"
+  ]
+}

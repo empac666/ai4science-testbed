@@ -1,0 +1,19 @@
+{
+  "files_sha256": {
+    "design.json": "765c9b922300f0b5ffd64fcd30f14653666caba2484a22e5828a3f8de9860a6e",
+    "pool.json": "9cf1de993532840e5e769fb2f380e8c284b902237beca5e2f7d1a1ee00e24cdc",
+    "split.json": "5a1b24abf91469634b57f4a406490ad0dbbda60cfd5b694893c1e385c20ff4c8"
+  },
+  "split_sha256": "5a1b24abf91469634b57f4a406490ad0dbbda60cfd5b694893c1e385c20ff4c8",
+  "groups_sha256": {
+    "s0": "c2983b368f0f847e795000db850555a982bcb1e51ad3726668bf1fb1d23f0e49",
+    "calib": "89275edb33f3aaa059b628a08f9a889d84cfec45a45703d3359a8039bc7718e1",
+    "test": "6cccec6efcd74ed93766c349b58ead51a9bce4392e8e68105ab0803e28331d5c",
+    "ood_corner": "80f0094460db9737a7a6c9f7eb9944782a5d25ac3e72528127e6e894b2c7a9c0",
+    "ood_dt3": "9a35b70495f84bed9697cd107c5c8f736db7ee8927de2530dcededdb4df280b2",
+    "random": "dc1b1811eaa876dc5736844ec023e277f51175631d5f6785b787a70452c295ac",
+    "supplement_corner": "43a1fa7fadda77fb5d88f3b2a3982db1c52717db9cafe6f537076810d62c4b8e",
+    "supplement_dt3": "02b8eed45cdaed01e0bb4906d22523244bdacf1148f9853aad36cff9eac4dcd9"
+  },
+  "source_ids_sha256": "6b3f09df78e82c37bfd49a41b0622735f61015999cef6a05d515a6638c9283f0"
+}

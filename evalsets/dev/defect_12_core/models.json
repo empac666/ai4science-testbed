@@ -1,0 +1,16 @@
+{
+  "estimator": {
+    "source": "dclink:ref_estimator",
+    "derived_from": [],
+    "assumptions": [
+      "core:ideal_average_topology"
+    ]
+  },
+  "average": {
+    "source": "dclink:average_model",
+    "derived_from": [],
+    "assumptions": [
+      "core:ideal_average_topology"
+    ]
+  }
+}

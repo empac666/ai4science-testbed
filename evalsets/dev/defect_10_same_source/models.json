@@ -1,0 +1,12 @@
+{
+  "estimator": {
+    "source": "dclink:ref_estimator",
+    "derived_from": [],
+    "assumptions": []
+  },
+  "average": {
+    "source": "dclink:ref_estimator",
+    "derived_from": [],
+    "assumptions": []
+  }
+}
