@@ -1,0 +1,10 @@
+{
+  "figures": {
+    "docs/figures/r9_coverage.png": "5c483ca22ac731092dd2f76c75e53aedd79195f5421628ae41c348d8d30832bc",
+    "docs/figures/r9_pairs.png": "173886c1bc1fa4444ba674b77675c2df49191c8b147ca7d518d989f02ee538df",
+    "docs/figures/r9_s0.png": "f190f8bd0a1f99df88f580c24c8610ab545669658afb8e93010395b68077b829",
+    "docs/figures/r9_winkler.png": "05ba48cbec2dd1bc24058daa209b86d78806bbec03f4f9efe9bf7eb4cb88b176"
+  },
+  "metrics_sha256": "48ef2df741a2d3c7bd686d882144e862e589684f36611428d6a04c0808b7a616",
+  "script_sha256": "cb5cd836e745406c2e8435de8def6ca85cf7a92b53bce321d7fb2d5bb2a56cf1"
+}

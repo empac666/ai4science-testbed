@@ -1,0 +1,46 @@
+{
+  "acquisition_code_sha256": {
+    "scripts/magnet9_arm.py": "cb38691c3bce12027d01bb33d6f1a1ec962339b930305ba537d608372bb8abc9",
+    "scripts/magnet9_audit.py": "636d7ccf037460357aa448715b6468e7f7ab7fecd79294dd056b00df3183f7d7",
+    "scripts/magnet9_calibrate.py": "e0d24834d5cd0a5acc34e807c99785c099843a9da60d26d2c60ae8a49201b95e",
+    "scripts/magnet9_common.py": "67892366883b94d41e747589e0c4e6a1722992f334df9f55dcd669894a371e1f",
+    "scripts/magnet9_design.py": "ff225d9967dc22b567b4712758f43980faaf27cb70da7d824fc71da80a8ad997",
+    "scripts/magnet9_evaluate.py": "30a1c6e3d96072736c93c79482865c8b33282813a660bc4bb959c35a8ac56c38",
+    "scripts/magnet9_independent_recompute.py": "4ef82d23e4bcba15fa89781b51470cbd7d01ed73b48f225b7fc64aa129b8404d",
+    "scripts/magnet9_model.py": "b5eb587333a4cd1015ac35dd9e04caaff9117700089459300e5fb54c67214246",
+    "scripts/magnet9_stats.py": "3ea8fd4585395da3e7c9fa6b4d02d73d7cbb435d7c88a69cc6f3ab9eb6b158d6",
+    "scripts/magnet9_sweep.py": "709cab3c999cb2435295e2a61ddb661574af4bfda7ec7dbaf7b9e693628da791",
+    "tests/test_magnet9_c03.py": "b7fa648d9ffce553d3cdf84e3d21b9405a2e91c47f76f74456369a7834e25eae"
+  },
+  "changed_files": [
+    "scripts/magnet9_audit.py",
+    "scripts/magnet9_calibrate.py",
+    "tests/test_magnet9_c03.py"
+  ],
+  "created_at": "2026-10-08T07:59:41.273010+00:00",
+  "first_observation": {
+    "batch": 6,
+    "max_sigma_absolute_difference": 3.0600522116230877e-15,
+    "selected_ids_identical": true,
+    "trajectory": "S05"
+  },
+  "original_artifacts_preserved": true,
+  "original_implementation_commit": "46636dc",
+  "reason": "Replay selection IDs/order identical. Reconstructing kernel hyperparameters from log(theta) introduces last-bit score drift. Compare nonnumeric replay fields exactly; sigma/score with existing prediction reconstruction precision rtol=atol=1e-12. No experiment method, label budget, seeds, threshold or exact signflip arithmetic changed.",
+  "repaired_code_sha256": {
+    "scripts/magnet9_arm.py": "cb38691c3bce12027d01bb33d6f1a1ec962339b930305ba537d608372bb8abc9",
+    "scripts/magnet9_audit.py": "ced69ec5b2086a73baf390b3d3b99e586bda10aa7bb517ec75063ae929eab7dc",
+    "scripts/magnet9_calibrate.py": "6f9883390f939c792f8db42b1148fca1364676e3f412519ef12320f336306226",
+    "scripts/magnet9_common.py": "67892366883b94d41e747589e0c4e6a1722992f334df9f55dcd669894a371e1f",
+    "scripts/magnet9_design.py": "ff225d9967dc22b567b4712758f43980faaf27cb70da7d824fc71da80a8ad997",
+    "scripts/magnet9_evaluate.py": "30a1c6e3d96072736c93c79482865c8b33282813a660bc4bb959c35a8ac56c38",
+    "scripts/magnet9_independent_recompute.py": "4ef82d23e4bcba15fa89781b51470cbd7d01ed73b48f225b7fc64aa129b8404d",
+    "scripts/magnet9_model.py": "b5eb587333a4cd1015ac35dd9e04caaff9117700089459300e5fb54c67214246",
+    "scripts/magnet9_stats.py": "3ea8fd4585395da3e7c9fa6b4d02d73d7cbb435d7c88a69cc6f3ab9eb6b158d6",
+    "scripts/magnet9_sweep.py": "709cab3c999cb2435295e2a61ddb661574af4bfda7ec7dbaf7b9e693628da791",
+    "tests/test_magnet9_c03.py": "28e44984cf4288a9983c5ca1ec145aa03056e99702322993161675e420aa307f"
+  },
+  "rerun_acquisitions": 0,
+  "rerun_fits": 0,
+  "stage": "after acquisition, before any CAL/evaluation label access"
+}

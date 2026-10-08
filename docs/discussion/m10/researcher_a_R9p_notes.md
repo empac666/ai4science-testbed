@@ -51,11 +51,11 @@
 | 本次实算哈希的文件 | SHA256 |
 |---|---|
 | data/magnet6/features.csv | 781a7048e54bf7c517120b28efa450dbc584192d7faaa6fc4c3c7a2ccf47931c |
-| scripts/magnet6_model.py | b13d4a663df242b91f18853cd0d58333ee892f9a9263ccf39b50bc4d4744109e |
-| scripts/magnet7_design.py | a2bf3774fd1e09c9405faf48107a0f374b22ea9570fe2c68567bbe053174e167 |
-| docs/prereg/M9_magnet_round8_prereg.md | ac7b59e0ef786f8505139fbdde9bbe8e0e09498bf683a091638c7828e719f4db |
-| lab/cases/magnet8/config_prerun.json | 58916038c50fdde7993079630bf0bf2f03a6df5d7f8d734e8c8598cce699fa8b |
-| docs/discussion/m9/moderator_rulings.md | 3ca7eb2fb07573c3fa12dc1b99248f469f6599422d7d52b2476ca58943129d4c |
+| scripts/magnet6_model.py | 9f8e3f66b2d991a4929d57944a1a3c1f20ca70a1a4c1aa98c6e75911a0993436 |
+| scripts/magnet7_design.py | 0f1f17367f44351806695138cf7cfb47e2492d1474c7335671d1c3c11283d6f8 |
+| docs/prereg/M9_magnet_round8_prereg.md | f079737f6f673b8eccbb7d02e640b2c23cff87e161a61d8a988068467103205c |
+| lab/cases/magnet8/config_prerun.json | e865ccd50df880cfa118fda6a7f539c103defe8d0589cbae22a0590ddfdbe43a |
+| docs/discussion/m9/moderator_rulings.md | 823603674237e4ebd229f7bdf439c14f8734e4c785a9c19f365bd431ba136cfc |
 
 目标CSV、波形及上游压缩包没有打开；预注册/配置中目标CSV与波形哈希来自旧配置，未伪称本次校验。三新文件自哈希写最终交付消息，不写入自身。
 

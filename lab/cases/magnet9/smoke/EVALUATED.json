@@ -1,0 +1,11 @@
+{
+  "files": {
+    "arms/S01.json": "a0713bb430e3c674d463530a1b1a8104fa754aa059fac136eab0e955e6ed2e11",
+    "arms/U01.json": "0250e7dd0cf742c92dc2b192f04b171288ecafe5676b2b53c3bdc30c7ce0faa2",
+    "evaluation/S01_labels.jsonl": "b24209b41ed21a883e3b375ae869ac97ff757cd9c869488d34fac6c587618894",
+    "evaluation/U01_labels.jsonl": "3a2983a15bbb688b1539cd75e092f63a327cf1ac4621b1cef64c7cb841409dce",
+    "metrics.json": "ab32e413082ab96d657167d89e0d03d8950885d7aca460aa6877f59316db67f7"
+  },
+  "smoke": true,
+  "stage": "evaluation"
+}

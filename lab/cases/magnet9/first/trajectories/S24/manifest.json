@@ -1,0 +1,31 @@
+{
+  "H": 3415289233,
+  "arm": "S24",
+  "code_sha256": {
+    "scripts/magnet9_arm.py": "cb38691c3bce12027d01bb33d6f1a1ec962339b930305ba537d608372bb8abc9",
+    "scripts/magnet9_audit.py": "636d7ccf037460357aa448715b6468e7f7ab7fecd79294dd056b00df3183f7d7",
+    "scripts/magnet9_calibrate.py": "e0d24834d5cd0a5acc34e807c99785c099843a9da60d26d2c60ae8a49201b95e",
+    "scripts/magnet9_common.py": "67892366883b94d41e747589e0c4e6a1722992f334df9f55dcd669894a371e1f",
+    "scripts/magnet9_design.py": "ff225d9967dc22b567b4712758f43980faaf27cb70da7d824fc71da80a8ad997",
+    "scripts/magnet9_evaluate.py": "30a1c6e3d96072736c93c79482865c8b33282813a660bc4bb959c35a8ac56c38",
+    "scripts/magnet9_independent_recompute.py": "4ef82d23e4bcba15fa89781b51470cbd7d01ed73b48f225b7fc64aa129b8404d",
+    "scripts/magnet9_model.py": "b5eb587333a4cd1015ac35dd9e04caaff9117700089459300e5fb54c67214246",
+    "scripts/magnet9_stats.py": "3ea8fd4585395da3e7c9fa6b4d02d73d7cbb435d7c88a69cc6f3ab9eb6b158d6",
+    "scripts/magnet9_sweep.py": "709cab3c999cb2435295e2a61ddb661574af4bfda7ec7dbaf7b9e693628da791",
+    "tests/test_magnet9_c03.py": "b7fa648d9ffce553d3cdf84e3d21b9405a2e91c47f76f74456369a7834e25eae"
+  },
+  "config_sha256": "4befc2637c66823acbd633fc11231ee4ebe8b28a3ceeeac2bd468646d535af35",
+  "family_seed": 79228162514264561417939124224,
+  "gp_seed": 1267805585,
+  "prereg_sha": "cb912d916b76a055680794f1ac4e5b7e0e8765ca",
+  "s0_seed": 79228162514264561417939124504,
+  "smoke": false,
+  "split_sha256": "f8f9f6dfef7b10fa7972993d2387410c45649fa063bf55f00ce5c36d678a2db0",
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "python": "3.13.5",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "H": 3415289233,
+  "acquisition_replayed_batches": 360,
+  "formal_interval_arms": 180,
+  "formal_main_models": 420,
+  "formal_shadow_models": 120,
+  "formal_trajectories": 60,
+  "implementation_repair_sha256": "bc365197500dcb28fe3acb4bb9337a784f9721d7418b9a7198398946cf12faab",
+  "independent_gate_checks": 12,
+  "independent_p_numerators": {
+    "H1": 20367032,
+    "H2": 84466,
+    "H3": 290741893,
+    "H4": 5211
+  },
+  "independent_per_region_metrics": 720,
+  "locked_prereg_unchanged": true,
+  "network_or_install_or_push": false,
+  "prereg_sha": "cb912d916b76a055680794f1ac4e5b7e0e8765ca",
+  "report_and_four_figure_hashes_valid": true,
+  "rounds_1_to_8_unchanged": true,
+  "seeded_design_replay_identical": true,
+  "source_hashes": {
+    "data/magnet/N87/B.npy": "c3fc6db884093554a00464c689975eba0686d27e853003cf9882dcb01058ba96",
+    "data/magnet/igse_predictions.csv": "a6814e41af2c0ee3ed6d32611f9ded2a04c60425a5e642476b716acc3c7909b8",
+    "data/magnet6/features.csv": "781a7048e54bf7c517120b28efa450dbc584192d7faaa6fc4c3c7a2ccf47931c",
+    "scripts/magnet6_model.py": "9f8e3f66b2d991a4929d57944a1a3c1f20ca70a1a4c1aa98c6e75911a0993436",
+    "scripts/magnet7_design.py": "0f1f17367f44351806695138cf7cfb47e2492d1474c7335671d1c3c11283d6f8"
+  },
+  "stage_and_all_60_trajectory_seals_valid": true,
+  "status": "all_final_checks_passed",
+  "verified_at": "2026-10-08T08:04:36.041838+00:00"
+}

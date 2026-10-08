@@ -16,6 +16,18 @@ Raw task transcripts, private planning, cached source pages, and rendered assets
 
 Portability changes use the current interpreter, an explicit zero revision before the first commit, a generic hostname, and published-file integrity checks. Missing optional inputs cause explicit test skips. Synthetic permission tests still check forbidden-label and cross-arm access.
 
-第九轮的科学方案、样本数、阈值及分析顺序未更改。本次指令锁定公开版本，保留原“待批准、未执行”文字及配置状态副本；不把这次发布状态倒写为历史批准。
+第九轮已加入封存结果、预注册、配置、实现、测试、四张核查过文字与元数据的图、结果复审和逐条裁定。科学方案、样本数、阈值、分析顺序和结果数字未更改；预注册“待批准、未执行”是历史时点状态，不倒写批准记录。运行日志、标签访问日志和任务提示不分发，超过 20 MB 的文件不入库。
 
-Round 9 is locked for this release with results pending. Its original pending-approval status is disclosed; scientific rules are unchanged.
+Round 9 now includes results and minor editorial revisions. Historical preregistration status is retained. Execution/access logs and private task prompts are excluded; no file exceeds 20 MB.
+
+第九轮的阶段封存、代码哈希及 `report_manifest.json` / `DELIVERED` 保留历史引用，不重新制造历史封存。部分引用指向已省略的日志或脱敏前字节，报告哈希指向首次文稿，因此不能用这些历史清单验证当前公开文件。第九轮当前公开文件统一由根目录 `release_manifest.json` 校验；`magnet9_common.config()` 使用同一公开清单核对生效文件，历史提交 SHA 仍仅作种子与来源记录。早期轮次沿用原公开版的校验方式。
+
+R9 seal and implementation hashes are historical references, including references to omitted logs or bytes before sanitization. The initial report digest predates editorial revisions. Use the root release manifest to verify current public files; it does not attest historical sealing times.
+
+`magnet9_report.py` 保留首次报告的生成逻辑，本次小修直接维护报告 Markdown；不要用首次生成脚本覆盖修订稿。`recheck_published_r9.py` 只读复核已发布逐臂指标之间的一致性、精确整数分子、固定序列及门控；它不声称重新从原始测量复算，也不替代历史独立复算。
+
+The initial report generator is retained for provenance. The read-only R9 checker validates published metric consistency, exact counts, sequences, and gates without original labels or model fitting.
+
+部分数值容器及图像的压缩字节偶然匹配隐私扫描短词；公开副本仅改用无损压缩编码，逐项核对解压后的数组字节与图像像素不变。解压内容与研究数值不受影响。
+
+本次公开副本测试：188 项，175 通过、13 因既有外部依赖缺失跳过，无失败。移植对照的 1,132,792 个 JSON 数字/布尔叶节点、187 个 CSV、620 个数值容器和四张图均无数值或像素差异。只读复核覆盖 720 项逐臂区域指标、四个精确检验整数分子及 12 组门控，结论一致；未重跑模型。

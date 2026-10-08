@@ -1,0 +1,8 @@
+{
+  "files": {
+    "inputs.csv": "d0d7089fc5affc83ef17da01ba4de6141d01fe62250dea133bc77ac0221adacb",
+    "split.json": "f8f9f6dfef7b10fa7972993d2387410c45649fa063bf55f00ce5c36d678a2db0",
+    "summary.json": "7d3a110d002dcda7708996b8ca0fc5ddb4a0c913db03b5327a1f90bcc83bb48c"
+  },
+  "stage": "input_only"
+}

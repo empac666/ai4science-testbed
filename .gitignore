@@ -9,3 +9,6 @@ sealed_plain/
 docs/figures/*.png
 docs/report/*.html
 docs/report/*.pdf
+
+# Reviewed round-nine figures are part of this release.
+!docs/figures/r9_*.png

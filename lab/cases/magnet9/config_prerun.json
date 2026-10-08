@@ -1,8 +1,8 @@
 {
-  "schema_version": "R9f-local-researcher_a-1",
+  "schema_version": "R9f-local_node-researcher_a-1",
   "round": 9,
   "material": "N87",
-  "status": "public_preregistration_locked_results_pending",
+  "status": "revised_against_available_reviewer_b_reviewer_c_reviews_pending_user_approval_no_experiment_run",
   "prereg_path": "docs/prereg/M10_magnet_round9_prereg.md",
   "notes_path": "docs/discussion/m10/researcher_a_R9p_notes.md",
   "authorship": {
@@ -22,7 +22,7 @@
         "record": "initial preregistration and input audit; researcher_a_R9p_notes.md retained"
       },
       {
-        "version": "R9f-local-researcher_a-1",
+        "version": "R9f-local_node-researcher_a-1",
         "date": "2026-10-08",
         "author": "local_node researcher_a",
         "record": "regional alpha split; shortfall semantics and dual-honesty reporting; FLOOR80; D/E diagnostics; linear two-temperature shadow mean; integer gates; joint-power caveats and infeasibility archive; see researcher_a_R9f_response.md"
@@ -91,7 +91,7 @@
   },
   "family_definition": {
     "reference": "scripts/magnet7_design.py:family_features and scripts/magnet8_design.py",
-    "reference_sha256": "a2bf3774fd1e09c9405faf48107a0f374b22ea9570fe2c68567bbe053174e167",
+    "reference_sha256": "0f1f17367f44351806695138cf7cfb47e2492d1474c7335671d1c3c11283d6f8",
     "construction_scope": "all input rows before restricting regions",
     "frequency_clustering": "sorted unique frequency_Hz; new cluster when natural log(f_i/f_previous)>0.01",
     "setpoint_formula": "round(median(cluster)/1000) kHz",
@@ -261,7 +261,7 @@
   },
   "model": {
     "library": "scripts/magnet6_model.py",
-    "library_sha256": "b13d4a663df242b91f18853cd0d58333ee892f9a9263ccf39b50bc4d4744109e",
+    "library_sha256": "9f8e3f66b2d991a4929d57944a1a3c1f20ca70a1a4c1aa98c6e75911a0993436",
     "reuse_rule": "future isolated R9 adapter; do not mutate old files or use old evaluation_frame/fixed_sequence/signflip; set R9 GP seed and shadow-only input-based T_C^2 deletion; retain all main-model rules",
     "linear_features": [
       "1",
@@ -1044,7 +1044,5 @@
     "bootstrap": false,
     "bootstrap_omission_reason": "geometric/mean per-pair ratio is a different estimand from expected score difference; ordinary paired bootstrap cannot validate sign symmetry or original FWER; deterministic descriptions are not a robustness proof",
     "enters_SUCCESS": false
-  },
-  "historical_snapshot_status": "revised_against_available_reviewer_b_reviewer_c_reviews_pending_user_approval_no_experiment_run",
-  "publication_note": "Locked for this public release by the release instruction; historical approval and execution status are not backdated."
+  }
 }

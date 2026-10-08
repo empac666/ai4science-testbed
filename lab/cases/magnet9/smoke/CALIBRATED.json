@@ -1,0 +1,10 @@
+{
+  "files": {
+    "calibration.json": "b2a9122e443a648f2c7090e0c0d76f41fe68c241c3a3111411561dda854f32d4",
+    "calibration/S01_labels.jsonl": "7f7a1c62f5c24deb0c91ea21654ec8e6a510127220d529dcf338c387e1283924",
+    "calibration/U01_labels.jsonl": "080f8d25249994ec2e8f497cc8c2a05a8a8103637cca3d586891244835045069",
+    "intervals/S01.npz": "cd526239208de368d12cfc6a6e54f349a07dae01890d94f6ad6f7c9cb2dae723",
+    "intervals/U01.npz": "aad8d384e95c868bdc0ec556b9f56fddd0e40cd80aacfd7385c32364aaed6d7d"
+  },
+  "stage": "calibration"
+}

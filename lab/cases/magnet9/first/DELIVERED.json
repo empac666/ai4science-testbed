@@ -1,0 +1,10 @@
+{
+  "files": {
+    "EVALUATED.json": "bfd6517760d6498684a2a1b4b36df6bf1c9a4eefe52302baaa71929ea494c54d",
+    "RECOMPUTED.json": "620e5c9bf0e52e5033801b548b703f51336aab24a8c671c2dbcf3f7af20cdb3d",
+    "figure_manifest.json": "cec76424338fd644a487e346c3fa08a9e9f4ec891434efc9346188e60e26d9c3",
+    "final_verification.json": "af6a9e9c2db7bdb1092a31fdd17ebebd181ff7265d562137d1a4bc397751a779",
+    "report_manifest.json": "16432fa3219639be361485a9dd68b7b1cc868a7693e3ea37b42887b5e185b647"
+  },
+  "stage": "delivery"
+}

@@ -4,9 +4,9 @@
 
 A research workbench testing small-data surrogate predictions and uncertainty intervals through preregistration, sealed evaluation, independent recomputation, and cross-review.
 
-电力电子变换器直流母线偏置案例（DC-link，第 1–5 轮）及 MagNet 磁损耗案例（第 6–8 轮）。结论限定于各轮数据、划分与假设；仿真不替代硬件实验，同一数据集的新划分不等于独立实测复现。
+电力电子变换器直流母线偏置案例（DC-link，第 1–5 轮）及 MagNet 磁损耗案例（第 6–9 轮）。结论限定于各轮数据、划分与假设；仿真不替代硬件实验，同一数据集的新划分不等于独立实测复现。
 
-The DC-link simulation case covers rounds 1–5; MagNet core loss covers rounds 6–8. Simulation is not hardware validation; new splits of one dataset are not independent measurement replication.
+The DC-link simulation case covers rounds 1–5; MagNet core loss covers rounds 6–9. Simulation is not hardware validation; new splits of one dataset are not independent measurement replication.
 
 ## 方法 / Method
 
@@ -36,15 +36,22 @@ Winkler 越低越好，同时惩罚过宽与漏覆盖；分数改善不能替代
 
 ## 第九轮 / Round 9
 
-**预注册已锁定、结果待发布 / Preregistration locked for this release; results pending.**
+**XF/XT 覆盖显著改善，但均未达完整 SUCCESS；XF 宽度非劣未证。** 严格区分：覆盖的正式检验对象是相对基线的 90% 覆盖欠缺；XF 的 WIDTH 硬性宽度预算失败，H3 检验的 Winkler 综合代价非劣也未获确认，不能将二者混称为一个宽度检验。
 
-固定主动采样，用支撑区内部的方向性伪外推残差与偏差校正，尝试减少单侧外推欠覆盖，同时满足宽度预算和 Winkler 非劣要求。新基线重跑；消融不升级为主结论；初始样本组成的影响另作预定分析。见[预注册](docs/prereg/M10_magnet_round9_prereg.md)及[配置](lab/cases/magnet9/config_prerun.json)。无第九轮实验结果。
+固定主动采样，主分析为 U 处理的 30 个配对组，比较全局 q 基线 B 与方向性伪外推加中心校正 D：
 
-Round 9 studies directional pseudo-extrapolation residuals and bias correction under fixed active sampling, with coverage, width, and Winkler gates, a fresh baseline, and prespecified descriptive ablations. No results are included.
+| 区域 | B → D 平均覆盖 | 覆盖欠缺检验 | Winkler 非劣检验 | 经验门控与结论 |
+| --- | --- | --- | --- | --- |
+| XF | 0.76848847 → 0.83639868 | H1 p=0.018968277，拒绝 | H3 p=0.27077449，未拒绝 | A、WIDTH、J 失败；未达到完整经验覆盖标准 |
+| XT | 0.68721789 → 0.78348712 | H2 p=7.8665093e-05，拒绝 | H4 p=4.8531219e-06，拒绝 | WIDTH 通过，A、J 失败；未达到完整经验覆盖标准 |
 
-状态说明：历史快照文字为“待用户批准，尚未执行”。本次发布指令锁定该版本的公开副本；这不表示历史时点已获批准或已经运行实验。
+两区域各自固定序列、α=0.025，无 α 回收。显著性以固定数据与族划分下的符号对称等假设为前提；经验覆盖门控不提供总体覆盖保证。XF 相同宽度诊断未观察到平均中心改善，不能排除 D/B 改善仅由加宽解释。S0 干预未满足预定支持判据，不代表无影响。
 
-The source snapshot said “pending approval, not executed.” The present release instruction locks this public copy without rewriting the historical approval/execution record.
+Coverage improved significantly in XF and XT in the prespecified shortfall tests, but neither region achieved full SUCCESS. XF failed the hard WIDTH budget and did not establish Winkler non-inferiority; XT passed those cost criteria but failed empirical coverage gates. Inference remains conditional on the stated symmetry assumptions and fixed dataset/split.
+
+见[预注册](docs/prereg/M10_magnet_round9_prereg.md)、[配置](lab/cases/magnet9/config_prerun.json)、[修订报告及四张图](docs/reports/M10_magnet_round9.md)、[结果复审](docs/discussion/m10/reviewer_b_review_R9results.md)和[逐条裁定](docs/discussion/m10/moderator_rulings.md)。复审为 ACCEPT WITH MINOR REVISIONS，五条采纳、一条部分采纳。
+
+预注册中的“待批准、尚未执行”保留历史时点状态；本次发布已封存的第九轮结果及文字小修，不倒写历史批准。日志不随公开包分发；原始封存引用与当前公开文件校验的区别见[发布说明](RELEASE_NOTES.md)。
 
 ## 离线复现 / Offline reproduction
 
@@ -58,11 +65,12 @@ python3 scripts/prepare_public_data.py
 make test PYTHON=python3
 python3 scripts/m9_report_tables.py > data/round8_tables.md
 python3 scripts/recheck_published.py
+python3 scripts/recheck_published_r9.py
 ```
 
-准备脚本只恢复包内小型输入元数据，拒绝覆盖不一致文件。缺少外部仿真器、波形特征或划分的测试明确跳过；合成测试、证据检查和封存表核查仍运行。复算脚本从发布预测重算第 1–5 轮区间指标，并核查第八轮表格，不重新拟合模型。
+准备脚本只恢复包内小型输入元数据，拒绝覆盖不一致文件。缺少外部仿真器、波形特征或划分的测试明确跳过；合成测试、证据检查和封存表核查仍运行。复算脚本从发布预测重算第 1–5 轮区间指标，并核查第八轮表格；第九轮只读核查封存指标、精确检验及门控，不重新拟合模型或读取原始标签。
 
-Preparation restores bundled metadata only. Tests requiring unavailable external inputs report skips. The recheck uses published predictions and round-8 summaries; it does not fit models or reproduce raw measurements.
+Preparation restores bundled metadata only. Tests requiring unavailable external inputs report skips. The recheck uses published predictions and round-8 summaries; the round-9 check verifies published metrics, exact tests, and gates without model fitting or original labels.
 
 第 1–5 轮完整仿真还需单独提供通用仿真器到 `external/dclink-simulator`（含 `dclink_simsw` 和回放程序）。该依赖不在授权快照内，本包不能独立生成原始波形。旧报告中的成功记录是历史记录，当前范围以本节为准。详见[发布说明](RELEASE_NOTES.md)。
 
@@ -74,10 +82,10 @@ Full DC-link simulation needs the external simulator, absent from this snapshot.
 
 | 数据 / Dataset | 官方获取 / Official access | 许可说明 / License notes |
 | --- | --- | --- |
-| MagNet（第 6–8 轮） | [官方数据目录](https://www.princeton.edu/~minjie/magnet.html) → Challenge 1 Pretest Training Data → N87。需联网时另行运行 `python3 scripts/magnet_fetch.py`，下载后 `python3 scripts/magnet_igse.py` 生成缓存。 | [上游软件 MIT](https://github.com/PrincetonUniversity/magnet/blob/main/LICENSE)不能自动套用于测量数据；所核查官方目录未明确独立数据许可。遵循下载包条款与引用要求，本仓库不另授再分发权。Software MIT does not automatically license measurements. |
+| MagNet（第 6–9 轮） | [官方数据目录](https://www.princeton.edu/~minjie/magnet.html) → Challenge 1 Pretest Training Data → N87。需联网时另行运行 `python3 scripts/magnet_fetch.py`，下载后 `python3 scripts/magnet_igse.py` 生成缓存。 | [上游软件 MIT](https://github.com/PrincetonUniversity/magnet/blob/main/LICENSE)不能自动套用于测量数据；所核查官方目录未明确独立数据许可。遵循下载包条款与引用要求，本仓库不另授再分发权。Software MIT does not automatically license measurements. |
 | NASA PCoE（仅后续候选，未用于本轮） | [官方数据仓库](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/)提供电池等数据及引用方式。 | [电池数据条目](https://data.nasa.gov/dataset/li-ion-battery-aging-datasets)标为 “License not specified”；核对具体包条款，不把公开下载解释为 MIT。Not used in the reported experiments. |
 
-官方页面于 2026-10-08 核对；未下载数据。第 6–8 轮全流程还需原始波形、`data/magnet6/features.csv` 与各轮划分，严格保留种子和阶段访问边界。Official pages checked on 2026-10-08; full reruns require those original inputs and frozen procedures.
+官方页面于 2026-10-08 核对；未下载数据。第 6–9 轮全流程还需原始波形、`data/magnet6/features.csv` 与各轮划分，严格保留种子和阶段访问边界。Official pages checked on 2026-10-08; full reruns require those original inputs and frozen procedures.
 
 ## 许可证 / License
 

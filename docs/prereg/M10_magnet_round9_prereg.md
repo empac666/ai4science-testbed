@@ -1,8 +1,6 @@
 # 第九轮预注册：N87 单侧外推区间的相对欠覆盖改进与经验覆盖标准
 
-发布状态：**预注册已锁定、结果待发布**。锁定依据为本次公开发布指令；以下历史状态按原快照保留，不倒写批准或执行记录。
-
-历史版本：R9f-local-researcher_a-1，2026-10-08；状态：**已按现有 reviewer_b/reviewer_c 意见修订，待用户批准，尚未执行**。冻结配置为 `lab/cases/magnet9/config_prerun.json`，本版逐条回复为 `docs/discussion/m10/researcher_a_R9f_response.md`；这两文件与本预注册构成本版三交付文件。`researcher_a_R9p_notes.md`仅保留为原设计核对记录。本任务只修改本预注册、配置并新增回复，不写实验代码、不生成随机划分、不运行实验、不读 y 或第八轮逐样本预测、不联网、不安装、不提交或推送；第一至八轮文件不变。reviewer_c原文在R9-C02中途截断，处理范围及缺文事实见回复，不声称收到完整审稿或再次批准。
+版本：R9f-local_node-researcher_a-1，2026-10-08；状态：**已按现有 reviewer_b/reviewer_c 意见修订，待用户批准，尚未执行**。冻结配置为 `lab/cases/magnet9/config_prerun.json`，本版逐条回复为 `docs/discussion/m10/researcher_a_R9f_response.md`；这两文件与本预注册构成本版三交付文件。`researcher_a_R9p_notes.md`仅保留为原设计核对记录。本任务只修改本预注册、配置并新增回复，不写实验代码、不生成随机划分、不运行实验、不读 y 或第八轮逐样本预测、不联网、不安装、不提交或推送；第一至八轮文件不变。reviewer_c原文在R9-C02中途截断，处理范围及缺文事实见回复，不声称收到完整审稿或再次批准。
 
 ## 1. 背景、问题与范围
 
@@ -203,7 +201,7 @@ K=30固定，无中期查看或增样。按本版每族α=0.025，条件于对�
 
 ## 13. 执行约束、冻结与不得更改条款
 
-**用户批准之前不运行任何实验；R9f交付不构成运行许可。** 未来只在box执行。最多2个重任务并行（拟合、批量预测、评估、独立重算均计入），每任务单线程，OMP_NUM_THREADS/OPENBLAS_NUM_THREADS/MKL_NUM_THREADS/NUMEXPR_NUM_THREADS均设1。计划60×(7主模型+2影子模型)=540次拟合；三种区间不重复拟合，不追加随机采样臂。相同宽度诊断仅增加隔离评估中的描述性评分，不增加正式方法臂或拟合预算。
+**用户批准之前不运行任何实验；R9f交付不构成运行许可。** 未来只在本地执行。最多2个重任务并行（拟合、批量预测、评估、独立重算均计入），每任务单线程，OMP_NUM_THREADS/OPENBLAS_NUM_THREADS/MKL_NUM_THREADS/NUMEXPR_NUM_THREADS均设1。计划60×(7主模型+2影子模型)=540次拟合；三种区间不重复拟合，不追加随机采样臂。相同宽度诊断仅增加隔离评估中的描述性评分，不增加正式方法臂或拟合预算。
 
 无标签预检任何计数/层数条件失败时，研究者立即停止在标签开放之前，状态记`infeasible_design_abort`，不启动拟合；主持人归档批准记录、预注册SHA/H、配置及输入清单哈希、唯一划分种子/掩码/计数、失败断言及实际值、时间与“无标签访问/无拟合”阶段记录。保留首次失败清单与状态日志，明确“不完整，不作确认性结论”，不补抽、不更换SHA、不删失败记录。基础设施重试不能把设计不可行改写为技术故障；若需重设计，另立未来预注册并保留此次中断。
 
@@ -214,8 +212,8 @@ K=30固定，无中期查看或增样。按本版每族α=0.025，条件于对�
 | 冻结输入/参考 | SHA256 | 核对来源（R9f未重读数据/源码） |
 |---|---|---|
 | data/magnet6/features.csv | 781a7048e54bf7c517120b28efa450dbc584192d7faaa6fc4c3c7a2ccf47931c | R9p输入白名单计数、实算哈希 |
-| scripts/magnet6_model.py | b13d4a663df242b91f18853cd0d58333ee892f9a9263ccf39b50bc4d4744109e | R9p只读源码、实算哈希 |
-| scripts/magnet7_design.py | a2bf3774fd1e09c9405faf48107a0f374b22ea9570fe2c68567bbe053174e167 | R9p只读族/种子规则、实算哈希 |
+| scripts/magnet6_model.py | 9f8e3f66b2d991a4929d57944a1a3c1f20ca70a1a4c1aa98c6e75911a0993436 | R9p只读源码、实算哈希 |
+| scripts/magnet7_design.py | 0f1f17367f44351806695138cf7cfb47e2492d1474c7335671d1c3c11283d6f8 | R9p只读族/种子规则、实算哈希 |
 | data/magnet/igse_predictions.csv | a6814e41af2c0ee3ed6d32611f9ded2a04c60425a5e642476b716acc3c7909b8 | 沿用R8配置，未打开/重算 |
 | data/magnet/N87/B.npy | c3fc6db884093554a00464c689975eba0686d27e853003cf9882dcb01058ba96 | 沿用R8配置，未打开/重算 |
 
@@ -228,6 +226,6 @@ K=30固定，无中期查看或增样。按本版每族α=0.025，条件于对�
 | 版本 | 日期 | 作者/修订人 | 无结果修订记录 |
 |---|---|---|---|
 | R9p-local_node-researcher_a-1 | 2026-10-08 | local_node researcher_a | 原始预注册与输入核对；记录保留在researcher_a_R9p_notes.md |
-| R9f-local-researcher_a-1 | 2026-10-08 | local_node researcher_a | 按reviewer_b C01–C08和现有reviewer_c C01/C02及开头摘要修订：区域双族α分配、覆盖检验语义/双诚实退出、FLOOR80与D/E描述性归因、影子温度删二次项、整数门槛、联合功效/中断归档；逐条采纳与拒绝理由见researcher_a_R9f_response.md |
+| R9f-local_node-researcher_a-1 | 2026-10-08 | local_node researcher_a | 按reviewer_b C01–C08和现有reviewer_c C01/C02及开头摘要修订：区域双族α分配、覆盖检验语义/双诚实退出、FLOOR80与D/E描述性归因、影子温度删二次项、整数门槛、联合功效/中断归档；逐条采纳与拒绝理由见researcher_a_R9f_response.md |
 
 R9f只做文档/JSON静态一致性与解析算术核对；不重新读取输入或任何y，不生成随机集合，不写实验代码或运行实验，不联网、不pip、不提交/推送、不调用子代理、不修改第一至八轮文件。reviewer_c原文在“δ 与 q 在 CAL 上有”处截断，未收到的后续意见不能冒充已审阅；现有正文及摘要所指出的问题均按回复处理。后续须由用户批准并由主持人另行冻结提交，H/SHA保持未赋值。

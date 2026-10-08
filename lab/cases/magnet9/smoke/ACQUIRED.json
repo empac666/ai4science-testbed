@@ -1,0 +1,8 @@
+{
+  "files": {
+    "acquisition_audit.json": "bfb20c4b1d7ac0b1bee69fe3d7a484b8e0cc3c01307e2dba07acff47c03b794c",
+    "trajectories/S01/EVALUATED.json": "ab161fd3bc0cbd11705bf62da3050c3d402176cee5366d6873c08bc90e616d4d",
+    "trajectories/U01/EVALUATED.json": "2b2633b89d5471bc6881613c4735fb4a32beaaf62ced5705b5384fde3923374e"
+  },
+  "stage": "acquisition"
+}

@@ -1,6 +1,6 @@
 # R9f：第九轮预注册审稿回复
 
-日期：2026-10-08。修订作者：local_node researcher_a（R9f）。分支：`feat/r9-honest-extrap`。生效版本：`R9f-local-researcher_a-1`。状态：按已收到意见修订完成，待用户批准，未执行实验。
+日期：2026-10-08。修订作者：local_node researcher_a（R9f）。分支：`feat/r9-honest-extrap`。生效版本：`R9f-local_node-researcher_a-1`。状态：按已收到意见修订完成，待用户批准，未执行实验。
 
 本次修订文件为[预注册](../../prereg/M10_magnet_round9_prereg.md)与[配置](../../../lab/cases/magnet9/config_prerun.json)，本回复为第三交付文件。原`researcher_a_R9p_notes.md`保留为设计历史，不改写为本次回复。下文“§”均指修订后预注册节号，JSON位置用完整字段路径表示。
 
@@ -10,7 +10,7 @@
 
 | 来源 | 文件 | 读取版本SHA256 |
 |---|---|---|
-| reviewer_b | `docs/discussion/m10/reviewer_b_review_R9p.md` | `d4ad082c3abcc635ffa7e0a90a38c84c565814736002845cf1ed4412ec47f16b` |
+| reviewer_b | `docs/discussion/m10/reviewer_b_review_R9p.md` | `4117b5acdbd80762bba62edb27440c147abb6b24d81dfb7f50893f52bc9ea836` |
 | reviewer_c | `docs/discussion/m10/reviewer_c_review_R9p.md` | `ed078ce855b2cc3f85cce00b5be48a3b9b749231554d03967c664ee82d095ff6` |
 
 reviewer_b/reviewer_c的R9-C01等编号各自独立，以下始终附来源区分。审稿人不是修订稿共同作者；本版不声称再次获得审稿人批准。
