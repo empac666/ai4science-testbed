@@ -1,0 +1,12 @@
+{
+  "locked_at": "2026-10-11T20:48:00+08:00",
+  "round": "MATH-NS-A1",
+  "files": {
+    "ns_prereg_locked.md": "6a40fe59fd97271965bb46ddfa090d3da1e98ae80803da73ad8c06823f2963d5",
+    "ns_prereg_draft.md": "5a2ad28e5d543e752a5427f20d14307a9a9fbee07b57ba706ee6eda20cfd6cbe",
+    "OpenAI_NS_blowup.pdf": "0e779481c4da40bd28d1e642e1d8ca57447d129610df28dfa5a11e9af8ae228f",
+    "Bastounis_NS_lost_in_translation.pdf": "3282e2c4103b955d635173749e7bf887fef7af7dd39e1abdb750b951030c538b",
+    "lean_commit": "f9e8bc5b38b6e212696e8a30e3e91517af887bbd"
+  },
+  "disclaimer": "Does not claim Millennium Prize solved/refuted; does not claim NL proof false."
+}
